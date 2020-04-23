@@ -1,0 +1,18 @@
+# editorconfig.org
+# wiki - https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties
+# installation for VSCode
+#    Open command bar (Ctrl/Cmd + P), then paste in: ext install EditorConfig
+#    Once pasted, hit return and install the 'EditorConfig for VS Code' plugin
+
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.md]
+trim_trailing_whitespace = false
