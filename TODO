@@ -1,0 +1,5 @@
+Project Config:
+    ☐ Add SCSS
+        ☐ Update README on how to install (if using SASS_PATH)
+    ☐ Add npm script to run npm install on both the client and server
+        ☐ Mention it in the README

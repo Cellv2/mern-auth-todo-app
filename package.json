@@ -1,0 +1,22 @@
+{
+  "name": "mern-auth-todo-app",
+  "version": "0.0.1",
+  "description": "A MERN stack todo app with authentication",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cellv2/mern-auth-todo-app.git"
+  },
+  "author": "Cellv2",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cellv2/mern-auth-todo-app/issues"
+  },
+  "homepage": "https://github.com/Cellv2/mern-auth-todo-app#readme",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
