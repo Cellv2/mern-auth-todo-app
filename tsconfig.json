@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "target": "es6",
+        "module": "es2020",
         "jsx": "react",
         "allowJs": true,
         "moduleResolution": "node",
@@ -14,7 +15,6 @@
         },
         "sourceMap": true,
         "outDir": "dist",
-        "module": "esnext",
         "esModuleInterop": true,
         "skipLibCheck": true,
         "allowSyntheticDefaultImports": true,
