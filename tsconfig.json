@@ -1,11 +1,24 @@
 {
     "compilerOptions": {
+        /* Basic Options */
         "target": "es6",
         "module": "es2020",
-        "jsx": "react",
         "allowJs": true,
-        "moduleResolution": "node",
+        "jsx": "react",
+        "sourceMap": true,
+        "outDir": "dist",
+        // "noEmit": true,
+        "isolatedModules": true,
+
+        /* Strict Type-Checking Options */
         "strict": true,
+
+        /* Additional Checks */
+        "noUnusedLocals": true,
+        "noImplicitReturns": true,
+
+        /* Module Resolution Options */
+        "moduleResolution": "node",
         "baseUrl": ".",
         "paths": {
             "*": [
@@ -13,17 +26,14 @@
                 "server/types/*"
             ]
         },
-        "sourceMap": true,
-        "outDir": "dist",
-        "esModuleInterop": true,
-        "skipLibCheck": true,
         "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+
+        /* Advanced Options */
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true
+        "skipLibCheck": true,
+
     },
     "include": [
         "server/**/*"
