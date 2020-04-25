@@ -19,7 +19,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "echo \"This command has not yet been set up - Exiting\" && exit 1",
         "build-server": "tsc",
-        "postinstall": "npm run install-full",
+        "postinstall": "npm run install-client",
         "install-full": "npm run install-client && npm run install-server",
         "install-client": "cd client && npm i && cd ..",
         "install-server": "npm install",
