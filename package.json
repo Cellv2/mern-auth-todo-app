@@ -2,35 +2,45 @@
     "name": "mern-auth-todo-app",
     "version": "0.0.1",
     "description": "A MERN stack todo app with authentication",
-    "main": "index.js",
-    "scripts": {
-        "start": "node --experimental-specifier-resolution=node dist/server/server.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
+    "author": "Cellv2",
+    "license": "ISC",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Cellv2/mern-auth-todo-app.git"
     },
-    "author": "Cellv2",
-    "license": "ISC",
     "bugs": {
         "url": "https://github.com/Cellv2/mern-auth-todo-app/issues"
     },
     "homepage": "https://github.com/Cellv2/mern-auth-todo-app#readme",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "run-p start-client watch-ts watch-server",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "echo \"This command has not yet been set up - Exiting\" && exit 1",
+        "build-server": "tsc",
+        "install-full": "run-s install-client install-server",
+        "install-client": "cd client && npm i && cd ..",
+        "install-server": "npm install",
+        "start-client": "cd client && npm start",
+        "start-server": "node --experimental-specifier-resolution=node dist/server/server.js",
+        "watch-ts": "tsc -w",
+        "watch-server": "nodemon --experimental-specifier-resolution=node dist/server/server.js",
+        "watch-both-temp": "run-p watch-ts watch-server"
+    },
     "dependencies": {
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
-        "nodemon": "^2.0.3",
-        "typescript": "^3.8.3"
+        "nodemon": "^2.0.3"
     },
     "devDependencies": {
         "@types/dotenv": "^8.2.0",
         "@types/express": "^4.17.6",
         "@types/node": "^13.13.2",
-        "npm-run-all": "^4.1.5"
+        "npm-run-all": "^4.1.5",
+        "typescript": "^3.8.3"
     },
     "engines": {
         "node": "14.0.0"
-    },
-    "type": "module"
+    }
 }
