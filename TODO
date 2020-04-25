@@ -1,5 +1,11 @@
 Project Config:
     ☐ Add SCSS
         ☐ Update README on how to install (if using SASS_PATH)
-    ☐ Add npm script to run npm install on both the client and server
-        ☐ Mention it in the README
+
+Server:
+    ☐ Update CORS headers
+
+
+Archive:
+  ✘ Add npm script to run npm install on both the client and server @cancelled(20-04-25 20:15) @project(Project Config)
+  ✘ Mention it in the README @cancelled(20-04-25 20:15) @project(Project Config)
