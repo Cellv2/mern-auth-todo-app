@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { SERVER_PORT } from "./utils/secrets";
+import router from "./routes/createRouter";
 
 // Express configuration
 const app = express();
@@ -18,9 +19,14 @@ app.options("*", cors());
 app.get("/", (req, res) => {
     res.send("kek");
 });
-
 app.get("/api/kek", (req, res) => {
     res.json({ kek: "top kek" });
 });
+app.get("/api/addUser", (req, res) => {
+    res.json({ addUser: "user added" });
+});
+
+// router
+app.use("/", router);
 
 export default app;
