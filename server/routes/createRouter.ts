@@ -1,14 +1,10 @@
-import express from "express";
+import express, { Router } from "express";
 import addUser from "./api/users/addUser";
 import getUser from "./api/users/id/getUser";
 import deleteUser from "./api/users/id/deleteUser";
 import updatePassword from "./api/users/id/password/updatePassword";
 
-const router = express.Router();
-
-router.get("/api/xyz", (req, res) => {
-    res.json({ test: "test" });
-});
+const router: Router = express.Router();
 
 /**
  * /api/users

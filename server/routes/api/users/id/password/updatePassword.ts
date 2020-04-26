@@ -1,9 +1,12 @@
-import express from "express";
+import express, { Router, Request, Response } from "express";
 
-const router = express.Router();
+const router: Router = express.Router();
 
-router.get("/users/:id/password/updatePassword", (req, res) => {
-    res.json({ updatePassword: "updatePassword.ts" });
-});
+router.get(
+    "/users/:id/password/updatePassword",
+    (req: Request, res: Response) => {
+        res.json({ updatePassword: "updatePassword.ts" });
+    }
+);
 
 export default router;

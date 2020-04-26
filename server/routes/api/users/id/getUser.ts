@@ -1,9 +1,10 @@
-import express from "express";
+import express, { Router, Request, Response } from "express";
 
-const router = express.Router();
+const router: Router = express.Router();
 
-router.get("/users/:id/getUser", (req, res) => {
-    res.json({ getUser: "getUser.ts" });
+router.get("/users/:id/getUser", (req: Request, res: Response) => {
+    const id: number = +req.params.id;
+    res.json({ getUser: "getUser.ts", id: id });
 });
 
 export default router;

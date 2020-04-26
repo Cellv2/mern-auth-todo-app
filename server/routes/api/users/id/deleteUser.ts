@@ -1,8 +1,8 @@
-import express from "express";
+import express, { Router, Request, Response } from "express";
 
-const router = express.Router();
+const router: Router = express.Router();
 
-router.get("/users/:id/deleteUser", (req, res) => {
+router.get("/users/:id/deleteUser", (req: Request, res: Response) => {
     res.json({ deleteUser: "deleteUser.ts" });
 });
 
