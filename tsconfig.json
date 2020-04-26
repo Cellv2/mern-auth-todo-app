@@ -36,5 +36,8 @@
     },
     "include": [
         "server/**/*"
+    ],
+    "exclude": [
+        "**/*.test.ts"
     ]
 }
