@@ -22,9 +22,6 @@ app.get("/", (req, res) => {
 app.get("/api/kek", (req, res) => {
     res.json({ kek: "top kek" });
 });
-app.get("/api/addUser", (req, res) => {
-    res.json({ addUser: "user added" });
-});
 
 // router
 app.use("/", router);
