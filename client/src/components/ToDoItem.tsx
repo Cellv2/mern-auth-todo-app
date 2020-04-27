@@ -2,14 +2,20 @@ import React from "react";
 
 type Props = {
     text: string;
+    index: number;
+    handleDeleteOnClick: (index: number) => void;
 };
 
-const ToDoItem = (props: Props) => {
+const ToDoItem: React.FunctionComponent<Props> = (props: Props) => {
+    const { text, index, handleDeleteOnClick } = props;
     return (
         <div>
-            {props.text}
+            {text}
+            <button onClick={() => handleDeleteOnClick(index)}>Click this to delete</button>
         </div>
     );
 };
+
+// const ToDoItemCreate
 
 export default ToDoItem;

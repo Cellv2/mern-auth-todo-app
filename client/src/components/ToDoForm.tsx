@@ -1,19 +1,41 @@
 import React from "react";
 
 import ToDoItem from "./ToDoItem";
+import ToDoCreate from "./ToDoCreate";
 
-type Props = {};
+import { Item } from "../../types/to-do-types";
 
-const ToDoForm = (props: Props) => {
+type Props = {
+    items?: Item[];
+    handleCreateOnClick: () => void;
+    handleDeleteOnClick: (index: number) => void;
+};
+
+const ToDoForm: React.FunctionComponent<Props> = (props: Props) => {
+    const { items, handleCreateOnClick, handleDeleteOnClick } = props;
+
+    let toDoItems: JSX.Element | JSX.Element[];
+    if (items && items.length > 0) {
+        // console.log("test");
+        toDoItems = items.map((item, index) => {
+            return (
+                <ToDoItem
+                    key={index}
+                    index={index}
+                    text={item.text}
+                    handleDeleteOnClick={handleDeleteOnClick}
+                />
+            );
+        });
+    } else {
+        toDoItems = <div>There are no items</div>;
+    }
+
     return (
         <div>
-            This is the ToDoForm
-            {[...new Array(4)]
-                .map((val, index) => `${index}`)
-                .map((item) => {
-                    const text: string = `This is item: ${item}`;
-                    return <ToDoItem key={+item} text={text} />;
-                })}
+            <p>There should probably be a header here or something</p>
+            <ToDoCreate handleCreateOnClick={handleCreateOnClick} />
+            {toDoItems}
         </div>
     );
 };
