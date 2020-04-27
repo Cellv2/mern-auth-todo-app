@@ -16,7 +16,6 @@ const ToDoForm: React.FunctionComponent<Props> = (props: Props) => {
 
     let toDoItems: JSX.Element | JSX.Element[];
     if (items && items.length > 0) {
-        // console.log("test");
         toDoItems = items.map((item, index) => {
             return (
                 <ToDoItem

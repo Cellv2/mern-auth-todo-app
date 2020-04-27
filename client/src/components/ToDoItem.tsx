@@ -16,6 +16,4 @@ const ToDoItem: React.FunctionComponent<Props> = (props: Props) => {
     );
 };
 
-// const ToDoItemCreate
-
 export default ToDoItem;
