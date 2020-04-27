@@ -18,10 +18,10 @@ class ToDoContainer extends React.Component<Props, State> {
         ],
     };
 
-    handleCreateOnClick = (): void => {
+    handleCreateOnClick = (inText: string): void => {
         const newItem: Item = {
             isCompleted: false,
-            text: "New item",
+            text: inText,
         };
 
         let tempItems: Item[] = this.state.items ?? [];

@@ -7,7 +7,7 @@ import { Item } from "../../types/to-do-types";
 
 type Props = {
     items?: Item[];
-    handleCreateOnClick: () => void;
+    handleCreateOnClick: (inText: string) => void;
     handleDeleteOnClick: (index: number) => void;
 };
 
