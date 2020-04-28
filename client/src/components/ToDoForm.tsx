@@ -21,7 +21,7 @@ const ToDoForm: React.FunctionComponent<Props> = (props: Props) => {
                 <ToDoItem
                     key={index}
                     index={index}
-                    text={item.text}
+                    item={item}
                     handleDeleteOnClick={handleDeleteOnClick}
                 />
             );
