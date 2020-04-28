@@ -12,15 +12,15 @@ type State = {
 class ToDoContainer extends React.Component<Props, State> {
     state: State = {
         items: [
-            { isCompleted: true, text: "Item 1" },
-            { isCompleted: false, text: "Item 2" },
-            { isCompleted: false, text: "Item 3" },
+            { isComplete: true, text: "Item 1" },
+            { isComplete: false, text: "Item 2" },
+            { isComplete: false, text: "Item 3" },
         ],
     };
 
     handleCreateOnClick = (inText: string): void => {
         const newItem: Item = {
-            isCompleted: false,
+            isComplete: false,
             text: inText,
         };
 
@@ -38,7 +38,7 @@ class ToDoContainer extends React.Component<Props, State> {
     handleIsCompleteChange = (index: number): void => {
         // there really must be items by this point else nothing would have been rendered and the button wouldn't show
         let tempItems: Item[] = this.state.items!;
-        tempItems[index].isCompleted = !tempItems[index].isCompleted;
+        tempItems[index].isComplete = !tempItems[index].isComplete;
 
         this.setState((prevState: State) => ({
             ...prevState,

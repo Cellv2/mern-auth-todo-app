@@ -13,11 +13,16 @@ type Props = {
 };
 
 const ToDoForm: React.FunctionComponent<Props> = (props: Props) => {
-    const { items, handleCreateOnClick, handleIsCompleteChange, handleDeleteOnClick } = props;
+    const {
+        items,
+        handleCreateOnClick,
+        handleIsCompleteChange,
+        handleDeleteOnClick,
+    } = props;
 
     let toDoItems: JSX.Element | JSX.Element[];
     if (items && items.length > 0) {
-        toDoItems = items.map((item, index) => {
+        toDoItems = items.map((item: Item, index: number) => {
             return (
                 <ToDoItem
                     key={index}

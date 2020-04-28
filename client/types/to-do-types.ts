@@ -1,4 +1,4 @@
 export type Item = {
-    isCompleted: boolean;
+    isComplete: boolean;
     text: string;
 };

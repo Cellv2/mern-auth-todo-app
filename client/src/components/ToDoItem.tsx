@@ -18,10 +18,10 @@ const ToDoItem: React.FunctionComponent<Props> = (props: Props) => {
             <input
                 type="checkbox"
                 name="isComplete"
-                checked={item.isCompleted}
+                checked={item.isComplete}
                 onChange={() => handleIsCompleteChange(index)}
             />
-            <span className={item.isCompleted ? styles.complete : ""}>
+            <span className={item.isComplete ? styles.complete : ""}>
                 {item.text}
             </span>
             <button onClick={() => handleDeleteOnClick(index)}>
