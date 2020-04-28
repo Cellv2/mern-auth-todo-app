@@ -8,11 +8,12 @@ import { Item } from "../../types/to-do-types";
 type Props = {
     items?: Item[];
     handleCreateOnClick: (inText: string) => void;
+    handleIsCompleteChange: (index: number) => void;
     handleDeleteOnClick: (index: number) => void;
 };
 
 const ToDoForm: React.FunctionComponent<Props> = (props: Props) => {
-    const { items, handleCreateOnClick, handleDeleteOnClick } = props;
+    const { items, handleCreateOnClick, handleIsCompleteChange, handleDeleteOnClick } = props;
 
     let toDoItems: JSX.Element | JSX.Element[];
     if (items && items.length > 0) {
@@ -22,6 +23,7 @@ const ToDoForm: React.FunctionComponent<Props> = (props: Props) => {
                     key={index}
                     index={index}
                     item={item}
+                    handleIsCompleteChange={handleIsCompleteChange}
                     handleDeleteOnClick={handleDeleteOnClick}
                 />
             );

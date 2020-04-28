@@ -35,6 +35,19 @@ class ToDoContainer extends React.Component<Props, State> {
         return;
     };
 
+    handleIsCompleteChange = (index: number): void => {
+        // there really must be items by this point else nothing would have been rendered and the button wouldn't show
+        let tempItems: Item[] = this.state.items!;
+        tempItems[index].isCompleted = !tempItems[index].isCompleted;
+
+        this.setState((prevState: State) => ({
+            ...prevState,
+            items: tempItems,
+        }));
+
+        return;
+    };
+
     handleDeleteOnClick = (index: number): void => {
         // there really must be items by this point else nothing would have been rendered and the button wouldn't show
         let tempItems: Item[] = this.state.items!;
@@ -55,6 +68,7 @@ class ToDoContainer extends React.Component<Props, State> {
                 <ToDoForm
                     items={this.state.items}
                     handleCreateOnClick={this.handleCreateOnClick}
+                    handleIsCompleteChange={this.handleIsCompleteChange}
                     handleDeleteOnClick={this.handleDeleteOnClick}
                 />
             </div>

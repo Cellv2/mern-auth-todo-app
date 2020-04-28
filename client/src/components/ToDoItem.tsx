@@ -7,13 +7,20 @@ import { Item } from "../../types/to-do-types";
 type Props = {
     item: Item;
     index: number;
+    handleIsCompleteChange: (index: number) => void;
     handleDeleteOnClick: (index: number) => void;
 };
 
 const ToDoItem: React.FunctionComponent<Props> = (props: Props) => {
-    const { item, index, handleDeleteOnClick } = props;
+    const { item, index, handleIsCompleteChange, handleDeleteOnClick } = props;
     return (
         <div>
+            <input
+                type="checkbox"
+                name="isComplete"
+                checked={item.isCompleted}
+                onChange={() => handleIsCompleteChange(index)}
+            />
             <span className={item.isCompleted ? styles.complete : ""}>
                 {item.text}
             </span>
