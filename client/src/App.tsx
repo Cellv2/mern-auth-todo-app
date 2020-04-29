@@ -11,10 +11,11 @@ import Logout from "./components/User/Logout";
 
 import "./App.css";
 import Home from "./components/Home";
+import Layout from "./layouts/Layout";
 
 const App = () => {
     return (
-        <>
+        <Layout>
             <Router>
                 <div>
                     <nav>
@@ -61,7 +62,7 @@ const App = () => {
                     <ToDoContainer />
                 </header>
             </div>
-        </>
+        </Layout>
     );
 };
 
