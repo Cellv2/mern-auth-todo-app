@@ -4,7 +4,10 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import ApiCallButton from "./components/ApiCallButton";
 import ToDoContainer from "./components/ToDoContainer";
 import About from "./components/About";
-import Login from "./components/Login";
+// import Home from "./components/Home";
+import User from "./components/User/User";
+import Login from "./components/User/Login";
+import Logout from "./components/User/Logout";
 
 import "./App.css";
 import Home from "./components/Home";
@@ -23,7 +26,13 @@ const App = () => {
                                 <Link to="/about">About</Link>
                             </li>
                             <li>
+                                <Link to="/user">User</Link>
+                            </li>
+                            <li>
                                 <Link to="/login">Login</Link>
+                            </li>
+                            <li>
+                                <Link to="/logout">Logout</Link>
                             </li>
                         </ul>
                     </nav>
@@ -31,8 +40,14 @@ const App = () => {
                         <Route path="/about">
                             <About />
                         </Route>
+                        <Route path="/user">
+                            <User />
+                        </Route>
                         <Route path="/login">
                             <Login />
+                        </Route>
+                        <Route path="/logout">
+                            <Logout />
                         </Route>
                         <Route path="/">
                             <Home />
