@@ -7,11 +7,13 @@ import User from "../User/User";
 import Login from "..//User/Login";
 import Logout from "..//User/Logout";
 
+import styles from './Header.module.scss'
+
 type Props = {};
 
 const Header = (props: Props) => {
     return (
-        <div>
+        <div className={styles.header}>
             This is the header
             <Router>
                 <div>
