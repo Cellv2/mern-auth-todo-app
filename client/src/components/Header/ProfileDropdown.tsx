@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-import Login from "..//User/Login";
-import Logout from "..//User/Logout";
+import { Link } from "react-router-dom";
 
 import styles from "./ProfileDropdown.module.scss";
 
