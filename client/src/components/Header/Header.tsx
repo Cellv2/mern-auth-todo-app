@@ -7,6 +7,7 @@ import User from "../User/User";
 import Login from "..//User/Login";
 import Logout from "..//User/Logout";
 import ProfileDropdown from "./ProfileDropdown";
+import Main from "../Main";
 
 import styles from "./Header.module.scss";
 
@@ -15,10 +16,12 @@ type Props = {};
 const Header = (props: Props) => {
     return (
         <>
-            <div className={styles.logo}></div>
-            <div className={styles.header}>
-                This is the header
-                <Router>
+            {/* <Router> */}
+                <div className={styles.logo}>
+                    <Link to="/">Home from logo</Link>
+                </div>
+                <div className={styles.header}>
+                    This is the header
                     <div>
                         <nav>
                             <ul>
@@ -39,7 +42,7 @@ const Header = (props: Props) => {
                                 </li>
                             </ul>
                         </nav>
-                        <Switch>
+                        {/* <Switch>
                             <Route path="/about">
                                 <About />
                             </Route>
@@ -52,14 +55,17 @@ const Header = (props: Props) => {
                             <Route path="/logout">
                                 <Logout />
                             </Route>
-                            <Route path="/">{/* <Home /> */}</Route>
-                        </Switch>
+                            <Route path="/" exact>
+                                <Main />
+                            </Route>
+                        </Switch> */}
+
                     </div>
-                </Router>
-            </div>
-            <div className={styles.profileDropdown}>
-                <ProfileDropdown />
-            </div>
+                </div>
+                <div className={styles.profileDropdown}>
+                    <ProfileDropdown />
+                </div>
+            {/* </Router> */}
         </>
     );
 };

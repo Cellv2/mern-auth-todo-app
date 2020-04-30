@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
+import Login from "..//User/Login";
+import Logout from "..//User/Logout";
 
 import styles from "./ProfileDropdown.module.scss";
 
@@ -25,8 +29,8 @@ class ProfileDropdown extends Component<Props, State> {
                     Click me to {this.state.isOpen ? "close" : "open"}
                 </button>
                 <ul className={this.state.isOpen ? "open" : `${styles.closed}`}>
-                    <li>View Profile</li>
-                    <li>Log Out</li>
+                    <Link to="/login">View Profile</Link>
+                    <Link to="/logout">Log Out</Link>
                 </ul>
             </div>
         );
