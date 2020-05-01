@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {};
 
-const ApiCallButton: React.FunctionComponent<Props> = (props: Props) => {
+const ApiCallButton = (props: Props) => {
     const handleApiCall = () => {
         console.log("Yeah this was clicked");
         fetch(`/api/kek`)

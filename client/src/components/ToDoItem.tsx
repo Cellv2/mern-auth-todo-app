@@ -11,7 +11,7 @@ type Props = {
     handleDeleteOnClick: (index: number) => void;
 };
 
-const ToDoItem: React.FunctionComponent<Props> = (props: Props) => {
+const ToDoItem = (props: Props) => {
     const { item, index, handleIsCompleteChange, handleDeleteOnClick } = props;
     return (
         <div>

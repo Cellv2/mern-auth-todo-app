@@ -12,7 +12,7 @@ type Props = {
     handleDeleteOnClick: (index: number) => void;
 };
 
-const ToDoForm: React.FunctionComponent<Props> = (props: Props) => {
+const ToDoForm = (props: Props) => {
     const {
         items,
         handleCreateOnClick,
