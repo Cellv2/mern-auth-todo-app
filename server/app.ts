@@ -21,10 +21,35 @@ app.use(cors());
 app.options("*", cors());
 
 // test GET and serve
+import mongoose from "mongoose";
+const mongoUrl: string = "mongodb://localhost:27017";
+mongoose
+    .connect(mongoUrl, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        console.log("Successfully connected to mongodb");
+    })
+    .catch((err) => {
+        console.error(
+            "There was an error while connecting to mongodb - the error was",
+            err
+        );
+    });
+
 app.get("/", (req, res) => {
     res.send("kek");
 });
+// import mongodb from "mongodb";
+// const mongoClient = mongodb.MongoClient;
 app.get("/api/kek", (req, res) => {
+    // mongoClient.connect("mongodb://localhost:27017", (err, client) => {
+    //     if (err) {
+    //         console.log(err);
+    //     }
+    //     console.log(`We connected to mongodb`);
+    // });
     res.json({ kek: "top kek" });
 });
 
