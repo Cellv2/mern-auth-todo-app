@@ -1,5 +1,5 @@
-import TodoCollection from "../../../../models/Todo/todo-collection.model";
 import express, { Request, Response } from "express";
+import TodoCollection from "../../../../models/Todo/todo-collection.model";
 
 const router = express.Router();
 
@@ -16,6 +16,7 @@ const createTodo = (req: Request, res: Response) => {
             return;
         }
 
+        res.status(201);
         res.json(todo);
     });
 };
