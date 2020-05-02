@@ -16,7 +16,7 @@ const createTodo = (req: Request, res: Response) => {
             return;
         }
 
-        res.send("Successfully created todo");
+        res.json(todo);
     });
 };
 
