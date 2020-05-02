@@ -3,7 +3,7 @@ import React from "react";
 type Props = {};
 
 const ApiCallButton = (props: Props) => {
-    const handleGetRequest = () => {
+    const handleKekRequest = () => {
         console.log("GET request was clicked");
         fetch(`/api/kek`)
             .then((res) => res.json())
@@ -15,10 +15,17 @@ const ApiCallButton = (props: Props) => {
             });
     };
 
+    const handleGetAllRequest = async () => {
+        const response = await fetch(`/api/users/todos`);
+
+        const content = await response.json();
+        console.log(content);
+    };
+
     const handlePostRequest = async () => {
         const testJson = { isCompleted: false, text: "Yes" };
 
-        const rawResponse = await fetch(`/api/users/todos`, {
+        const response = await fetch(`/api/users/todos`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -27,18 +34,38 @@ const ApiCallButton = (props: Props) => {
             body: JSON.stringify(testJson),
         });
 
-        const content = await rawResponse.json();
+        const content = await response.json();
+        console.log(content);
+    };
+
+    const handlePutRequest = async () => {
+        const testJson = { author: 3 };
+
+        const response = await fetch(`/api/users/todos/1`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json;charset=utf-8",
+            },
+            body: JSON.stringify(testJson),
+        });
+
+        const content = await response.json();
         console.log(content);
     };
 
     return (
         <>
             <div>This is the API call</div>
-            <button onClick={handleGetRequest}>
-                GET request - Check the console
+            <button onClick={handleKekRequest}>GET kek request</button>
+            <button onClick={handleGetAllRequest}>
+                GET all todos request - Check the console
             </button>
             <button onClick={handlePostRequest}>
                 POST request - Check the console
+            </button>
+            <button onClick={handlePutRequest}>
+                PUT request - Check the console
             </button>
         </>
     );
