@@ -7,5 +7,5 @@ const todoSchema = new Schema({
     text: String,
 });
 
-const TodoSchema = mongoose.model("Todo", todoSchema);
-export default TodoSchema;
+const TodoCollection = mongoose.model("Todo", todoSchema);
+export default TodoCollection;

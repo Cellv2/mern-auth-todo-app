@@ -1,10 +1,10 @@
-import TodoModel from "../../../../models/Todo/todo.model";
+import TodoCollection from "../../../../models/Todo/todo-collection.model";
 import express, { Request, Response } from "express";
 
 const router = express.Router();
 
 const createTodo = (req: Request, res: Response) => {
-    const todo = new TodoModel({
+    const todo = new TodoCollection({
         author: 1,
         isComplete: false,
         text: "This is a test",
