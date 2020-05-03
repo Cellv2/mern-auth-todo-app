@@ -6,6 +6,7 @@ import updatePassword from "./api/users/id/password/updatePassword";
 import getTodos from "./api/users/todos/getTodos";
 import addTodo from "./api/users/todos/addTodo";
 import updateTodo from "./api/users/todos/id/updateTodo";
+import deleteTodo from "./api/users/todos/id/deleteTodo";
 
 const router: Router = express.Router();
 
@@ -35,5 +36,6 @@ router.use("/api", addTodo);
  * /api/users/todos/:id
  */
 router.use("/api", updateTodo);
+router.use("/api", deleteTodo);
 
 export default router;
