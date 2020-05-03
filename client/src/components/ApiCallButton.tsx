@@ -23,7 +23,7 @@ const ApiCallButton = (props: Props) => {
     };
 
     const handlePostRequest = async () => {
-        const testJson = { isCompleted: false, text: "Yes" };
+        const testJson = { isCompleted: false, text: "This is from the test POST button" };
 
         const response = await fetch(`/api/users/todos`, {
             method: "POST",

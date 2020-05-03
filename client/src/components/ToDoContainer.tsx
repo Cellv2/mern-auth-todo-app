@@ -53,21 +53,29 @@ class ToDoContainer extends Component<Props, State> {
         return;
     };
 
-    handleCreateOnClick = (inText: string): void => {
-        const newItem: Item = {
-            isComplete: false,
-            text: inText,
-        };
+    handleCreateOnClick = async (inText: string): Promise<void> => {
+        const newItem = { isCompleted: false, text: inText };
 
-        let tempItems: Item[] = this.state.items ?? [];
-        tempItems.push(newItem);
+        const response = await fetch(`/api/users/todos`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json;charset=utf-8",
+            },
+            body: JSON.stringify(newItem),
+        });
+
+        const createdItem: Item = await response.json();
+
+        console.log(createdItem);
+
+        const stateItems = this.state.items ?? [];
+        const newItems = [...stateItems, createdItem];
 
         this.setState((prevState: State) => ({
             ...prevState,
-            items: tempItems,
+            items: newItems,
         }));
-
-        return;
     };
 
     handleIsCompleteChange = (index: number): void => {
