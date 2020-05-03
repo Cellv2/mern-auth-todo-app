@@ -27,25 +27,22 @@ class ToDoContainer extends Component<Props, State> {
     handleGetAllUserTodos = async (): Promise<void> => {
         // TODO: Make sure this has authentication around it
         const fetchUserTodos = await fetch(`/api/users/todos`);
-        const userTodos: {
-            _id: string;
-            author: string;
-            isComplete: boolean;
-            text: string;
-        }[] = await fetchUserTodos.json();
+        const userTodos: Item[] = await fetchUserTodos.json();
 
         if (userTodos.length) {
-            const todosToItems: Item[] = userTodos.map((todo) => {
-                const item = {
+            const todoToItems: Item[] = userTodos.map((todo) => {
+                const item: Item = {
                     _id: todo._id,
+                    author: todo.author,
                     isComplete: todo.isComplete,
                     text: todo.text,
-                } as Item;
+                };
+
                 return item;
             });
 
             const stateItems = this.state.items ?? [];
-            const newItems = [...stateItems, ...todosToItems];
+            const newItems = [...stateItems, ...todoToItems];
 
             this.setState((prevState: State) => ({
                 ...prevState,
@@ -110,6 +107,7 @@ class ToDoContainer extends Component<Props, State> {
         } catch (error) {
             console.error(error);
         } finally {
+            // in case there is no DB call, we still update state here
             tempItems.splice(index, 1);
             this.setState((prevState: State) => ({
                 ...prevState,
