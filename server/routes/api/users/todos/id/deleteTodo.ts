@@ -6,7 +6,7 @@ const router = express.Router();
 
 const deleteTodo = (req: Request, res: Response): void => {
     const id = req.params.id;
-    const query = { author: id };
+    const query = { _id: id };
 
     TodoCollection.findOneAndDelete(query, (err, deleted) => {
         if (err) {

@@ -19,9 +19,16 @@ class ToDoContainer extends Component<Props, State> {
     };
 
     async componentDidMount() {
+        await this.handleGetAllUserTodos();
+
+        return;
+    }
+
+    handleGetAllUserTodos = async (): Promise<void> => {
         // TODO: Make sure this has authentication around it
         const fetchUserTodos = await fetch(`/api/users/todos`);
         const userTodos: {
+            _id: string;
             author: string;
             isComplete: boolean;
             text: string;
@@ -30,6 +37,7 @@ class ToDoContainer extends Component<Props, State> {
         if (userTodos.length) {
             const todosToItems: Item[] = userTodos.map((todo) => {
                 const item = {
+                    _id: todo._id,
                     isComplete: todo.isComplete,
                     text: todo.text,
                 } as Item;
@@ -46,7 +54,7 @@ class ToDoContainer extends Component<Props, State> {
         }
 
         return;
-    }
+    };
 
     handleCreateOnClick = (inText: string): void => {
         const newItem: Item = {
@@ -78,15 +86,36 @@ class ToDoContainer extends Component<Props, State> {
         return;
     };
 
-    handleDeleteOnClick = (index: number): void => {
+    handleDeleteOnClick = async (index: number): Promise<void> => {
         // there really must be items by this point else nothing would have been rendered and the button wouldn't show
         let tempItems: Item[] = this.state.items!;
-        tempItems.splice(index, 1);
+        const currentItem: Item = this.state.items![index];
 
-        this.setState((prevState: State) => ({
-            ...prevState,
-            items: tempItems,
-        }));
+        try {
+            if (currentItem._id) {
+                const deleteRequest = await fetch(
+                    `/api/users/todos/${currentItem._id}`,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json;charset=utf-8",
+                        },
+                    }
+                );
+
+                await deleteRequest
+                    .json()
+                    .then(() => this.handleGetAllUserTodos());
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            tempItems.splice(index, 1);
+            this.setState((prevState: State) => ({
+                ...prevState,
+                items: tempItems,
+            }));
+        }
 
         return;
     };
