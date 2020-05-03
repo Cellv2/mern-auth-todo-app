@@ -18,6 +18,36 @@ class ToDoContainer extends React.Component<Props, State> {
         ],
     };
 
+    async componentDidMount() {
+        // TODO: Make sure this has authentication around it
+        const fetchUserTodos = await fetch(`/api/users/todos`);
+        const userTodos: {
+            author: string;
+            isComplete: boolean;
+            text: string;
+        }[] = await fetchUserTodos.json();
+
+        if (userTodos.length) {
+            const todosToItems: Item[] = userTodos.map((todo) => {
+                const item = {
+                    isComplete: todo.isComplete,
+                    text: todo.text,
+                } as Item;
+                return item;
+            });
+
+            const stateItems = this.state.items ?? [];
+            const newItems = [...stateItems, ...todosToItems];
+
+            this.setState((prevState: State) => ({
+                ...prevState,
+                items: newItems,
+            }));
+        }
+
+        return;
+    }
+
     handleCreateOnClick = (inText: string): void => {
         const newItem: Item = {
             isComplete: false,
