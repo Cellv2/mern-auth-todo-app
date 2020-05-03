@@ -104,15 +104,15 @@ class ToDoContainer extends Component<Props, State> {
                     .json()
                     .then(() => this.handleGetAllUserTodos());
             }
-        } catch (error) {
-            console.error(error);
-        } finally {
+
             // in case there is no DB call, we still update state here
             tempItems.splice(index, 1);
             this.setState((prevState: State) => ({
                 ...prevState,
                 items: tempItems,
             }));
+        } catch (error) {
+            console.error(error);
         }
 
         return;
