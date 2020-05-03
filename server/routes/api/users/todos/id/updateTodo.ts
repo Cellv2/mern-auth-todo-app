@@ -18,7 +18,8 @@ const updateTodo = (req: Request, res: Response) => {
                 console.error(err);
             }
 
-            res.statusCode = 201;
+            // updated object is sent back
+            res.statusCode = 200;
             res.json(updated);
         }
     );
