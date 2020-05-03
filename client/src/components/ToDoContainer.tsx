@@ -9,7 +9,7 @@ type State = {
     items?: Item[];
 };
 
-class ToDoContainer extends React.Component<Props, State> {
+class ToDoContainer extends Component<Props, State> {
     state: State = {
         items: [
             { isComplete: true, text: "Item 1" },

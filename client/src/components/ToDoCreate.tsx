@@ -7,7 +7,7 @@ type State = {
     input: string;
 };
 
-class ToDoCreate extends React.Component<Props, State> {
+class ToDoCreate extends Component<Props, State> {
     state = {
         input: "",
     };
