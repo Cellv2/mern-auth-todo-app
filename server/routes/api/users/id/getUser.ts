@@ -1,10 +1,24 @@
 import express, { Router, Request, Response } from "express";
+import UserCollection from "../../../../models/User/user-collection.model";
 
 const router: Router = express.Router();
 
+const getUser = (req: Request, res: Response): void => {
+    const id: string = "" + req.params.id;
+
+    UserCollection.findById(id)
+        .populate("todos")
+        .exec((err, user) => {
+            if (err) {
+                console.error(err);
+            }
+            console.dir(user);
+            res.json(user);
+        });
+};
+
 router.get("/users/:id/getUser", (req: Request, res: Response) => {
-    const id: number = +req.params.id;
-    res.json({ getUser: "getUser.ts", id: id });
+    getUser(req, res);
 });
 
 export default router;
