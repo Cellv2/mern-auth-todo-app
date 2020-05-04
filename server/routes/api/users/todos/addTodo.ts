@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
+import express, { Router, Request, Response } from "express";
 import TodoCollection from "../../../../models/Todo/todo-collection.model";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 const createTodo = (req: Request, res: Response) => {
     const text = req.body.text;
@@ -21,6 +21,8 @@ const createTodo = (req: Request, res: Response) => {
         res.status(201);
         res.json(todo);
     });
+
+    return;
 };
 
 router.post("/users/todos", (req: Request, res: Response) => {

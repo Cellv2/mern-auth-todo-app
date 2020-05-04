@@ -1,10 +1,10 @@
-import express, { Request, Response } from "express";
+import express, { Router, Request, Response } from "express";
 import TodoCollection from "../../../../../models/Todo/todo-collection.model";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 const updateTodo = (req: Request, res: Response) => {
-    const id = req.params.id;
+    const id: string = req.params.id;
     const query = { author: id };
     const newData = { author: req.body.author };
 
@@ -23,6 +23,8 @@ const updateTodo = (req: Request, res: Response) => {
             res.json(updated);
         }
     );
+
+    return;
 };
 
 router.put("/users/todos/:id", (req: Request, res: Response) => {

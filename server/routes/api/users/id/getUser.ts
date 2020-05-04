@@ -15,6 +15,8 @@ const getUser = (req: Request, res: Response): void => {
 
             res.json(user);
         });
+
+    return;
 };
 
 router.get("/users/:id/getUser", (req: Request, res: Response) => {
