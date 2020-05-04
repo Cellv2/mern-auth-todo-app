@@ -12,7 +12,7 @@ const getUser = (req: Request, res: Response): void => {
             if (err) {
                 console.error(err);
             }
-            console.dir(user);
+
             res.json(user);
         });
 };
