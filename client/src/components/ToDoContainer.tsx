@@ -33,7 +33,7 @@ class ToDoContainer extends Component<Props, State> {
             const todoToItems: Item[] = userTodos.map((todo) => {
                 const item: Item = {
                     _id: todo._id,
-                    author: todo.author,
+                    userid: todo.userid,
                     isComplete: todo.isComplete,
                     text: todo.text,
                 };

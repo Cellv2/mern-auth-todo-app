@@ -1,6 +1,6 @@
 export type Item = {
     _id?: string;
-    author?: string;
+    userid?: string;
     isComplete: boolean;
     text: string;
 };

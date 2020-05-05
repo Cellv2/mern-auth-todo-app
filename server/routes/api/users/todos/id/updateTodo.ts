@@ -5,8 +5,8 @@ const router: Router = express.Router();
 
 const updateTodo = (req: Request, res: Response) => {
     const id: string = req.params.id;
-    const query = { author: id };
-    const newData = { author: req.body.author };
+    const query = { userid: id };
+    const newData = { userid: req.body.userid };
 
     TodoCollection.findOneAndUpdate(
         query,

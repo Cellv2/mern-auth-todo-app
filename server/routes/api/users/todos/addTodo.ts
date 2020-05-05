@@ -7,7 +7,7 @@ const createTodo = (req: Request, res: Response) => {
     const text = req.body.text;
 
     const todo = new TodoCollection({
-        author: 1,
+        userid: 1,
         isComplete: false,
         text: text,
     });

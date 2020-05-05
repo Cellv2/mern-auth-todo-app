@@ -39,7 +39,7 @@ const ApiCallButton = (props: Props) => {
     };
 
     const handlePutRequest = async () => {
-        const testJson = { author: 3 };
+        const testJson = { userid: 3 };
 
         const response = await fetch(`/api/users/todos/1`, {
             method: "PUT",

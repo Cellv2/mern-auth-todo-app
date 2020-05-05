@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const todoSchema = new Schema({
-    author: String, // User._id
+    userid: String, // User._id
     isComplete: Boolean,
     text: String,
 });
