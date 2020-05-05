@@ -5,8 +5,10 @@ const router: Router = express.Router();
 
 const addUser = (req: Request, res: Response): void => {
     const user = new UserCollection({
-        name: "A test user",
-        todos: ["5eaf07d7bcdbc64d6851f536", "5eaf07d7bcdbc64d6851f537"],
+        name: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        // todos: ["5eaf07d7bcdbc64d6851f536", "5eaf07d7bcdbc64d6851f537"],
     });
 
     user.save((err) => {
