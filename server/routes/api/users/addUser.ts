@@ -22,7 +22,6 @@ const addUser = (req: Request, res: Response): void => {
 };
 
 router.post("/users/addUser", (req: Request, res: Response) => {
-    // res.json({ addUser: "addUser.ts" });
     addUser(req, res);
 });
 
