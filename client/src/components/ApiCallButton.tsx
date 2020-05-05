@@ -15,6 +15,23 @@ const ApiCallButton = (props: Props) => {
             });
     };
 
+    const handleCreateNewUser = async (): Promise<void> => {
+        const body = {
+            username: "Test user",
+            email: "Test email",
+            password: "Super secure password",
+        };
+
+        const request = await fetch(`/api/users/addUser`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json;charset=utf-8" },
+            body: JSON.stringify(body),
+        });
+
+        const content = await request.json();
+        console.log(content);
+    };
+
     const handleGetAllRequest = async () => {
         const response = await fetch(`/api/users/todos`);
 
@@ -23,7 +40,10 @@ const ApiCallButton = (props: Props) => {
     };
 
     const handlePostRequest = async () => {
-        const testJson = { isCompleted: false, text: "This is from the test POST button" };
+        const testJson = {
+            isCompleted: false,
+            text: "This is from the test POST button",
+        };
 
         const response = await fetch(`/api/users/todos`, {
             method: "POST",
@@ -58,6 +78,8 @@ const ApiCallButton = (props: Props) => {
         <>
             <div>This is the API call</div>
             <button onClick={handleKekRequest}>GET kek request</button>
+            <button onClick={handleCreateNewUser}>POST - new user</button>
+            <hr />
             <button onClick={handleGetAllRequest}>
                 GET all todos request - Check the console
             </button>
