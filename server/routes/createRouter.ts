@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import addUser from "./api/users/addUser";
+import loginUser from "./api/users/loginUser";
 import getUser from "./api/users/id/getUser";
 import deleteUser from "./api/users/id/deleteUser";
 import updatePassword from "./api/users/id/password/updatePassword";
@@ -14,6 +15,7 @@ const router: Router = express.Router();
  * /api/users
  */
 router.use("/api", addUser);
+router.use("/api", loginUser);
 
 /**
  * /api/users/:id
