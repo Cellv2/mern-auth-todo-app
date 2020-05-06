@@ -35,7 +35,8 @@
         "mongodb": "^3.5.7",
         "mongoose": "^5.9.11",
         "nodemon": "^2.0.3",
-        "react-router-dom": "^5.1.2"
+        "react-router-dom": "^5.1.2",
+        "validator": "^13.0.0"
     },
     "devDependencies": {
         "@testing-library/jest-dom": "^5.5.0",
@@ -52,6 +53,7 @@
         "@types/react-dom": "^16.9.6",
         "@types/react-router-dom": "^5.1.5",
         "@types/supertest": "^2.0.8",
+        "@types/validator": "^13.0.0",
         "concurrently": "^5.2.0",
         "jest": "^25.4.0",
         "supertest": "^4.0.2",
