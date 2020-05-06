@@ -39,7 +39,7 @@ const loginUser = (req: Request, res: Response): void => {
         }
 
         // TODO: Add bearer token
-        res.status(200).json({succes: true, token: `Bearer token`})
+        res.status(200).json({ success: true, token: `Bearer token` });
     });
 
     return;
@@ -47,7 +47,6 @@ const loginUser = (req: Request, res: Response): void => {
 
 router.post("/users/login", (req: Request, res: Response) => {
     loginUser(req, res);
-    // res.send(`This is the login route - email: ${req.body.email}`);
 });
 
 export default router;
