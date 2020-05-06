@@ -1,9 +1,18 @@
 import express, { Router, Request, Response } from "express";
+
 import UserCollection from "../../../models/User/user-collection.model";
+import validateRegistration from "../../../utils/validations/validate-registration";
 
 const router: Router = express.Router();
 
 const addUser = (req: Request, res: Response): void => {
+    const { errors, isValid } = validateRegistration(req.body);
+
+    if (!isValid) {
+        res.status(400).json(errors);
+        return;
+    }
+
     const user = new UserCollection({
         name: req.body.username,
         email: req.body.email,
@@ -16,8 +25,7 @@ const addUser = (req: Request, res: Response): void => {
             console.log(err);
         }
 
-        res.status(201);
-        res.json(user);
+        res.status(201).json(user);
     });
 
     return;
