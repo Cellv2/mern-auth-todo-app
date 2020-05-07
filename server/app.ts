@@ -1,6 +1,9 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import passport from "passport";
+import passportStrategy from "./utils/passport-strategy";
+
 import { SERVER_PORT } from "./utils/secrets";
 import router from "./routes/createRouter";
 
@@ -20,6 +23,10 @@ app.use(bodyParser.json());
 app.use(cors());
 app.options("*", cors());
 
+// JWT config
+app.use(passport.initialize());
+passportStrategy(passport);
+
 // test GET and serve
 import mongoose from "mongoose";
 const mongoUrl: string = "mongodb://localhost:27017";
@@ -27,7 +34,7 @@ mongoose
     .connect(mongoUrl, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useFindAndModify: false
+        useFindAndModify: false,
     })
     .then(() => {
         console.log("Successfully connected to mongodb");
