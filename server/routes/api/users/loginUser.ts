@@ -53,7 +53,19 @@ const loginUser = (req: Request, res: Response): void => {
                 secretOrKey,
                 { expiresIn: 300 },
                 (err, token) => {
+                    if (err) {
+                        console.error("JWT could not sign the token - ", err);
+
+                        res.status(500).json({
+                            tokenSignError: "The token could not be signed",
+                        });
+
+                        return;
+                    }
+
                     res.status(200).json({ token: `Bearer ${token}` });
+
+                    return;
                 }
             );
 
