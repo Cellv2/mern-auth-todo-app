@@ -1,7 +1,9 @@
 import express, { Router, Request, Response } from "express";
+import jwt from "jsonwebtoken";
 
 import UserCollection from "../../../models/User/user-collection.model";
 import validateLogin from "../../../utils/validations/validate-login";
+import { secretOrKey } from "../../../utils/secrets";
 
 const router: Router = express.Router();
 
@@ -21,6 +23,8 @@ const loginUser = (req: Request, res: Response): void => {
     UserCollection.findOne(query, (err, user) => {
         if (err) {
             console.error(err);
+
+            return;
         }
 
         if (!user) {
@@ -29,6 +33,7 @@ const loginUser = (req: Request, res: Response): void => {
             return;
         }
 
+        // TODO: Add better password checks (#7)
         //@ts-ignore
         if (password !== user.password) {
             res.status(401).json({
@@ -36,10 +41,24 @@ const loginUser = (req: Request, res: Response): void => {
             });
 
             return;
-        }
+        } else {
+            const jwtPayload = {
+                id: user.id,
+                // @ts-ignore
+                username: user.name,
+            };
 
-        // TODO: Add bearer token
-        res.status(200).json({ success: true, token: `Bearer token` });
+            jwt.sign(
+                jwtPayload,
+                secretOrKey,
+                { expiresIn: 300 },
+                (err, token) => {
+                    res.status(200).json({ token: `Bearer ${token}` });
+                }
+            );
+
+            return;
+        }
     });
 
     return;
