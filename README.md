@@ -18,6 +18,13 @@ There are four main goals I have with this project:
 
 Please remember to run npm install in both subfolders - they are projects in their own right.
 
+## .env
+
+Please add a .env file at the root of the project. This must include the following variables:
+| Var name      | Type   | Used for?      | Example                         |
+|---------------|--------|----------------|---------------------------------|
+| SECRET_OR_KEY | String | The JWT secret | SECRET_OR_KEY="GitToThaChoppuh" |
+
 ## Other bits
 
 ### Client
