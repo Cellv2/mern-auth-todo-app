@@ -16,6 +16,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import styles from "./Login.module.scss";
+
 type Props = {};
 type State = {
     email: string;
@@ -69,32 +71,37 @@ class Login extends Component<Props, State> {
 
     render() {
         return (
-            <>
+            <div className={styles.gridMain}>
                 <form onSubmit={this.handleOnSubmit}>
-                    <label htmlFor="username">User Name:</label>
-                    <input
-                        name="username"
-                        type="text"
-                        value={this.state.username}
-                        onChange={this.handleInputOnChange}
-                    />
+                    <div>
+                        <label htmlFor="username">Username:</label>
+                        <input
+                            name="username"
+                            type="text"
+                            value={this.state.username}
+                            onChange={this.handleInputOnChange}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="email">Email:</label>
+                        <input
+                            name="email"
+                            type="text"
+                            value={this.state.email}
+                            onChange={this.handleInputOnChange}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="password">Password:</label>
+                        <input
+                            name="password"
+                            type="text"
+                            value={this.state.password}
+                            onChange={this.handleInputOnChange}
+                            autoComplete="new-password"
+                        />
+                    </div>
 
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        name="email"
-                        type="text"
-                        value={this.state.email}
-                        onChange={this.handleInputOnChange}
-                    />
-
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        name="password"
-                        type="text"
-                        value={this.state.password}
-                        onChange={this.handleInputOnChange}
-                        autoComplete="new-password"
-                    />
                     <button type="submit">Submit</button>
                 </form>
                 <div>
@@ -104,7 +111,7 @@ class Login extends Component<Props, State> {
                     </span>
                     !
                 </div>
-            </>
+            </div>
         );
     }
 }

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import styles from "./Register.module.scss";
+
 type Props = {};
 
 type State = {
@@ -27,17 +29,17 @@ class Register extends Component<Props, State> {
         event.preventDefault();
 
         const key = event.target.name;
-        const val = event.target.value;
+        const value = event.target.value;
 
         this.setState((prevState: State) => ({
             ...prevState,
-            [key]: val,
+            [key]: value,
         }));
     };
 
     render() {
         return (
-            <>
+            <div className={styles.gridMain}>
                 <div>This is the register page</div>
                 <div>
                     Already registered? Click{" "}
@@ -76,7 +78,7 @@ class Register extends Component<Props, State> {
                     </div>
                     <button>Click to submit</button>
                 </form>
-            </>
+            </div>
         );
     }
 }
