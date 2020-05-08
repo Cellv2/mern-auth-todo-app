@@ -14,6 +14,7 @@
 // export default Login;
 
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 type Props = {};
 type State = {
@@ -68,33 +69,42 @@ class Login extends Component<Props, State> {
 
     render() {
         return (
-            <form onSubmit={this.handleOnSubmit}>
-                <label htmlFor="username">User Name:</label>
-                <input
-                    name="username"
-                    type="text"
-                    value={this.state.username}
-                    onChange={this.handleInputOnChange}
-                />
+            <>
+                <form onSubmit={this.handleOnSubmit}>
+                    <label htmlFor="username">User Name:</label>
+                    <input
+                        name="username"
+                        type="text"
+                        value={this.state.username}
+                        onChange={this.handleInputOnChange}
+                    />
 
-                <label htmlFor="email">Email:</label>
-                <input
-                    name="email"
-                    type="text"
-                    value={this.state.email}
-                    onChange={this.handleInputOnChange}
-                />
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        name="email"
+                        type="text"
+                        value={this.state.email}
+                        onChange={this.handleInputOnChange}
+                    />
 
-                <label htmlFor="password">Password:</label>
-                <input
-                    name="password"
-                    type="text"
-                    value={this.state.password}
-                    onChange={this.handleInputOnChange}
-                    autoComplete="new-password"
-                />
-                <button type="submit">Submit</button>
-            </form>
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        name="password"
+                        type="text"
+                        value={this.state.password}
+                        onChange={this.handleInputOnChange}
+                        autoComplete="new-password"
+                    />
+                    <button type="submit">Submit</button>
+                </form>
+                <div>
+                    Not signed up yet? Click{" "}
+                    <span>
+                        <Link to="/register">here</Link>
+                    </span>
+                    !
+                </div>
+            </>
         );
     }
 }
