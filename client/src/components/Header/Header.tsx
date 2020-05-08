@@ -18,7 +18,7 @@ const Header = (props: Props) => {
                 This is the header
                 <div>
                     <nav>
-                        <ul>
+                        <ul className={styles.links}>
                             <li>
                                 <Link to="/">Home</Link>
                             </li>
