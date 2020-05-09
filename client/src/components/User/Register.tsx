@@ -9,7 +9,11 @@ type State = {
     username: string;
     email: string;
     password: string;
-    errors: object;
+    errors?: {
+        username?: string;
+        email?: string;
+        password?: string;
+    };
 };
 
 class Register extends Component<Props, State> {
@@ -20,9 +24,36 @@ class Register extends Component<Props, State> {
         errors: {},
     };
 
-    handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    handleOnSubmit = async (
+        event: React.FormEvent<HTMLFormElement>
+    ): Promise<void> => {
         event.preventDefault();
         console.log("aweadsawdasd");
+
+        const body = {
+            username: this.state.username,
+            email: this.state.email,
+            password: this.state.password,
+        };
+
+        const request = await fetch("/api/users/addUser", {
+            method: "POST",
+            headers: { "Content-Type": "application/json;charset=utf-8" },
+            body: JSON.stringify(body),
+        });
+
+        if ((await request.status) === 400) {
+            const errors = await request.json();
+            console.log(errors);
+
+            this.setState((prevState: State) => ({
+                ...prevState,
+                errors: errors,
+            }));
+        } else {
+            const content = await request.json();
+            console.log(content);
+        }
     };
 
     handleInputOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
