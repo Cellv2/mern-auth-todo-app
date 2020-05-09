@@ -23,6 +23,7 @@ type State = {
     email: string;
     username: string;
     password: string;
+    errors?: {};
 };
 
 class Login extends Component<Props, State> {
@@ -30,6 +31,11 @@ class Login extends Component<Props, State> {
         email: "",
         username: "",
         password: "",
+    };
+
+    readonly userData = {
+        email: this.state.email,
+        password: this.state.password,
     };
 
     handleInputOnChange = (
@@ -65,8 +71,17 @@ class Login extends Component<Props, State> {
             body: JSON.stringify(body),
         });
 
-        const content = await request.json();
-        console.log(content);
+        if ((await request.status) === 400) {
+            const errors = await request.json();
+            this.setState((prevstate: State) => ({
+                ...prevstate,
+                errors: errors,
+            }));
+        } else {
+            const content = await request.json();
+
+            console.log(content);
+        }
     };
 
     render() {
