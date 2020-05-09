@@ -56,7 +56,7 @@ class Register extends Component<Props, State> {
         }
     };
 
-    handleInputOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleInputOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         event.preventDefault();
 
         const key = event.target.name;

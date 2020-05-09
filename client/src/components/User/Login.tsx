@@ -1,18 +1,3 @@
-// import React from "react";
-
-// type Props = {};
-
-// const Login = (props: Props) => {
-//     return (
-//         <div>
-//             <h1>This is the login page</h1>
-//             <p>Definiately a work in process atm!</p>
-//         </div>
-//     );
-// };
-
-// export default Login;
-
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
@@ -22,7 +7,11 @@ type Props = {};
 type State = {
     email: string;
     password: string;
-    errors?: {};
+    errors?: {
+        username?: string;
+        email?: string;
+        password?: string;
+    };
 };
 
 class Login extends Component<Props, State> {
