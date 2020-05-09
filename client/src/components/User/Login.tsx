@@ -21,7 +21,6 @@ import styles from "./Login.module.scss";
 type Props = {};
 type State = {
     email: string;
-    username: string;
     password: string;
     errors?: {};
 };
@@ -29,29 +28,7 @@ type State = {
 class Login extends Component<Props, State> {
     state: State = {
         email: "",
-        username: "",
         password: "",
-    };
-
-    readonly userData = {
-        email: this.state.email,
-        password: this.state.password,
-    };
-
-    handleInputOnChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ): void => {
-        event.preventDefault();
-
-        const key = event.target.name;
-        const value = event.target.value;
-
-        this.setState((prevState: State) => ({
-            ...prevState,
-            [key]: value,
-        }));
-
-        return;
     };
 
     handleOnSubmit = async (
@@ -60,12 +37,11 @@ class Login extends Component<Props, State> {
         event.preventDefault();
 
         const body = {
-            username: this.state.username,
             email: this.state.email,
             password: this.state.password,
         };
 
-        const request = await fetch(`/api/users/addUser`, {
+        const request = await fetch(`/api/users/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=utf-8" },
             body: JSON.stringify(body),
@@ -84,19 +60,26 @@ class Login extends Component<Props, State> {
         }
     };
 
+    handleInputOnChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ): void => {
+        event.preventDefault();
+
+        const key = event.target.name;
+        const value = event.target.value;
+
+        this.setState((prevState: State) => ({
+            ...prevState,
+            [key]: value,
+        }));
+
+        return;
+    };
+
     render() {
         return (
             <div className={styles.gridMain}>
                 <form onSubmit={this.handleOnSubmit}>
-                    <div>
-                        <label htmlFor="username">Username:</label>
-                        <input
-                            name="username"
-                            type="text"
-                            value={this.state.username}
-                            onChange={this.handleInputOnChange}
-                        />
-                    </div>
                     <div>
                         <label htmlFor="email">Email:</label>
                         <input
