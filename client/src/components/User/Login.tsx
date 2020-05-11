@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 import styles from "./Login.module.scss";
 
@@ -8,7 +9,6 @@ type State = {
     email: string;
     password: string;
     errors?: {
-        username?: string;
         email?: string;
         password?: string;
     };
@@ -44,6 +44,9 @@ class Login extends Component<Props, State> {
             }));
         } else {
             const content = await request.json();
+
+            // TODO: Also save token into local storage on login ?
+            console.log(jwtDecode(content.token));
 
             console.log(content);
         }

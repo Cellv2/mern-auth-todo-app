@@ -1,15 +1,10 @@
-import React from 'react'
+import React from "react";
 
-type Props = {
-
-}
+type Props = {};
 
 const Logout = (props: Props) => {
-    return (
-        <div>
-            This is the logout page
-        </div>
-    )
-}
+    // TODO: Remove token from local storage if going down that route
+    return <div>This is the logout page</div>;
+};
 
-export default Logout
+export default Logout;
