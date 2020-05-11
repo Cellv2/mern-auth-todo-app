@@ -102,10 +102,10 @@ const ApiCallButton = (props: Props) => {
                 GET all todos request - Check the console
             </button>
             <button onClick={handlePostRequest}>
-                POST request - Check the console
+                POST request - add todo - Check the console
             </button>
             <button onClick={handlePutRequest}>
-                PUT request - Check the console
+                PUT request - update first todo to userid 3 - Check the console
             </button>
         </>
     );
