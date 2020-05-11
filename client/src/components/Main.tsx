@@ -1,18 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
 import ToDoForm from "./ToDoForm";
 import ApiCallButton from "./ApiCallButton";
 
 import { Item } from "../../types/to-do-types";
+import { ApplicationState } from "../../types/application-state-types";
 
 import styles from "./Main.module.scss";
 
 type Props = {
-
-}
+    applicationState: ApplicationState;
+};
 type State = {
     items?: Item[];
-}
+};
 
 class Main extends Component<Props, State> {
     state: State = {
@@ -134,18 +135,19 @@ class Main extends Component<Props, State> {
     render() {
         return (
             <div className={styles.app}>
-            <header className={styles.appHeader}>
-                <ApiCallButton />
-                <ToDoForm
-                    items={this.state.items}
-                    handleCreateOnClick={this.handleCreateOnClick}
-                    handleIsCompleteChange={this.handleIsCompleteChange}
-                    handleDeleteOnClick={this.handleDeleteOnClick}
-                />
-            </header>
-        </div>
-        )
+                <header className={styles.appHeader}>
+                    The user in the application state is: {this.props.applicationState.user}
+                    <ApiCallButton />
+                    <ToDoForm
+                        items={this.state.items}
+                        handleCreateOnClick={this.handleCreateOnClick}
+                        handleIsCompleteChange={this.handleIsCompleteChange}
+                        handleDeleteOnClick={this.handleDeleteOnClick}
+                    />
+                </header>
+            </div>
+        );
     }
 }
 
-export default Main
+export default Main;
