@@ -59,7 +59,7 @@ class Login extends Component<Props, State> {
             let newAppState = this.props.applicationState;
             newAppState.user = content;
 
-            this.props.handleAppStateUpdate(newAppState)
+            this.props.handleAppStateUpdate(newAppState);
         }
     };
 

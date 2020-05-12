@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import { updateUser, updateUserActions } from "./actions/update-user.action";
+
 import Layout from "./layouts/Layout";
 import Main from "./components/Main";
 import About from "./components/About";
@@ -10,6 +12,7 @@ import Login from "./components/User/Login";
 import Logout from "./components/User/Logout";
 
 import { ApplicationState } from "./types/application-state-types";
+import { StateAction } from "./types/state-action-types";
 
 type Props = {};
 
@@ -21,6 +24,11 @@ class App extends Component<Props, ApplicationState> {
     handleAppStateUpdate = (newState: ApplicationState) => {
         console.log("clicky!");
         console.log(newState);
+
+        // TODO: Find a nicer way to set the state action
+        updateUser(newState, {
+            type: updateUserActions.SET_USER,
+        } as StateAction);
     };
 
     render() {
