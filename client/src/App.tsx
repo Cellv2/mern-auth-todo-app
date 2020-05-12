@@ -18,8 +18,9 @@ class App extends Component<Props, ApplicationState> {
         user: "App state user",
     };
 
-    handleUserUpdate = () => {
+    handleAppStateUpdate = (newState: ApplicationState) => {
         console.log("clicky!");
+        console.log(newState);
     };
 
     render() {
@@ -37,13 +38,19 @@ class App extends Component<Props, ApplicationState> {
                             <Register />
                         </Route>
                         <Route path="/login">
-                            <Login />
+                            <Login
+                                applicationState={this.state}
+                                handleAppStateUpdate={this.handleAppStateUpdate}
+                            />
                         </Route>
                         <Route path="/logout">
                             <Logout />
                         </Route>
                         <Route path="/" exact>
-                            <Main applicationState={this.state} />
+                            <Main
+                                applicationState={this.state}
+                                handleAppStateUpdate={this.handleAppStateUpdate}
+                            />
                         </Route>
                     </Switch>
                 </Layout>

@@ -2,9 +2,15 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
+import { ApplicationState } from "../../../types/application-state-types";
+
 import styles from "./Login.module.scss";
 
-type Props = {};
+type Props = {
+    applicationState: ApplicationState;
+    handleAppStateUpdate: (newState: ApplicationState) => void;
+};
+
 type State = {
     email: string;
     password: string;
@@ -49,6 +55,11 @@ class Login extends Component<Props, State> {
             console.log(jwtDecode(content.token));
 
             console.log(content);
+
+            let newAppState = this.props.applicationState;
+            newAppState.user = content;
+
+            this.props.handleAppStateUpdate(newAppState)
         }
     };
 
