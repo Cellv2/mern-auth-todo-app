@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
-import { ApplicationState } from "../../../types/application-state-types";
+import { ApplicationState } from "../../types/application-state-types";
 
 import styles from "./Login.module.scss";
 

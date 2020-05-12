@@ -9,7 +9,7 @@ import Register from "./components/User/Register";
 import Login from "./components/User/Login";
 import Logout from "./components/User/Logout";
 
-import { ApplicationState } from "../types/application-state-types";
+import { ApplicationState } from "./types/application-state-types";
 
 type Props = {};
 
