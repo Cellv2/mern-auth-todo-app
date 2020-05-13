@@ -12,7 +12,7 @@ import Login from "./components/User/Login";
 import Logout from "./components/User/Logout";
 
 import { ApplicationState } from "./types/application-state-types";
-import { StateAction } from "./types/state-action-types";
+import { StateAction, UpdateStateActions } from "./types/state-action-types";
 
 type Props = {};
 
@@ -21,15 +21,29 @@ class App extends Component<Props, ApplicationState> {
         user: "App state user",
     };
 
-    handleAppStateUpdate = (newState: ApplicationState) => {
+    handleAppStateUpdate = (
+        newState: ApplicationState,
+        actionToTake: UpdateStateActions
+    ) => {
         console.log("clicky!");
         console.log(newState);
+        console.log(actionToTake);
 
         // TODO: Find a nicer way to set the state action
-        updateUser(this.state, {
-            type: updateUserActions.SET_USER,
-            payload: newState
-        } as StateAction);
+
+        let updatedState: ApplicationState = this.state;
+
+        if (actionToTake === "updateUserState") {
+            updatedState = updateUser(this.state, {
+                type: updateUserActions.SET_USER,
+                payload: newState,
+            } as StateAction);
+        }
+
+        this.setState(updatedState, () => {
+            console.log("NEW STATE");
+            console.dir(this.state);
+        });
     };
 
     render() {

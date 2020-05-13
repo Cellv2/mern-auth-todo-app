@@ -5,12 +5,16 @@ import ApiCallButton from "./ApiCallButton";
 
 import { Item } from "../types/to-do-types";
 import { ApplicationState } from "../types/application-state-types";
+import { UpdateStateActions } from "../types/state-action-types";
 
 import styles from "./Main.module.scss";
 
 type Props = {
     applicationState: ApplicationState;
-    handleAppStateUpdate: (newState: ApplicationState) => void;
+    handleAppStateUpdate: (
+        newState: ApplicationState,
+        actionToTake: UpdateStateActions
+    ) => void;
 };
 type State = {
     items?: Item[];

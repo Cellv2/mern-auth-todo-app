@@ -3,12 +3,16 @@ import { Link } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
 import { ApplicationState } from "../../types/application-state-types";
+import { UpdateStateActions } from "../../types/state-action-types";
 
 import styles from "./Login.module.scss";
 
 type Props = {
     applicationState: ApplicationState;
-    handleAppStateUpdate: (newState: ApplicationState) => void;
+    handleAppStateUpdate: (
+        newState: ApplicationState,
+        actionToTake: UpdateStateActions
+    ) => void;
 };
 
 type State = {
@@ -59,7 +63,7 @@ class Login extends Component<Props, State> {
             let newAppState = this.props.applicationState;
             newAppState.user = content;
 
-            this.props.handleAppStateUpdate(newAppState);
+            this.props.handleAppStateUpdate(newAppState, "updateUserState");
         }
     };
 
