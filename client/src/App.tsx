@@ -26,8 +26,9 @@ class App extends Component<Props, ApplicationState> {
         console.log(newState);
 
         // TODO: Find a nicer way to set the state action
-        updateUser(newState, {
+        updateUser(this.state, {
             type: updateUserActions.SET_USER,
+            payload: newState
         } as StateAction);
     };
 
