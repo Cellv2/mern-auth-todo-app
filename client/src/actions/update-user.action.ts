@@ -23,11 +23,12 @@ export const updateUser = (
     switch (action.type) {
         case updateUserActions.SET_USER:
             let newState = state;
-            newState.user = action.payload.user
+            newState.user = action.payload.user;
             console.log("SET_USER action from the switch");
             console.log(newState);
             return newState;
-    }
 
-    return state;
+        default:
+            return state;
+    }
 };
