@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import { updateUser, updateUserActions } from "./actions/update-user.action";
+import { updateTheme, updateThemeActions } from "./actions/update-theme.action";
 
 import Layout from "./layouts/Layout";
 import Main from "./components/Main";
@@ -19,6 +20,7 @@ type Props = {};
 class App extends Component<Props, ApplicationState> {
     state: ApplicationState = {
         user: "App state user",
+        theme: "dark",
     };
 
     handleAppStateUpdate = (
@@ -40,6 +42,13 @@ class App extends Component<Props, ApplicationState> {
             } as StateAction);
         }
 
+        if (actionToTake === "updateThemeState") {
+            updatedState = updateTheme(this.state, {
+                type: updateThemeActions.SET_THEME,
+                payload: newState,
+            });
+        }
+
         this.setState(updatedState, () => {
             console.log("NEW STATE");
             console.dir(this.state);
@@ -55,7 +64,10 @@ class App extends Component<Props, ApplicationState> {
                             <About />
                         </Route>
                         <Route path="/user">
-                            <User />
+                            <User
+                                applicationState={this.state}
+                                handleAppStateUpdate={this.handleAppStateUpdate}
+                            />
                         </Route>
                         <Route path="/register">
                             <Register />

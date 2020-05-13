@@ -4,4 +4,4 @@ export type StateAction = {
 };
 
 // TODO: I don't think this belongs here really? Not sure
-export type UpdateStateActions = "updateUserState" | "Test";
+export type UpdateStateActions = "updateUserState" | "updateThemeState";
