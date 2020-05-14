@@ -20,6 +20,7 @@ type Props = {};
 class App extends Component<Props, ApplicationState> {
     // TODO: Add errors in here
     state: ApplicationState = {
+        isAuthenticated: false,
         user: "App state user",
         theme: "dark",
     };

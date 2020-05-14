@@ -62,6 +62,7 @@ class Login extends Component<Props, State> {
 
             let newAppState = this.props.applicationState;
             newAppState.user = content;
+            newAppState.isAuthenticated = true;
 
             this.props.handleAppStateUpdate(newAppState, "updateUserState");
         }
