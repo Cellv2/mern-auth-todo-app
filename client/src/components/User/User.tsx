@@ -14,8 +14,6 @@ type Props = {
 
 const User = (props: Props) => {
     const handleOnClick = (theme: AvailableThemes) => {
-        console.log(theme);
-
         let newState = props.applicationState;
         newState.theme = theme;
 

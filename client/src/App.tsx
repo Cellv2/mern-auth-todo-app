@@ -13,33 +13,34 @@ import Login from "./components/User/Login";
 import Logout from "./components/User/Logout";
 
 import { ApplicationState } from "./types/application-state-types";
-import { StateAction, UpdateStateActions } from "./types/state-action-types";
+import { UpdateStateActions } from "./types/state-action-types";
 
 type Props = {};
 
 class App extends Component<Props, ApplicationState> {
+    // TODO: Add errors in here
     state: ApplicationState = {
         user: "App state user",
         theme: "dark",
     };
 
+    /**
+     * Core function to update application state
+     * @param {ApplicationState} newState The already updated state object to merge into application state
+     * @param {UpdateStateActions} actionToTake The type of action that will be called
+     */
+
     handleAppStateUpdate = (
         newState: ApplicationState,
         actionToTake: UpdateStateActions
     ) => {
-        console.log("clicky!");
-        console.log(newState);
-        console.log(actionToTake);
-
-        // TODO: Find a nicer way to set the state action
-
         let updatedState: ApplicationState = this.state;
 
         if (actionToTake === "updateUserState") {
             updatedState = updateUser(this.state, {
                 type: updateUserActions.SET_USER,
                 payload: newState,
-            } as StateAction);
+            });
         }
 
         if (actionToTake === "updateThemeState") {
@@ -49,10 +50,7 @@ class App extends Component<Props, ApplicationState> {
             });
         }
 
-        this.setState(updatedState, () => {
-            console.log("NEW STATE");
-            console.dir(this.state);
-        });
+        this.setState(updatedState);
     };
 
     render() {
