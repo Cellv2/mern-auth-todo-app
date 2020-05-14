@@ -78,7 +78,10 @@ class App extends Component<Props, ApplicationState> {
                             />
                         </Route>
                         <Route path="/logout">
-                            <Logout />
+                            <Logout
+                                applicationState={this.state}
+                                handleAppStateUpdate={this.handleAppStateUpdate}
+                            />
                         </Route>
                         <Route path="/" exact>
                             <Main
