@@ -3,9 +3,9 @@ import React, { Component } from "react";
 import ToDoForm from "./ToDoForm";
 import ApiCallButton from "./ApiCallButton";
 
-import { Item } from "../types/to-do-types";
-import { ApplicationState } from "../types/application-state-types";
-import { UpdateStateActions } from "../types/state-action-types";
+import { Item } from "../types/to-do.types";
+import { ApplicationState } from "../types/application-state.types";
+import { UpdateStateActions } from "../types/state-action.types";
 
 import styles from "./Main.module.scss";
 

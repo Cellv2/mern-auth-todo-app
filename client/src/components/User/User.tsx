@@ -1,8 +1,8 @@
 import React from "react";
 
-import { ApplicationState } from "../../types/application-state-types";
-import { UpdateStateActions } from "../../types/state-action-types";
-import { AvailableThemes } from "../../types/theme-types";
+import { ApplicationState } from "../../types/application-state.types";
+import { UpdateStateActions } from "../../types/state-action.types";
+import { AvailableThemes } from "../../types/theme.types";
 
 type Props = {
     applicationState: ApplicationState;

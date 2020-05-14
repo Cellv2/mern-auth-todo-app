@@ -1,5 +1,5 @@
-import { ApplicationState } from "../types/application-state-types";
-import { StateAction } from "../types/state-action-types";
+import { ApplicationState } from "../types/application-state.types";
+import { StateAction } from "../types/state-action.types";
 
 export const updateThemeActions = {
     SET_THEME: "SET_THEME",

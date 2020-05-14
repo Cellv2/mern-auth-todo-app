@@ -12,8 +12,8 @@ import Register from "./components/User/Register";
 import Login from "./components/User/Login";
 import Logout from "./components/User/Logout";
 
-import { ApplicationState } from "./types/application-state-types";
-import { UpdateStateActions } from "./types/state-action-types";
+import { ApplicationState } from "./types/application-state.types";
+import { UpdateStateActions } from "./types/state-action.types";
 
 type Props = {};
 

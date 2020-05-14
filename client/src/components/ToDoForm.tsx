@@ -3,7 +3,7 @@ import React from "react";
 import ToDoItem from "./ToDoItem";
 import ToDoCreate from "./ToDoCreate";
 
-import { Item } from "../types/to-do-types";
+import { Item } from "../types/to-do.types";
 
 type Props = {
     items?: Item[];
