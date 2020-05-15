@@ -1,20 +1,28 @@
 import React from "react";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
 
 import styles from "./Logout.module.scss";
 
-type Props = {
+interface Props extends RouteComponentProps {
     applicationState: ApplicationState;
     handleAppStateUpdate: (
         newState: ApplicationState,
         actionToTake: UpdateStateActions
     ) => void;
-};
+}
 
 const Logout = (props: Props) => {
     // TODO: Remove token from local storage if going down that route
+
+    const redirectToLogin = () => {
+        const { history } = props;
+        if (history) {
+            history.push("/login");
+        }
+    };
 
     const handleOnClick = () => {
         console.log("clicky");
@@ -24,6 +32,8 @@ const Logout = (props: Props) => {
         newAppState.user = null;
 
         props.handleAppStateUpdate(newAppState, "updateUserState");
+
+        redirectToLogin();
     };
 
     return (
@@ -34,4 +44,4 @@ const Logout = (props: Props) => {
     );
 };
 
-export default Logout;
+export default withRouter(Logout);
