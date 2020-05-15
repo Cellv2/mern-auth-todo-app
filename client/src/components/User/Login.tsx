@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
 import { ApplicationState } from "../../types/application-state.types";
@@ -7,13 +7,13 @@ import { UpdateStateActions } from "../../types/state-action.types";
 
 import styles from "./Login.module.scss";
 
-type Props = {
+interface Props extends RouteComponentProps {
     applicationState: ApplicationState;
     handleAppStateUpdate: (
         newState: ApplicationState,
         actionToTake: UpdateStateActions
     ) => void;
-};
+}
 
 type State = {
     email: string;
@@ -28,6 +28,13 @@ class Login extends Component<Props, State> {
     state: State = {
         email: "",
         password: "",
+    };
+
+    redirectToHome = () => {
+        const { history } = this.props;
+        if (history) {
+            history.push("/");
+        }
     };
 
     handleOnSubmit = async (
@@ -65,6 +72,8 @@ class Login extends Component<Props, State> {
             newAppState.isAuthenticated = true;
 
             this.props.handleAppStateUpdate(newAppState, "updateUserState");
+
+            this.redirectToHome();
         }
     };
 
@@ -122,4 +131,4 @@ class Login extends Component<Props, State> {
     }
 }
 
-export default Login;
+export default withRouter(Login);

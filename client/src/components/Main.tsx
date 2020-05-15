@@ -141,8 +141,8 @@ class Main extends Component<Props, State> {
         return (
             <div className={styles.app}>
                 <header className={styles.appHeader}>
-                    The user in the application state is:{" "}
-                    {this.props.applicationState.user}
+                    {/* The user in the application state is:{" "}
+                    {this.props.applicationState.user} */}
                     <ApiCallButton />
                     <ToDoForm
                         items={this.state.items}
