@@ -4,6 +4,8 @@ import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
 import { AvailableThemes } from "../../types/theme.types";
 
+import styles from "./User.module.scss";
+
 type Props = {
     applicationState: ApplicationState;
     handleAppStateUpdate: (
@@ -21,7 +23,7 @@ const User = (props: Props) => {
     };
 
     return (
-        <div>
+        <div className={styles.grid}>
             <h1>This is the user page</h1>
             <p>The current theme is: {props.applicationState.theme}</p>
             <button onClick={() => handleOnClick("dark")}>
