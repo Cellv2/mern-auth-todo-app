@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 export interface ToDoCollection extends mongoose.Document {
     userid: string;
     isComplete: boolean;
-    text: string
+    text: string;
 }
 
 const todoSchema = new Schema({
