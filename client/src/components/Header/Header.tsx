@@ -6,7 +6,9 @@ import ProfileDropdown from "./ProfileDropdown";
 
 import styles from "./Header.module.scss";
 
-type Props = {};
+type Props = {
+    isAuthenticated: boolean;
+};
 
 const Header = (props: Props) => {
     return (
@@ -42,7 +44,7 @@ const Header = (props: Props) => {
                 </div>
             </div>
             <div className={styles.profileDropdown}>
-                <ProfileDropdown />
+                <ProfileDropdown isAuthenticated={props.isAuthenticated} />
             </div>
         </>
     );
