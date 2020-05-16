@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 
 const Schema = mongoose.Schema;
 
-export interface IUserCollection extends mongoose.Document {
+export interface UserCollection extends mongoose.Document {
     name: string;
     email: string;
     password: string;
@@ -25,7 +25,7 @@ const userSchema = new Schema({
     todos: [{ type: Schema.Types.ObjectId, ref: "Todo" }],
 });
 
-userSchema.pre<IUserCollection>("save", function (next) {
+userSchema.pre<UserCollection>("save", function (next) {
     if (this.isModified("password")) {
         return bcrypt.hash(this.password, 10, (err, hash) => {
             if (err) {
@@ -38,5 +38,5 @@ userSchema.pre<IUserCollection>("save", function (next) {
     }
 });
 
-const UserCollection = mongoose.model<IUserCollection>("User", userSchema);
+const UserCollection = mongoose.model<UserCollection>("User", userSchema);
 export default UserCollection;
