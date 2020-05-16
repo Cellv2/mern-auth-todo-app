@@ -3,6 +3,14 @@ import bcrypt from "bcryptjs";
 
 const Schema = mongoose.Schema;
 
+export interface IUserCollection extends mongoose.Document {
+    name: string;
+    email: string;
+    password: string;
+    // TODO: Remove todos[] as part of #4
+    todos: any[];
+}
+
 const userSchema = new Schema({
     name: String,
     email: {
@@ -13,23 +21,22 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    // TODO: Remove todos[] as part of #4
     todos: [{ type: Schema.Types.ObjectId, ref: "Todo" }],
 });
 
-userSchema.pre("save", function (next) {
+userSchema.pre<IUserCollection>("save", function (next) {
     if (this.isModified("password")) {
-        //@ts-expect-error
         return bcrypt.hash(this.password, 10, (err, hash) => {
             if (err) {
                 return next(err);
             }
 
-            //@ts-expect-error
             this.password = hash;
             next();
         });
     }
 });
 
-const UserCollection = mongoose.model("User", userSchema);
+const UserCollection = mongoose.model<IUserCollection>("User", userSchema);
 export default UserCollection;

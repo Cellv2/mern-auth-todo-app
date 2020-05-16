@@ -34,7 +34,6 @@ const loginUser = (req: Request, res: Response): void => {
             return;
         }
 
-        // @ts-expect-error
         bcrypt.compare(password, user.password).then((isMatch) => {
             if (!isMatch) {
                 res.status(401).json({
@@ -45,7 +44,6 @@ const loginUser = (req: Request, res: Response): void => {
             } else {
                 const jwtPayload = {
                     id: user.id,
-                    // @ts-expect-error
                     username: user.name,
                 };
 
