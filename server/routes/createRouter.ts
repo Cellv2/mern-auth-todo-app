@@ -1,4 +1,6 @@
 import express, { Router } from "express";
+import passport from "passport";
+
 import addUser from "./api/users/addUser";
 import loginUser from "./api/users/loginUser";
 import getUser from "./api/users/id/getUser";
@@ -29,9 +31,9 @@ router.use("/api", deleteUser);
 router.use("/api", updatePassword);
 
 /**
- * /api/users/todos
+ * /api/users/:id/todos
  */
-router.use("/api", getTodos);
+router.use("/api", passport.authenticate("jwt", { session: false }), getTodos);
 router.use("/api", addTodo);
 
 /**

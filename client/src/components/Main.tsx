@@ -43,7 +43,13 @@ class Main extends Component<Props, State> {
             const decodedToken: UserToken = JwtDecode(token);
 
             const fetchUserTodos = await fetch(
-                `/api/users/${decodedToken.id}/todos`
+                `/api/users/${decodedToken.id}/todos`,
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: token,
+                    },
+                }
             );
             const userTodos: Item[] = await fetchUserTodos.json();
 
