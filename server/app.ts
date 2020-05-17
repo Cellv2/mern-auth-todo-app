@@ -61,6 +61,15 @@ app.get("/api/kek", (req, res) => {
     res.json({ kek: "top kek" });
 });
 
+// Test passport-jwt authenticated route
+app.get(
+    "/api/testAuth",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        res.send("Authed");
+    }
+);
+
 // router
 app.use("/", router);
 
