@@ -7,6 +7,7 @@ import { Item } from "../types/to-do.types";
 
 type Props = {
     items?: Item[];
+    isAuthenticated: boolean;
     handleCreateOnClick: (inText: string) => void;
     handleIsCompleteChange: (index: number) => void;
     handleDeleteOnClick: (index: number) => void;
@@ -15,6 +16,7 @@ type Props = {
 const ToDoForm = (props: Props) => {
     const {
         items,
+        isAuthenticated,
         handleCreateOnClick,
         handleIsCompleteChange,
         handleDeleteOnClick,
@@ -40,6 +42,7 @@ const ToDoForm = (props: Props) => {
     return (
         <div>
             <p>There should probably be a header here or something</p>
+            {!isAuthenticated && <p>You are not signed in! You will lose your items if you leave the page</p>}
             <ToDoCreate handleCreateOnClick={handleCreateOnClick} />
             {toDoItems}
         </div>

@@ -146,6 +146,9 @@ class Main extends Component<Props, State> {
                     <ApiCallButton />
                     <ToDoForm
                         items={this.state.items}
+                        isAuthenticated={
+                            this.props.applicationState.isAuthenticated
+                        }
                         handleCreateOnClick={this.handleCreateOnClick}
                         handleIsCompleteChange={this.handleIsCompleteChange}
                         handleDeleteOnClick={this.handleDeleteOnClick}
