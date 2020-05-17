@@ -13,6 +13,10 @@ import deleteTodo from "./api/users/todos/id/deleteTodo";
 
 const router: Router = express.Router();
 
+// -----
+// PUBLIC ROUTES
+// -----
+
 /**
  * /api/users
  */
@@ -31,15 +35,18 @@ router.use("/api", deleteUser);
 router.use("/api", updatePassword);
 
 /**
- * /api/users/:id/todos
- */
-router.use("/api", passport.authenticate("jwt", { session: false }), getTodos);
-router.use("/api", addTodo);
-
-/**
  * /api/users/todos/:id
  */
 router.use("/api", updateTodo);
 router.use("/api", deleteTodo);
+
+// -----
+// PRIVATE ROUTES
+// -----
+/**
+ * /api/users/:id/todos
+ */
+router.use("/api", passport.authenticate("jwt", { session: false }), getTodos);
+router.use("/api", passport.authenticate("jwt", { session: false }), addTodo);
 
 export default router;

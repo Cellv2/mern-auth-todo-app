@@ -38,7 +38,6 @@ class Main extends Component<Props, State> {
 
     handleGetAllUserTodos = async (): Promise<void> => {
         if (this.props.applicationState.isAuthenticated) {
-            // TODO: Do I do this with a token via query string or with :id?
             const token = this.props.applicationState.user.token as string;
             const decodedToken: UserToken = JwtDecode(token);
 
@@ -78,29 +77,38 @@ class Main extends Component<Props, State> {
         return;
     };
 
+    // TODO: Allow a user to not be signed in and still create items
     handleCreateOnClick = async (inText: string): Promise<void> => {
-        const newItem = { isCompleted: false, text: inText };
+        if (this.props.applicationState.isAuthenticated) {
+            const token = this.props.applicationState.user.token as string;
+            const decodedToken: UserToken = JwtDecode(token);
+            const newItem = { isCompleted: false, text: inText };
 
-        const response = await fetch(`/api/users/todos`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json;charset=utf-8",
-            },
-            body: JSON.stringify(newItem),
-        });
+            const response = await fetch(
+                `/api/users/${decodedToken.id}/todos`,
+                {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: token,
+                        "Content-Type": "application/json;charset=utf-8",
+                    },
+                    body: JSON.stringify(newItem),
+                }
+            );
 
-        const createdItem: Item = await response.json();
+            const createdItem: Item = await response.json();
 
-        console.log(createdItem);
+            console.log(createdItem);
 
-        const stateItems = this.state.items ?? [];
-        const newItems = [...stateItems, createdItem];
+            const stateItems = this.state.items ?? [];
+            const newItems = [...stateItems, createdItem];
 
-        this.setState((prevState: State) => ({
-            ...prevState,
-            items: newItems,
-        }));
+            this.setState((prevState: State) => ({
+                ...prevState,
+                items: newItems,
+            }));
+        }
     };
 
     handleIsCompleteChange = (index: number): void => {
