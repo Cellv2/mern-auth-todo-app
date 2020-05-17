@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import JwtDecode from "jwt-decode";
 
 import ToDoForm from "./ToDoForm";
 import ApiCallButton from "./ApiCallButton";
 
 import { Item } from "../types/to-do.types";
-import { ApplicationState } from "../types/application-state.types";
+import { ApplicationState, UserToken } from "../types/application-state.types";
 import { UpdateStateActions } from "../types/state-action.types";
 
 import styles from "./Main.module.scss";
@@ -37,6 +38,12 @@ class Main extends Component<Props, State> {
 
     handleGetAllUserTodos = async (): Promise<void> => {
         if (this.props.applicationState.isAuthenticated) {
+            // TODO: Do I do this with a token via query string or with :id?
+            const token = (this.props.applicationState.user.token) as string;
+            const decodedToken: UserToken = JwtDecode(token);
+
+            console.log(token);
+            console.log(decodedToken.id);
             const fetchUserTodos = await fetch(`/api/users/todos`);
             const userTodos: Item[] = await fetchUserTodos.json();
 
