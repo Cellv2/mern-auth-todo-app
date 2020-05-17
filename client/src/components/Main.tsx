@@ -39,12 +39,12 @@ class Main extends Component<Props, State> {
     handleGetAllUserTodos = async (): Promise<void> => {
         if (this.props.applicationState.isAuthenticated) {
             // TODO: Do I do this with a token via query string or with :id?
-            const token = (this.props.applicationState.user.token) as string;
+            const token = this.props.applicationState.user.token as string;
             const decodedToken: UserToken = JwtDecode(token);
 
-            console.log(token);
-            console.log(decodedToken.id);
-            const fetchUserTodos = await fetch(`/api/users/todos`);
+            const fetchUserTodos = await fetch(
+                `/api/users/${decodedToken.id}/todos`
+            );
             const userTodos: Item[] = await fetchUserTodos.json();
 
             if (userTodos.length) {

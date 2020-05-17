@@ -62,7 +62,7 @@ const ApiCallButton = (props: Props) => {
             text: "This is from the test POST button",
         };
 
-        const response = await fetch(`/api/users/todos`, {
+        const response = await fetch(`/api/users/1/todos`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
