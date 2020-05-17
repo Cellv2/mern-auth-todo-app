@@ -4,10 +4,11 @@ import TodoCollection from "../../../../models/Todo/todo-collection.model";
 const router: Router = express.Router();
 
 const createTodo = (req: Request, res: Response) => {
+    const id: string = req.params.id;
     const text = req.body.text;
 
     const todo = new TodoCollection({
-        userid: 1,
+        userid: id,
         isComplete: false,
         text: text,
     });
@@ -25,7 +26,7 @@ const createTodo = (req: Request, res: Response) => {
     return;
 };
 
-router.post("/users/todos", (req: Request, res: Response) => {
+router.post("/users/:id/todos", (req: Request, res: Response) => {
     createTodo(req, res);
 });
 

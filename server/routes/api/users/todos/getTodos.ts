@@ -3,17 +3,7 @@ import TodoCollection from "../../../../models/Todo/todo-collection.model";
 
 const router: Router = express.Router();
 
-// router.get("/users/todos", (req: Request, res: Response) => {
-//     TodoCollection.find((err, todo) => {
-//         if (err) {
-//             console.error(err);
-//         }
-
-//         res.json(todo);
-//     });
-// });
-
-router.get("/users/:id/todos", (req: Request, res: Response) => {
+const getUserTodos = (req: Request, res: Response) => {
     const id: string = req.params.id;
     const query = { userid: id };
 
@@ -26,8 +16,13 @@ router.get("/users/:id/todos", (req: Request, res: Response) => {
 
         console.log(todos);
         res.json(todos);
-        return;
     });
+
+    return;
+};
+
+router.get("/users/:id/todos", (req: Request, res: Response) => {
+    getUserTodos(req, res);
 });
 
 export default router;
