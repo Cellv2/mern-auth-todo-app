@@ -21,7 +21,10 @@ class App extends Component<Props, ApplicationState> {
     // TODO: Add errors in here
     state: ApplicationState = {
         isAuthenticated: false,
-        user: "App state user",
+        user: {
+            username: "",
+            token: "",
+        },
         theme: "dark",
     };
 
