@@ -36,29 +36,30 @@ class Main extends Component<Props, State> {
     }
 
     handleGetAllUserTodos = async (): Promise<void> => {
-        // TODO: Make sure this has authentication around it
-        const fetchUserTodos = await fetch(`/api/users/todos`);
-        const userTodos: Item[] = await fetchUserTodos.json();
+        if (this.props.applicationState.isAuthenticated) {
+            const fetchUserTodos = await fetch(`/api/users/todos`);
+            const userTodos: Item[] = await fetchUserTodos.json();
 
-        if (userTodos.length) {
-            const todoToItems: Item[] = userTodos.map((todo) => {
-                const item: Item = {
-                    _id: todo._id,
-                    userid: todo.userid,
-                    isComplete: todo.isComplete,
-                    text: todo.text,
-                };
+            if (userTodos.length) {
+                const todoToItems: Item[] = userTodos.map((todo) => {
+                    const item: Item = {
+                        _id: todo._id,
+                        userid: todo.userid,
+                        isComplete: todo.isComplete,
+                        text: todo.text,
+                    };
 
-                return item;
-            });
+                    return item;
+                });
 
-            const stateItems = this.state.items ?? [];
-            const newItems = [...stateItems, ...todoToItems];
+                const stateItems = this.state.items ?? [];
+                const newItems = [...stateItems, ...todoToItems];
 
-            this.setState((prevState: State) => ({
-                ...prevState,
-                items: newItems,
-            }));
+                this.setState((prevState: State) => ({
+                    ...prevState,
+                    items: newItems,
+                }));
+            }
         }
 
         return;
