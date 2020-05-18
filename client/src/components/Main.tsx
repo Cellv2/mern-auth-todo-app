@@ -39,17 +39,13 @@ class Main extends Component<Props, State> {
     handleGetAllUserTodos = async (): Promise<void> => {
         if (this.props.applicationState.isAuthenticated) {
             const token = this.props.applicationState.user.token as string;
-            const decodedToken: UserToken = JwtDecode(token);
 
-            const fetchUserTodos = await fetch(
-                `/api/users/${decodedToken.id}/todos`,
-                {
-                    method: "GET",
-                    headers: {
-                        Authorization: token,
-                    },
-                }
-            );
+            const fetchUserTodos = await fetch(`/api/user/todos`, {
+                method: "GET",
+                headers: {
+                    Authorization: token,
+                },
+            });
             const userTodos: Item[] = await fetchUserTodos.json();
 
             if (userTodos.length) {
