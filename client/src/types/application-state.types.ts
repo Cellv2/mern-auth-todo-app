@@ -2,7 +2,7 @@ import { JwtHeader } from "jsonwebtoken";
 
 export type ApplicationState = {
     isAuthenticated: boolean;
-    user: User;
+    user: User | null;
     theme: string;
 };
 

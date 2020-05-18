@@ -37,8 +37,9 @@ class Main extends Component<Props, State> {
     }
 
     handleGetAllUserTodos = async (): Promise<void> => {
-        if (this.props.applicationState.isAuthenticated) {
-            const token = this.props.applicationState.user.token as string;
+        const { isAuthenticated, user } = this.props.applicationState;
+        if (isAuthenticated && user !== null) {
+            const token = user.token as string;
 
             const fetchUserTodos = await fetch(`/api/user/todos`, {
                 method: "GET",
@@ -75,8 +76,9 @@ class Main extends Component<Props, State> {
 
     // TODO: Allow a user to not be signed in and still create items
     handleCreateOnClick = async (inText: string): Promise<void> => {
-        if (this.props.applicationState.isAuthenticated) {
-            const token = this.props.applicationState.user.token as string;
+        const { isAuthenticated, user } = this.props.applicationState;
+        if (isAuthenticated && user !== null) {
+            const token = user.token as string;
             const decodedToken: UserToken = JwtDecode(token);
             const newItem = { isCompleted: false, text: inText };
 
