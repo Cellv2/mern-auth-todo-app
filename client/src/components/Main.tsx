@@ -79,21 +79,17 @@ class Main extends Component<Props, State> {
         const { isAuthenticated, user } = this.props.applicationState;
         if (isAuthenticated && user !== null) {
             const token = user.token as string;
-            const decodedToken: UserToken = JwtDecode(token);
             const newItem = { isCompleted: false, text: inText };
 
-            const response = await fetch(
-                `/api/users/${decodedToken.id}/todos`,
-                {
-                    method: "POST",
-                    headers: {
-                        Accept: "application/json",
-                        Authorization: token,
-                        "Content-Type": "application/json;charset=utf-8",
-                    },
-                    body: JSON.stringify(newItem),
-                }
-            );
+            const response = await fetch(`/api/user/todos`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    Authorization: token,
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                body: JSON.stringify(newItem),
+            });
 
             const createdItem: Item = await response.json();
 
