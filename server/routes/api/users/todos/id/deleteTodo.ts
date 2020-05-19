@@ -11,6 +11,9 @@ const deleteTodo = (req: Request, res: Response): void => {
     TodoCollection.findOneAndDelete(query, (err, deleted) => {
         if (err) {
             console.error("There was a problem deleting the item", err);
+            res.sendStatus(500);
+
+            return;
         }
 
         res.statusCode = 200;

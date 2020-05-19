@@ -9,6 +9,9 @@ const deleteUser = (req: Request, res: Response): void => {
     UserCollection.findByIdAndDelete(id, (err, deleted) => {
         if (err) {
             console.error(err);
+            res.sendStatus(500);
+
+            return;
         }
 
         res.statusCode = 200;

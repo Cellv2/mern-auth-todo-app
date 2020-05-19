@@ -18,6 +18,13 @@ const addUser = (req: Request, res: Response): void => {
     const email = req.body.email;
     const query = { email: email };
     UserCollection.findOne(query, (err, user) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+
+            return;
+        }
+
         if (user) {
             res.status(400).json({ email: "Email is already in use" });
 

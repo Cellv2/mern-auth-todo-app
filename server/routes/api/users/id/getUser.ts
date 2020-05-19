@@ -11,6 +11,9 @@ const getUser = (req: Request, res: Response): void => {
         .exec((err, user) => {
             if (err) {
                 console.error(err);
+                res.sendStatus(500);
+
+                return;
             }
 
             res.json(user);
