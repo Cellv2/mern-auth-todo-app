@@ -1,33 +1,59 @@
 import express, { Router, Request, Response } from "express";
+import jwt from "jsonwebtoken";
+
+import { secretOrKey } from "../../../../../server/utils/secrets";
 import TodoCollection from "../../../../models/Todo/todo-collection.model";
 
 const router: Router = express.Router();
 
-const createTodo = (req: Request, res: Response) => {
-    const id: string = req.params.id;
-    const text = req.body.text;
+const createToDo = (req: Request, res: Response) => {
+    if (!req.headers.authorization) {
+        res.sendStatus(401);
 
-    const todo = new TodoCollection({
-        userid: id,
-        isComplete: false,
-        text: text,
-    });
+        return;
+    }
 
-    todo.save((err) => {
+    const token = req.headers.authorization.split(" ")[1];
+
+    jwt.verify(token, secretOrKey, (err, authorizedData) => {
         if (err) {
-            console.error("Something went wrong when adding the todo - ", err);
+            console.error(err);
+            res.send(500);
+
+            return;
+        } else {
+            if (!authorizedData) {
+                res.sendStatus(401);
+            } else {
+                //@ts-expect-error
+                const id: string = authorizedData.id;
+                const text: string = req.body.text;
+
+                const todo = new TodoCollection({
+                    userid: id,
+                    isComplete: false,
+                    text: text,
+                });
+
+                todo.save((err) => {
+                    if (err) {
+                        console.error(err);
+
+                        return;
+                    }
+
+                    res.status(201);
+                    res.json(todo);
+                });
+            }
+
             return;
         }
-
-        res.status(201);
-        res.json(todo);
     });
-
-    return;
 };
 
-router.post("/users/:id/todos", (req: Request, res: Response) => {
-    createTodo(req, res);
+router.post("/user/todos", (req: Request, res: Response) => {
+    createToDo(req, res);
 });
 
 export default router;

@@ -43,14 +43,11 @@ router.use("/api", deleteTodo);
 // -----
 // PRIVATE ROUTES
 // -----
-/**
- * /api/users/todos
- */
-router.use("/api", passport.authenticate("jwt", { session: false }), getTodos);
 
 /**
- * /api/users/:id/todos
+ * /api/user/todos
  */
+router.use("/api", passport.authenticate("jwt", { session: false }), getTodos);
 router.use("/api", passport.authenticate("jwt", { session: false }), addTodo);
 
 export default router;

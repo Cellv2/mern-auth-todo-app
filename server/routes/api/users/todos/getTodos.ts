@@ -1,7 +1,7 @@
 import express, { Router, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { secretOrKey } from "../../../../utils/secrets";
 
+import { secretOrKey } from "../../../../utils/secrets";
 import TodoCollection from "../../../../models/Todo/todo-collection.model";
 
 const router: Router = express.Router();
@@ -16,7 +16,7 @@ const getUserTodos = (req: Request, res: Response) => {
 
     jwt.verify(token, secretOrKey, (err, authorizedData) => {
         if (err) {
-            console.log(err);
+            console.error(err);
             res.sendStatus(500);
 
             return;
