@@ -24,12 +24,13 @@ const loginUser = (req: Request, res: Response): void => {
     UserCollection.findOne(query, (err, user) => {
         if (err) {
             console.error(err);
+            res.sendStatus(500);
 
             return;
         }
 
         if (!user) {
-            res.status(404).json({ emailError: "The email was not found" });
+            res.status(404).json({ emailNotFound: "The email was not found" });
 
             return;
         }

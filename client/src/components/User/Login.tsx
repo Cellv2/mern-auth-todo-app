@@ -55,6 +55,7 @@ class Login extends Component<Props, State> {
 
         if (!(await request.ok)) {
             const errors = await request.json();
+            console.log(errors);
             this.setState((prevstate: State) => ({
                 ...prevstate,
                 errors: errors,
@@ -66,6 +67,11 @@ class Login extends Component<Props, State> {
             console.log(jwtDecode(content.token));
 
             console.log(content);
+
+            this.setState((prevState: State) => ({
+                ...prevState,
+                errors: {},
+            }));
 
             let newAppState = this.props.applicationState;
             newAppState.user = content;
@@ -98,6 +104,12 @@ class Login extends Component<Props, State> {
     render() {
         return (
             <div className={styles.gridMain}>
+                {this.state.errors?.email && (
+                    <p>Error: {this.state.errors.email}</p>
+                )}
+                {this.state.errors?.password && (
+                    <p>Error: {this.state.errors.password}</p>
+                )}
                 <form onSubmit={this.handleOnSubmit}>
                     <div>
                         <label htmlFor="email">Email:</label>
