@@ -53,7 +53,7 @@ class Login extends Component<Props, State> {
             body: JSON.stringify(body),
         });
 
-        if ((await request.status) === 400) {
+        if (!(await request.ok)) {
             const errors = await request.json();
             this.setState((prevstate: State) => ({
                 ...prevstate,
@@ -75,6 +75,8 @@ class Login extends Component<Props, State> {
 
             this.redirectToHome();
         }
+
+        return;
     };
 
     handleInputOnChange = (
