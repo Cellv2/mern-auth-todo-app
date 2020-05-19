@@ -18,9 +18,8 @@ interface Props extends RouteComponentProps {
 type State = {
     email: string;
     password: string;
-    errors?: {
-        email?: string;
-        password?: string;
+    errors: {
+        [key: string]: string;
     };
 };
 
@@ -28,6 +27,7 @@ class Login extends Component<Props, State> {
     state: State = {
         email: "",
         password: "",
+        errors: {},
     };
 
     redirectToHome = () => {
@@ -104,12 +104,12 @@ class Login extends Component<Props, State> {
     render() {
         return (
             <div className={styles.gridMain}>
-                {this.state.errors?.email && (
-                    <p>Error: {this.state.errors.email}</p>
-                )}
-                {this.state.errors?.password && (
-                    <p>Error: {this.state.errors.password}</p>
-                )}
+                {Object.keys(this.state.errors).length > 0 &&
+                    Object.keys(this.state.errors).map((error) => {
+                        return (
+                            <p key={error} className={styles.error}>Error: {this.state.errors[error]}</p>
+                        );
+                    })}
                 <form onSubmit={this.handleOnSubmit}>
                     <div>
                         <label htmlFor="email">Email:</label>
