@@ -1,7 +1,7 @@
 import express, { Router, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-import { secretOrKey } from "../../../../../server/utils/secrets";
+import { secretOrKey } from "../../../../utils/secrets";
 import TodoCollection from "../../../../models/Todo/todo-collection.model";
 
 const router: Router = express.Router();

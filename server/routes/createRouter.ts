@@ -1,15 +1,15 @@
 import express, { Router } from "express";
 import passport from "passport";
 
-import addUser from "./api/users/addUser";
-import loginUser from "./api/users/loginUser";
-import deleteUser from "./api/users/id/deleteUser";
-import updatePassword from "./api/users/id/password/updatePassword";
+import addUser from "./api/users/add-user";
+import loginUser from "./api/users/login-user";
+import deleteUser from "./api/users/id/delete-user";
+import updatePassword from "./api/users/id/password/update-password";
 import getProfile from "./api/users/id/get-profile";
-import getTodos from "./api/users/todos/getTodos";
-import addTodo from "./api/users/todos/addTodo";
-import updateTodo from "./api/users/todos/id/updateTodo";
-import deleteTodo from "./api/users/todos/id/deleteTodo";
+import getTodos from "./api/users/todos/get-todos";
+import addTodo from "./api/users/todos/add-todo";
+import updateTodo from "./api/users/todos/id/update-todo";
+import deleteTodo from "./api/users/todos/id/delete-todo";
 
 const router: Router = express.Router();
 
