@@ -7,8 +7,6 @@ export interface UserCollection extends mongoose.Document {
     name: string;
     email: string;
     password: string;
-    // TODO: Remove todos[] as part of #4
-    todos: any[];
 }
 
 const userSchema = new Schema({
@@ -21,8 +19,6 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    // TODO: Remove todos[] as part of #4
-    todos: [{ type: Schema.Types.ObjectId, ref: "Todo" }],
 });
 
 userSchema.pre<UserCollection>("save", function (next) {

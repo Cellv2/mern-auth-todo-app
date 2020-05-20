@@ -6,18 +6,16 @@ const router: Router = express.Router();
 const getUser = (req: Request, res: Response): void => {
     const id: string = "" + req.params.id;
 
-    UserCollection.findById(id)
-        .populate("todos")
-        .exec((err, user) => {
-            if (err) {
-                console.error(err);
-                res.sendStatus(500);
+    UserCollection.findById(id, (err, user) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
 
-                return;
-            }
+            return;
+        }
 
-            res.json(user);
-        });
+        res.json(user);
+    });
 
     return;
 };

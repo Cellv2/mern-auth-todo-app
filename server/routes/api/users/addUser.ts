@@ -35,7 +35,6 @@ const addUser = (req: Request, res: Response): void => {
             name: req.body.username,
             email: req.body.email,
             password: req.body.password,
-            // todos: ["5eaf07d7bcdbc64d6851f536", "5eaf07d7bcdbc64d6851f537"],
         });
 
         newUser.save((err) => {
