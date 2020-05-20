@@ -37,7 +37,12 @@ const getUserProfile = (req: Request, res: Response) => {
                             return;
                         }
 
-                        res.json(user);
+                        // We don't want to send the id or password back through the response
+                        let userObj = user?.toObject();
+                        delete userObj._id;
+                        delete userObj.password;
+
+                        res.json(userObj);
 
                         return;
                     });
