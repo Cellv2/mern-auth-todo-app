@@ -55,7 +55,6 @@ const getUserProfile = (req: Request, res: Response) => {
 };
 
 router.get("/user/profile", (req: Request, res: Response) => {
-    // res.send("user profile page");
     getUserProfile(req, res);
 });
 
