@@ -3,7 +3,6 @@ import passport from "passport";
 
 import addUser from "./api/users/addUser";
 import loginUser from "./api/users/loginUser";
-import getUser from "./api/users/id/getUser";
 import deleteUser from "./api/users/id/deleteUser";
 import updatePassword from "./api/users/id/password/updatePassword";
 import getProfile from "./api/users/id/get-profile";
@@ -27,7 +26,6 @@ router.use("/api", loginUser);
 /**
  * /api/users/:id
  */
-router.use("/api", getUser);
 router.use("/api", deleteUser);
 
 /**
@@ -41,11 +39,9 @@ router.use("/api", updatePassword);
 router.use("/api", updateTodo);
 router.use("/api", deleteTodo);
 
-
 // -----
 // PRIVATE ROUTES
 // -----
-
 
 /**
  * /api/user/todos
@@ -56,6 +52,10 @@ router.use("/api", passport.authenticate("jwt", { session: false }), addTodo);
 /**
  * /api/user/profile
  */
-router.use("/api", passport.authenticate("jwt", { session: false }), getProfile);
+router.use(
+    "/api",
+    passport.authenticate("jwt", { session: false }),
+    getProfile
+);
 
 export default router;
