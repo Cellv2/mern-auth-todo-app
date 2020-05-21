@@ -6,6 +6,7 @@ import loginUser from "./api/users/login-user";
 import deleteUser from "./api/users/id/delete-user";
 import updatePassword from "./api/users/id/password/update-password";
 import getProfile from "./api/users/id/get-profile";
+import updateProfile from "./api/users/id/update-profile";
 import getTodos from "./api/users/todos/get-todos";
 import addTodo from "./api/users/todos/add-todo";
 import updateTodo from "./api/users/todos/id/update-todo";
@@ -38,6 +39,9 @@ router.use("/api", updatePassword);
  */
 router.use("/api", updateTodo);
 router.use("/api", deleteTodo);
+
+// TEMP - PLEASE MOVE
+router.use("/api", updateProfile);
 
 // -----
 // PRIVATE ROUTES
