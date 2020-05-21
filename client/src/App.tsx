@@ -7,7 +7,7 @@ import { updateTheme, updateThemeActions } from "./actions/update-theme.action";
 import Layout from "./layouts/Layout";
 import Main from "./components/Main";
 import About from "./components/About";
-import User from "./components/User/User";
+import UserProfile from "./components/User/UserProfile";
 import Register from "./components/User/Register";
 import Login from "./components/User/Login";
 import Logout from "./components/User/Logout";
@@ -65,8 +65,8 @@ class App extends Component<Props, ApplicationState> {
                         <Route path="/about">
                             <About />
                         </Route>
-                        <Route path="/user">
-                            <User
+                        <Route path="/profile">
+                            <UserProfile
                                 applicationState={this.state}
                                 handleAppStateUpdate={this.handleAppStateUpdate}
                             />

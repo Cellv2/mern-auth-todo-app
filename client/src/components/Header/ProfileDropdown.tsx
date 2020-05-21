@@ -31,7 +31,7 @@ class ProfileDropdown extends Component<Props, State> {
                 <ul className={this.state.isOpen ? "open" : `${styles.closed}`}>
                     {this.props.isAuthenticated ? (
                         <>
-                            <Link to="/user">View Profile</Link>
+                            <Link to="/profile">View Profile</Link>
                             <Link to="/logout">Log Out</Link>
                         </>
                     ) : (

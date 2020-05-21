@@ -28,7 +28,7 @@ const Header = (props: Props) => {
                                 <Link to="/about">About</Link>
                             </li>
                             <li>
-                                <Link to="/user">User</Link>
+                                <Link to="/profile">User Profile</Link>
                             </li>
                             <li>
                                 <Link to="/register">Register</Link>

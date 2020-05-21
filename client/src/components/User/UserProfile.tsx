@@ -4,7 +4,7 @@ import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
 import { AvailableThemes } from "../../types/theme.types";
 
-import styles from "./User.module.scss";
+import styles from "./UserProfile.module.scss";
 
 type Props = {
     applicationState: ApplicationState;
@@ -14,7 +14,7 @@ type Props = {
     ) => void;
 };
 
-const User = (props: Props) => {
+const UserProfile = (props: Props) => {
     const handleOnClick = (theme: AvailableThemes) => {
         let newState = props.applicationState;
         newState.theme = theme;
@@ -36,4 +36,4 @@ const User = (props: Props) => {
     );
 };
 
-export default User;
+export default UserProfile;
