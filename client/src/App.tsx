@@ -11,6 +11,7 @@ import UserProfile from "./components/User/UserProfile";
 import Register from "./components/User/Register";
 import Login from "./components/User/Login";
 import Logout from "./components/User/Logout";
+import PageNotFound from "./pages/PageNotFound";
 
 import { ApplicationState } from "./types/application-state.types";
 import { UpdateStateActions } from "./types/state-action.types";
@@ -33,7 +34,6 @@ class App extends Component<Props, ApplicationState> {
      * @param {ApplicationState} newState The already updated state object to merge into application state
      * @param {UpdateStateActions} actionToTake The type of action that will be called
      */
-
     handleAppStateUpdate = (
         newState: ApplicationState,
         actionToTake: UpdateStateActions
@@ -86,11 +86,14 @@ class App extends Component<Props, ApplicationState> {
                                 handleAppStateUpdate={this.handleAppStateUpdate}
                             />
                         </Route>
-                        <Route path="/" exact>
+                        <Route exact path="/">
                             <Main
                                 applicationState={this.state}
                                 handleAppStateUpdate={this.handleAppStateUpdate}
                             />
+                        </Route>
+                        <Route path="">
+                            <PageNotFound />
                         </Route>
                     </Switch>
                 </Layout>
