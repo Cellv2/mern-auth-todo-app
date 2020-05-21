@@ -7,6 +7,7 @@ export interface UserCollection extends mongoose.Document {
     name: string;
     email: string;
     password: string;
+    theme: string;
 }
 
 const userSchema = new Schema({
@@ -18,6 +19,10 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
+    },
+    theme: {
+        type: String,
+        default: "light",
     },
 });
 
