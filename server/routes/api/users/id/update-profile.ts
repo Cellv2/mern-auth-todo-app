@@ -11,6 +11,7 @@ const router: Router = express.Router();
  */
 const updateProfile = (req: Request, res: Response) => {
     // TODO: Replace with token
+    // TODO: Add authorization
     const id = "5ec6e654c94e4a33e4b995d8";
     const patch = req.body.patch;
     const parsedPatch = JSON.parse(patch);
@@ -42,14 +43,15 @@ const updateProfile = (req: Request, res: Response) => {
                     return;
                 }
 
+                // We do not want to expose id or password to the client
+                let patchedUserResponse = patchedUser;
+                delete patchedUserResponse._id;
+                delete patchedUserResponse.password;
+
                 // This isn't ideal, but updateOne on mongoose.Doc does not supply the updated doc
-                res.json(patchedUser);
+                res.json(patchedUserResponse);
                 return;
             });
-
-            // console.log("user:", userObj);
-            // console.log("patch:", parsedPatch);
-            // console.log("patchedUser:", patchedUser);
 
             return;
         }
