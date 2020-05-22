@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+} from "react-router-dom";
 
 import { updateUser, updateUserActions } from "./actions/update-user.action";
 import { updateTheme, updateThemeActions } from "./actions/update-theme.action";
@@ -68,8 +73,21 @@ class App extends Component<Props, ApplicationState> {
                         <Route path="/profile">
                             <UserProfile
                                 applicationState={this.state}
-                                handleAppStateUpdate={this.handleAppStateUpdate}
+                                handleAppStateUpdate={
+                                    this.handleAppStateUpdate
+                                }
                             />
+                            {/* The below will be used later on, remove this when the UserProfile page is done */}
+                            {/* {!this.state.isAuthenticated ? (
+                                <Redirect to="/login" />
+                            ) : (
+                                <UserProfile
+                                    applicationState={this.state}
+                                    handleAppStateUpdate={
+                                        this.handleAppStateUpdate
+                                    }
+                                />
+                            )} */}
                         </Route>
                         <Route path="/register">
                             <Register />
