@@ -15,11 +15,30 @@ type Props = {
 };
 
 const UserProfile = (props: Props) => {
-    const handleOnClick = (theme: AvailableThemes) => {
-        let newState = props.applicationState;
-        newState.theme = theme;
+    const handleOnClick = async (theme: AvailableThemes): Promise<void> => {
+        if (props.applicationState.isAuthenticated) {
+            const token = props.applicationState.user?.token as string;
+            const payload = {
+                theme: theme,
+            };
 
-        props.handleAppStateUpdate(newState, "updateThemeState");
+            const request = await fetch(`/api/user/profile`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: token,
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const response = await request.json();
+            console.log(response);
+
+            let newState = props.applicationState;
+            newState.theme = theme;
+
+            props.handleAppStateUpdate(newState, "updateThemeState");
+        }
     };
 
     return (
