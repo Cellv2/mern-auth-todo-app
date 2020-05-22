@@ -40,9 +40,6 @@ router.use("/api", updatePassword);
 router.use("/api", updateTodo);
 router.use("/api", deleteTodo);
 
-// TEMP - PLEASE MOVE
-router.use("/api", updateProfile);
-
 // -----
 // PRIVATE ROUTES
 // -----
@@ -60,6 +57,11 @@ router.use(
     "/api",
     passport.authenticate("jwt", { session: false }),
     getProfile
+);
+router.use(
+    "/api",
+    passport.authenticate("jwt", { session: false }),
+    updateProfile
 );
 
 export default router;
