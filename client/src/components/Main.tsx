@@ -62,13 +62,15 @@ class Main extends Component<Props, State> {
                     return item;
                 });
 
-                const stateItems = this.state.items ?? [];
-                const newItems = [...stateItems, ...todoToItems];
+                const newItems = [
+                    ...this.props.applicationState.items,
+                    ...todoToItems,
+                ];
 
-                this.setState((prevState: State) => ({
-                    ...prevState,
-                    items: newItems,
-                }));
+                let newState = this.props.applicationState;
+                newState.items = newItems;
+
+                this.props.handleAppStateUpdate(newState, "updateItemsState");
             }
         }
 
