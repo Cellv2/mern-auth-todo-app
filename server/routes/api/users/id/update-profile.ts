@@ -48,7 +48,7 @@ const updateProfile = (req: Request, res: Response) => {
                     console.error(err);
                     res.statusCode = 500;
                     res.json({
-                        error: "There was an issue when retreiving the user",
+                        error: "There was an issue when retrieving the user",
                     });
 
                     return;
