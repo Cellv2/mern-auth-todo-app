@@ -4,6 +4,7 @@ export type ApplicationState = {
     isAuthenticated: boolean;
     user: User | null;
     theme: string;
+    items: Item[];
 };
 
 export type User = {
@@ -16,4 +17,11 @@ export type UserToken = {
     username: string;
     iat: number;
     exp: number;
+};
+
+export type Item = {
+    _id?: string;
+    userid?: string;
+    isComplete: boolean;
+    text: string;
 };

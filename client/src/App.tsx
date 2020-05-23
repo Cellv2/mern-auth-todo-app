@@ -8,6 +8,7 @@ import {
 
 import { updateUser, updateUserActions } from "./actions/update-user.action";
 import { updateTheme, updateThemeActions } from "./actions/update-theme.action";
+import { updateItems, updateItemsActions } from "./actions/update-items.action";
 
 import Layout from "./layouts/Layout";
 import Main from "./components/Main";
@@ -32,6 +33,7 @@ class App extends Component<Props, ApplicationState> {
             token: "",
         },
         theme: "dark",
+        items: [],
     };
 
     /**
@@ -44,6 +46,13 @@ class App extends Component<Props, ApplicationState> {
         actionToTake: UpdateStateActions
     ) => {
         let updatedState: ApplicationState = this.state;
+
+        if (actionToTake === "updateUserState") {
+            updatedState = updateItems(this.state, {
+                type: updateItemsActions.SET_ITEMS,
+                payload: newState,
+            });
+        }
 
         if (actionToTake === "updateUserState") {
             updatedState = updateUser(this.state, {
@@ -73,9 +82,7 @@ class App extends Component<Props, ApplicationState> {
                         <Route path="/profile">
                             <UserProfile
                                 applicationState={this.state}
-                                handleAppStateUpdate={
-                                    this.handleAppStateUpdate
-                                }
+                                handleAppStateUpdate={this.handleAppStateUpdate}
                             />
                             {/* The below will be used later on, remove this when the UserProfile page is done */}
                             {/* {!this.state.isAuthenticated ? (
