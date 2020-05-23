@@ -77,11 +77,18 @@ class Main extends Component<Props, State> {
         return;
     };
 
-    // TODO: Allow a user to not be signed in and still create items
     handleCreateOnClick = async (inText: string): Promise<void> => {
+        const {
+            isAuthenticated,
+            user,
+            items: appStateItems,
+        } = this.props.applicationState;
+
+        // this is used futher down so we don't need to repeat the state update depending on whether user is authed
+        let newState = this.props.applicationState;
+
         const newItem: Item = { isComplete: false, text: inText };
 
-        const { isAuthenticated, user } = this.props.applicationState;
         if (isAuthenticated && user !== null) {
             const token = user.token as string;
 
@@ -96,23 +103,14 @@ class Main extends Component<Props, State> {
             });
 
             const createdItem: Item = await response.json();
-
-            console.log(createdItem);
-
-            const stateItems = this.state.items ?? [];
-            const newItems = [...stateItems, createdItem];
-
-            this.setState((prevState: State) => ({
-                ...prevState,
-                items: newItems,
-            }));
-        } else {
-            let newState = this.props.applicationState;
-            const newItems = [...newState.items, newItem];
+            const newItems = [...appStateItems, createdItem];
             newState.items = newItems;
-
-            this.props.handleAppStateUpdate(newState, "updateItemsState");
+        } else {
+            const newItems = [...appStateItems, newItem];
+            newState.items = newItems;
         }
+
+        this.props.handleAppStateUpdate(newState, "updateItemsState");
     };
 
     handleIsCompleteChange = (index: number): void => {
