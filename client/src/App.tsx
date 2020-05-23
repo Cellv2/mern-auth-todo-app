@@ -33,7 +33,10 @@ class App extends Component<Props, ApplicationState> {
             token: "",
         },
         theme: "dark",
-        items: [],
+        items: [{
+            isComplete: false,
+            text: "This is a test item, delete me"
+        }],
     };
 
     /**
@@ -68,6 +71,7 @@ class App extends Component<Props, ApplicationState> {
             });
         }
 
+        console.log(updatedState);
         this.setState(updatedState);
     };
 

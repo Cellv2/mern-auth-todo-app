@@ -21,6 +21,7 @@ type State = {
     items?: Item[];
 };
 
+// TODO: Probably just make this a functional component now
 class Main extends Component<Props, State> {
     state: State = {
         items: [
@@ -76,10 +77,11 @@ class Main extends Component<Props, State> {
 
     // TODO: Allow a user to not be signed in and still create items
     handleCreateOnClick = async (inText: string): Promise<void> => {
+        const newItem: Item = { isComplete: false, text: inText };
+
         const { isAuthenticated, user } = this.props.applicationState;
         if (isAuthenticated && user !== null) {
             const token = user.token as string;
-            const newItem = { isCompleted: false, text: inText };
 
             const response = await fetch(`/api/user/todos`, {
                 method: "POST",
@@ -102,6 +104,12 @@ class Main extends Component<Props, State> {
                 ...prevState,
                 items: newItems,
             }));
+        } else {
+            let newState = this.props.applicationState;
+            const newItems = [...newState.items, newItem];
+            newState.items = newItems;
+
+            this.props.handleAppStateUpdate(newState, "updateItemsState");
         }
     };
 
@@ -161,7 +169,7 @@ class Main extends Component<Props, State> {
                     {this.props.applicationState.user} */}
                     <ApiCallButton />
                     <ToDoForm
-                        items={this.state.items}
+                        items={this.props.applicationState.items}
                         isAuthenticated={
                             this.props.applicationState.isAuthenticated
                         }
