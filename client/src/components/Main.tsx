@@ -127,12 +127,19 @@ class Main extends Component<Props, State> {
     };
 
     handleDeleteOnClick = async (index: number): Promise<void> => {
-        // there really must be items by this point else nothing would have been rendered and the button wouldn't show
-        let tempItems: Item[] = this.state.items!;
-        const currentItem: Item = this.state.items![index];
+        const { handleAppStateUpdate, applicationState } = this.props;
+        const {
+            isAuthenticated,
+            user,
+            items: appStateItems,
+        } = applicationState;
+
+        const currentItem = appStateItems[index];
+
+        let newState = applicationState;
 
         try {
-            if (currentItem._id) {
+            if (isAuthenticated && user !== null && currentItem._id) {
                 const deleteRequest = await fetch(
                     `/api/users/todos/${currentItem._id}`,
                     {
@@ -143,17 +150,12 @@ class Main extends Component<Props, State> {
                     }
                 );
 
-                await deleteRequest
-                    .json()
-                    .then(() => this.handleGetAllUserTodos());
+                await deleteRequest;
             }
 
             // in case there is no DB call, we still update state here
-            tempItems.splice(index, 1);
-            this.setState((prevState: State) => ({
-                ...prevState,
-                items: tempItems,
-            }));
+            newState.items.splice(index, 1);
+            handleAppStateUpdate(newState, "updateItemsState");
         } catch (error) {
             console.error(error);
         }
