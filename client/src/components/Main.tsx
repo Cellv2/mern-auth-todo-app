@@ -124,11 +124,14 @@ class Main extends Component<Props, State> {
 
         try {
             if (isAuthenticated && user && payload._id) {
+                const token = user.token as string;
+
                 const updateRequest = await fetch(
                     `/api/user/todos/${payload._id}`,
                     {
                         method: "PUT",
                         headers: {
+                            Authorization: token,
                             "Content-Type": "application/json;charset=utf-8",
                         },
                         body: JSON.stringify(payload),
@@ -160,11 +163,14 @@ class Main extends Component<Props, State> {
 
         try {
             if (isAuthenticated && user !== null && currentItem._id) {
+                const token = user.token as string;
+
                 const deleteRequest = await fetch(
                     `/api/users/todos/${currentItem._id}`,
                     {
                         method: "DELETE",
                         headers: {
+                            Authorization: token,
                             "Content-Type": "application/json;charset=utf-8",
                         },
                     }
