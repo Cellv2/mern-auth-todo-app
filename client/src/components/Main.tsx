@@ -113,15 +113,19 @@ class Main extends Component<Props, State> {
         this.props.handleAppStateUpdate(newState, "updateItemsState");
     };
 
+    // TODO: Make this a generic update handler for todo items?
     handleIsCompleteChange = (index: number): void => {
-        // there really must be items by this point else nothing would have been rendered and the button wouldn't show
-        let tempItems: Item[] = this.state.items!;
-        tempItems[index].isComplete = !tempItems[index].isComplete;
+        const { applicationState, handleAppStateUpdate } = this.props;
+        const {
+            isAuthenticated,
+            items: appStateItems,
+            user,
+        } = applicationState;
 
-        this.setState((prevState: State) => ({
-            ...prevState,
-            items: tempItems,
-        }));
+        let newState = applicationState;
+        newState.items[index].isComplete = !newState.items[index].isComplete;
+
+        handleAppStateUpdate(newState, "updateItemsState");
 
         return;
     };
