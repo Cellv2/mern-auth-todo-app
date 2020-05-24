@@ -25,7 +25,7 @@ const updateTodo = (req: Request, res: Response) => {
         // ensure that the user actually matches the token
         //@ts-expect-error
         if (!authorizedData || authorizedData.id !== req.body.userid) {
-            res.sendStatus(401);
+            res.sendStatus(403);
 
             return;
         } else {
@@ -38,8 +38,8 @@ const updateTodo = (req: Request, res: Response) => {
                 { upsert: false, new: true },
                 (err, updated) => {
                     if (err) {
-                        res.send(500);
                         console.error(err);
+                        res.sendStatus(500);
                     }
 
                     res.statusCode = 200;
