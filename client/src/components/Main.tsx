@@ -114,18 +114,34 @@ class Main extends Component<Props, State> {
     };
 
     // TODO: Make this a generic update handler for todo items?
-    handleIsCompleteChange = (index: number): void => {
+    handleIsCompleteChange = async (index: number): Promise<void> => {
         const { applicationState, handleAppStateUpdate } = this.props;
-        const {
-            isAuthenticated,
-            items: appStateItems,
-            user,
-        } = applicationState;
+        const { isAuthenticated, user } = applicationState;
 
         let newState = applicationState;
         newState.items[index].isComplete = !newState.items[index].isComplete;
+        const currentItem = newState.items[index];
 
-        handleAppStateUpdate(newState, "updateItemsState");
+        try {
+            if (isAuthenticated && user && currentItem._id) {
+                const updateRequest = await fetch(
+                    `/api/users/todos/${currentItem._id}`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json;charset=utf-8",
+                        },
+                        body: JSON.stringify(currentItem),
+                    }
+                );
+
+                await updateRequest;
+            }
+
+            handleAppStateUpdate(newState, "updateItemsState");
+        } catch (error) {
+            console.error(error);
+        }
 
         return;
     };
