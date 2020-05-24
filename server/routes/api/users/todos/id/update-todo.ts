@@ -4,12 +4,11 @@ import TodoCollection from "../../../../../models/Todo/todo-collection.model";
 const router: Router = express.Router();
 
 const updateTodo = (req: Request, res: Response) => {
-    const id: string = req.params.id;
-    const query = { userid: id };
-    const newData = { userid: req.body.userid };
+    const todoId: string = req.params.id;
+    const newData = req.body;
 
-    TodoCollection.findOneAndUpdate(
-        query,
+    TodoCollection.findByIdAndUpdate(
+        todoId,
         newData,
         { upsert: false, new: true },
         (err, updated) => {
@@ -18,7 +17,6 @@ const updateTodo = (req: Request, res: Response) => {
                 console.error(err);
             }
 
-            // updated object is sent back
             res.statusCode = 200;
             res.json(updated);
         }
@@ -27,7 +25,7 @@ const updateTodo = (req: Request, res: Response) => {
     return;
 };
 
-router.put("/users/todos/:id", (req: Request, res: Response) => {
+router.put("/user/todos/:id", (req: Request, res: Response) => {
     updateTodo(req, res);
 });
 

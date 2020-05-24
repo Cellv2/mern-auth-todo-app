@@ -120,18 +120,18 @@ class Main extends Component<Props, State> {
 
         let newState = applicationState;
         newState.items[index].isComplete = !newState.items[index].isComplete;
-        const currentItem = newState.items[index];
+        const payload = newState.items[index];
 
         try {
-            if (isAuthenticated && user && currentItem._id) {
+            if (isAuthenticated && user && payload._id) {
                 const updateRequest = await fetch(
-                    `/api/users/todos/${currentItem._id}`,
+                    `/api/user/todos/${payload._id}`,
                     {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json;charset=utf-8",
                         },
-                        body: JSON.stringify(currentItem),
+                        body: JSON.stringify(payload),
                     }
                 );
 
