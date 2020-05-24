@@ -18,37 +18,39 @@ const createToDo = (req: Request, res: Response) => {
     jwt.verify(token, secretOrKey, (err, authorizedData) => {
         if (err) {
             console.error(err);
-            res.send(500);
-
-            return;
-        } else {
-            if (!authorizedData) {
-                res.sendStatus(401);
-            } else {
-                //@ts-expect-error
-                const id: string = authorizedData.id;
-                const text: string = req.body.text;
-
-                const todo = new TodoCollection({
-                    userid: id,
-                    isComplete: false,
-                    text: text,
-                });
-
-                todo.save((err) => {
-                    if (err) {
-                        console.error(err);
-
-                        return;
-                    }
-
-                    res.status(201);
-                    res.json(todo);
-                });
-            }
+            res.sendStatus(500);
 
             return;
         }
+
+        // no need to check for userId here as the item is generated with the token's ID further down
+        if (!authorizedData) {
+            res.sendStatus(403);
+        } else {
+            //@ts-expect-error
+            const id: string = authorizedData.id;
+            const text: string = req.body.text;
+
+            const todo = new TodoCollection({
+                userid: id,
+                isComplete: false,
+                text: text,
+            });
+
+            todo.save((err) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+
+                    return;
+                }
+
+                res.statusCode = 201;
+                res.json(todo);
+            });
+        }
+
+        return;
     });
 };
 
