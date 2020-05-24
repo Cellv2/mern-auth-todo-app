@@ -34,12 +34,6 @@ router.use("/api", deleteUser);
  */
 router.use("/api", updatePassword);
 
-/**
- * /api/users/todos/:id
- */
-router.use("/api", updateTodo);
-router.use("/api", deleteTodo);
-
 // -----
 // PRIVATE ROUTES
 // -----
@@ -49,6 +43,20 @@ router.use("/api", deleteTodo);
  */
 router.use("/api", passport.authenticate("jwt", { session: false }), getTodos);
 router.use("/api", passport.authenticate("jwt", { session: false }), addTodo);
+
+/**
+ * /api/user/todos/:id
+ */
+router.use(
+    "/api",
+    passport.authenticate("jwt", { session: false }),
+    updateTodo
+);
+router.use(
+    "/api",
+    passport.authenticate("jwt", { session: false }),
+    deleteTodo
+);
 
 /**
  * /api/user/profile

@@ -173,6 +173,7 @@ class Main extends Component<Props, State> {
                             Authorization: token,
                             "Content-Type": "application/json;charset=utf-8",
                         },
+                        body: JSON.stringify(currentItem),
                     }
                 );
 
