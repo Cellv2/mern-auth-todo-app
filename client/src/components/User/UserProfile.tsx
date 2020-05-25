@@ -1,5 +1,7 @@
 import React from "react";
 
+import EditableText from "./EditableText";
+
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
 import { AvailableThemes } from "../../types/theme.types";
@@ -33,7 +35,6 @@ const UserProfile = (props: Props) => {
 
             const response = await request.json();
             console.log(response);
-
         }
 
         // update the theme locally as well, just in case we're not logged in
@@ -53,6 +54,8 @@ const UserProfile = (props: Props) => {
             <button onClick={() => handleOnClick("light")}>
                 Set light theme
             </button>
+            <hr />
+            <EditableText initialText={"Test"} />
         </div>
     );
 };
