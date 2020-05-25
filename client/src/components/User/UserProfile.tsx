@@ -34,11 +34,13 @@ const UserProfile = (props: Props) => {
             const response = await request.json();
             console.log(response);
 
-            let newState = props.applicationState;
-            newState.theme = theme;
-
-            props.handleAppStateUpdate(newState, "updateThemeState");
         }
+
+        // update the theme locally as well, just in case we're not logged in
+        let newState = props.applicationState;
+        newState.theme = theme;
+
+        props.handleAppStateUpdate(newState, "updateThemeState");
     };
 
     return (
