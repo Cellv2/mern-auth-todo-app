@@ -18,11 +18,28 @@ class EditableText extends Component<Props, State> {
         this.setState({ text: this.props.initialText });
     };
 
-    handleIsEditableOnClick = () => {
+    handleInputOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.persist();
+        event.preventDefault();
+
+        this.setState((prevState: State) => ({
+            ...prevState,
+            text: event.target.value,
+        }));
+    };
+
+    handleIsEditable = () => {
         this.setState((prevState: State) => ({
             ...prevState,
             isEditable: !this.state.isEditable,
         }));
+    };
+
+    // TODO: Pass the value of the component around to whenever it needs to go in the app state / DB
+    handleStopEditOnClick = (event: React.FormEvent<HTMLFormElement>) => {
+
+
+        this.handleIsEditable();
     };
 
     render() {
@@ -30,14 +47,21 @@ class EditableText extends Component<Props, State> {
             <>
                 isEditable : {`${this.state.isEditable}`}
                 {this.state.isEditable ? (
-                    <p>Is editable</p>
+                    <form onSubmit={this.handleStopEditOnClick}>
+                        <p>Is editable</p>
+                        <input
+                            type="text"
+                            value={this.state.text}
+                            onChange={this.handleInputOnChange}
+                        />
+                        <button>Done</button>
+                    </form>
                 ) : (
                     <div>
-                        The state text is: {this.state.text}
-                        <br />
+                        <p>The state text is: {this.state.text}</p>
+                        <button onClick={this.handleIsEditable}>Edit</button>
                     </div>
                 )}
-                <button onClick={this.handleIsEditableOnClick}>Edit</button>
             </>
         );
     }
