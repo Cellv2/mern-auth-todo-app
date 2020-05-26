@@ -1,9 +1,10 @@
 import { JwtHeader } from "jsonwebtoken";
+import { AvailableThemes } from "./theme.types";
 
 export type ApplicationState = {
     isAuthenticated: boolean;
     user: User | null;
-    theme: string;
+    theme: AvailableThemes;
     items: Item[];
 };
 

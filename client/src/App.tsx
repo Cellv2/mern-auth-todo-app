@@ -33,10 +33,12 @@ class App extends Component<Props, ApplicationState> {
             token: "",
         },
         theme: "dark",
-        items: [{
-            isComplete: false,
-            text: "This is a test item, delete me"
-        }],
+        items: [
+            {
+                isComplete: false,
+                text: "This is a test item, delete me",
+            },
+        ],
     };
 
     /**
@@ -78,7 +80,10 @@ class App extends Component<Props, ApplicationState> {
     render() {
         return (
             <Router>
-                <Layout isAuthenticated={this.state.isAuthenticated}>
+                <Layout
+                    isAuthenticated={this.state.isAuthenticated}
+                    theme={this.state.theme}
+                >
                     <Switch>
                         <Route path="/about">
                             <About />

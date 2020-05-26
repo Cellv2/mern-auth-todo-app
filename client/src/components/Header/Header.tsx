@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 import ProfileDropdown from "./ProfileDropdown";
 import ThemeSwitch from "../ThemeSwitch";
 
+import { AvailableThemes } from "../../types/theme.types";
+
 import styles from "./Header.module.scss";
 
 type Props = {
     isAuthenticated: boolean;
+    theme: AvailableThemes;
 };
 
 const Header = (props: Props) => {
@@ -45,7 +48,7 @@ const Header = (props: Props) => {
             </div>
             <div className={styles.profileDropdown}>
                 <ProfileDropdown isAuthenticated={props.isAuthenticated} />
-                <ThemeSwitch />
+                <ThemeSwitch theme={props.theme} />
             </div>
         </>
     );
