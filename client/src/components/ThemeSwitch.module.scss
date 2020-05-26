@@ -12,9 +12,10 @@
     position: relative;
     width: 6rem;
     height: 3rem;
+    outline: none;
 
-    svg {
-        transition: all 0.3s linear;
+    &:active {
+        border-style: outset;
     }
 }
 
@@ -32,6 +33,7 @@
     width: 2.2rem;
     background-color: #fff;
     border-radius: 50%;
+    // transition: all 5s linear;
 
     &.light {
         left: 5px;
