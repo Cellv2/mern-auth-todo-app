@@ -1,0 +1,43 @@
+.container {
+    background-color: #111;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    font-size: 0.5rem;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 0.5rem;
+    position: relative;
+    width: 6rem;
+    height: 3rem;
+
+    svg {
+        transition: all 0.3s linear;
+    }
+}
+
+.sun {
+    color: #f9d71c;
+}
+
+.moon {
+    color: #8865a0;
+}
+
+.toggle {
+    position: absolute;
+    height: 2.2rem;
+    width: 2.2rem;
+    background-color: #fff;
+    border-radius: 50%;
+
+    &.light {
+        left: 5px;
+    }
+
+    &.dark {
+        right: 5px;
+    }
+}

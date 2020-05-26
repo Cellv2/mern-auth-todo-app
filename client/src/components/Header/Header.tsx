@@ -1,8 +1,8 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
 
 import ProfileDropdown from "./ProfileDropdown";
+import ThemeSwitch from "../ThemeSwitch";
 
 import styles from "./Header.module.scss";
 
@@ -45,6 +45,7 @@ const Header = (props: Props) => {
             </div>
             <div className={styles.profileDropdown}>
                 <ProfileDropdown isAuthenticated={props.isAuthenticated} />
+                <ThemeSwitch />
             </div>
         </>
     );
