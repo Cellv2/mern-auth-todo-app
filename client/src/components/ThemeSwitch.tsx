@@ -1,27 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 
 import { AvailableThemes } from "../types/theme.types";
+import { ApplicationState } from "../types/application-state.types";
+import { UpdateStateActions } from "../types/state-action.types";
 
 import styles from "./ThemeSwitch.module.scss";
 
-type Props = { theme: AvailableThemes };
+type Props = {
+    applicationState: ApplicationState;
+    handleAppStateUpdate: (
+        newState: ApplicationState,
+        actionToTake: UpdateStateActions
+    ) => void;
+};
 
 // TODO: Make nicer transition between the dark/light toggle
 const ThemeSwitch = (props: Props) => {
-    // const [theme, setTheme] = useState<AvailableThemes>("light");
+    const handleThemeSwitch = (): void => {
+        const currentTheme = props.applicationState.theme;
+        const newTheme: AvailableThemes =
+            currentTheme !== "light" ? "light" : "dark";
 
-    // useEffect(() => {
-    //     setTheme(props.theme);
-    // }, []);
+        let newState = props.applicationState;
+        newState.theme = newTheme;
 
-    const handleThemeSwitch = () => {
-        // theme === "light" ? setTheme("dark") : setTheme("light");
-        // TODO: Pass the change up the tree
+        props.handleAppStateUpdate(newState, "updateThemeState");
+
+        return;
     };
-
-    const { theme } = props;
 
     return (
         <button className={styles.container} onClick={handleThemeSwitch}>
@@ -33,7 +41,7 @@ const ThemeSwitch = (props: Props) => {
             <FontAwesomeIcon icon={faSun} className={styles.sun} size={"3x"} />
             <div
                 className={
-                    theme === "light"
+                    props.applicationState.theme === "light"
                         ? `${styles.toggle} ${styles.light}`
                         : `${styles.toggle} ${styles.dark}`
                 }

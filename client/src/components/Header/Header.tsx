@@ -4,13 +4,18 @@ import { Link } from "react-router-dom";
 import ProfileDropdown from "./ProfileDropdown";
 import ThemeSwitch from "../ThemeSwitch";
 
-import { AvailableThemes } from "../../types/theme.types";
+import { ApplicationState } from "../../types/application-state.types";
+import { UpdateStateActions } from "../../types/state-action.types";
 
 import styles from "./Header.module.scss";
 
 type Props = {
+    applicationState: ApplicationState;
     isAuthenticated: boolean;
-    theme: AvailableThemes;
+    handleAppStateUpdate: (
+        newState: ApplicationState,
+        actionToTake: UpdateStateActions
+    ) => void;
 };
 
 const Header = (props: Props) => {
@@ -48,7 +53,10 @@ const Header = (props: Props) => {
             </div>
             <div className={styles.profileDropdown}>
                 <ProfileDropdown isAuthenticated={props.isAuthenticated} />
-                <ThemeSwitch theme={props.theme} />
+                <ThemeSwitch
+                    applicationState={props.applicationState}
+                    handleAppStateUpdate={props.handleAppStateUpdate}
+                />
             </div>
         </>
     );

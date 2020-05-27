@@ -81,8 +81,9 @@ class App extends Component<Props, ApplicationState> {
         return (
             <Router>
                 <Layout
+                    applicationState={this.state}
                     isAuthenticated={this.state.isAuthenticated}
-                    theme={this.state.theme}
+                    handleAppStateUpdate={this.handleAppStateUpdate}
                 >
                     <Switch>
                         <Route path="/about">

@@ -3,13 +3,18 @@ import React from "react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 
-import { AvailableThemes } from "../types/theme.types";
+import { ApplicationState } from "../types/application-state.types";
+import { UpdateStateActions } from "../types/state-action.types";
 
 import styles from "./Layout.module.scss";
 
 type Props = {
+    applicationState: ApplicationState;
     isAuthenticated: boolean;
-    theme: AvailableThemes;
+    handleAppStateUpdate: (
+        newState: ApplicationState,
+        actionToTake: UpdateStateActions
+    ) => void;
     children: React.ReactNode;
 };
 
@@ -17,8 +22,9 @@ const Layout = (props: Props) => {
     return (
         <div className={styles.grid}>
             <Header
+                applicationState={props.applicationState}
                 isAuthenticated={props.isAuthenticated}
-                theme={props.theme}
+                handleAppStateUpdate={props.handleAppStateUpdate}
             />
             {props.children}
             <Footer />
