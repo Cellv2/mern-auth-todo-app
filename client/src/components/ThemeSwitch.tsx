@@ -18,10 +18,29 @@ type Props = {
 
 // TODO: Make nicer transition between the dark/light toggle
 const ThemeSwitch = (props: Props) => {
-    const handleThemeSwitch = (): void => {
+    const handleThemeSwitch = async (): Promise<void> => {
         const currentTheme = props.applicationState.theme;
         const newTheme: AvailableThemes =
             currentTheme !== "light" ? "light" : "dark";
+
+        if (props.applicationState.isAuthenticated) {
+            const token = props.applicationState.user?.token as string;
+            const payload = {
+                theme: newTheme,
+            };
+
+            const request = await fetch(`/api/user/profile`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: token,
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const response = await request.json();
+            console.log(response);
+        }
 
         let newState = props.applicationState;
         newState.theme = newTheme;
