@@ -29,7 +29,6 @@ class App extends Component<Props, ApplicationState> {
     state: ApplicationState = {
         isAuthenticated: false,
         user: {
-            username: "",
             token: "",
         },
         theme: "dark",
@@ -39,6 +38,7 @@ class App extends Component<Props, ApplicationState> {
                 text: "This is a test item, delete me",
             },
         ],
+        username: null,
     };
 
     /**

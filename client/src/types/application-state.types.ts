@@ -6,16 +6,15 @@ export type ApplicationState = {
     user: User | null;
     theme: AvailableThemes;
     items: Item[];
+    username: string | null;
 };
 
 export type User = {
-    username: string;
     token: string | UserToken;
 };
 
 export type UserToken = {
     id: string;
-    username: string;
     iat: number;
     exp: number;
 };

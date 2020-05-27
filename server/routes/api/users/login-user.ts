@@ -45,7 +45,6 @@ const loginUser = (req: Request, res: Response): void => {
             } else {
                 const jwtPayload = {
                     id: user.id,
-                    username: user.name,
                 };
 
                 jwt.sign(
@@ -69,6 +68,7 @@ const loginUser = (req: Request, res: Response): void => {
                         res.status(200).json({
                             token: `Bearer ${token}`,
                             theme: user.theme,
+                            username: user.name,
                         });
 
                         return;

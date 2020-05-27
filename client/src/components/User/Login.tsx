@@ -77,6 +77,7 @@ class Login extends Component<Props, State> {
             newAppState.user = content;
             newAppState.isAuthenticated = true;
             newAppState.theme = content.theme;
+            newAppState.username = content.username;
 
             this.props.handleAppStateUpdate(newAppState, "updateUserState");
 
