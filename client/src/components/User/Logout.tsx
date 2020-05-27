@@ -25,11 +25,10 @@ const Logout = (props: Props) => {
     };
 
     const handleOnClick = () => {
-        console.log("clicky");
-
         let newAppState = props.applicationState;
         newAppState.isAuthenticated = false;
         newAppState.user = null;
+        newAppState.username = null;
 
         props.handleAppStateUpdate(newAppState, "updateUserState");
 
