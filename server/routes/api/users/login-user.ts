@@ -66,7 +66,10 @@ const loginUser = (req: Request, res: Response): void => {
                             return;
                         }
 
-                        res.status(200).json({ token: `Bearer ${token}` });
+                        res.status(200).json({
+                            token: `Bearer ${token}`,
+                            theme: user.theme,
+                        });
 
                         return;
                     }

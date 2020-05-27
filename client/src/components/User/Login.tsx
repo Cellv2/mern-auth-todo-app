@@ -76,6 +76,7 @@ class Login extends Component<Props, State> {
             let newAppState = this.props.applicationState;
             newAppState.user = content;
             newAppState.isAuthenticated = true;
+            newAppState.theme = content.theme;
 
             this.props.handleAppStateUpdate(newAppState, "updateUserState");
 
@@ -107,7 +108,9 @@ class Login extends Component<Props, State> {
                 {Object.keys(this.state.errors).length > 0 &&
                     Object.keys(this.state.errors).map((error) => {
                         return (
-                            <p key={error} className={styles.error}>Error: {this.state.errors[error]}</p>
+                            <p key={error} className={styles.error}>
+                                Error: {this.state.errors[error]}
+                            </p>
                         );
                     })}
                 <form onSubmit={this.handleOnSubmit}>
