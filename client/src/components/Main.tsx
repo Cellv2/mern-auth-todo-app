@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import JwtDecode from "jwt-decode";
 
-import ToDoForm from "./ToDoForm";
+import ToDoForm from "./ToDos/ToDoForm";
 import ApiCallButton from "./ApiCallButton";
 
 import { Item } from "../types/to-do.types";

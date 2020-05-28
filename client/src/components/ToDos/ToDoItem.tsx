@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./ToDoItem.module.scss";
 
-import { Item } from "../types/to-do.types";
+import { Item } from "../../types/to-do.types";
 
 type Props = {
     item: Item;
