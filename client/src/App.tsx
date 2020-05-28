@@ -12,7 +12,7 @@ import { updateItems, updateItemsActions } from "./actions/update-items.action";
 
 import Layout from "./layouts/Layout";
 import Main from "./components/Main";
-import About from "./components/About";
+import About from "./components/About/About";
 import UserProfile from "./components/User/UserProfile";
 import Register from "./components/User/Register";
 import Login from "./components/User/Login";

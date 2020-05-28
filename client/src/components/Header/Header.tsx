@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import ProfileDropdown from "./ProfileDropdown";
-import ThemeSwitch from "../ThemeSwitch";
+import ThemeSwitch from "../ThemeSwitch/ThemeSwitch";
 
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";

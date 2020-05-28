@@ -2,9 +2,9 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 
-import { AvailableThemes } from "../types/theme.types";
-import { ApplicationState } from "../types/application-state.types";
-import { UpdateStateActions } from "../types/state-action.types";
+import { AvailableThemes } from "../../types/theme.types";
+import { ApplicationState } from "../../types/application-state.types";
+import { UpdateStateActions } from "../../types/state-action.types";
 
 import styles from "./ThemeSwitch.module.scss";
 
