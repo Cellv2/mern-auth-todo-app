@@ -1,6 +1,10 @@
 import React from "react";
 
 import mongoDbLogo from "./mongodb-leaf@4x.png";
+import expressLogo from "./Expressjs.png";
+import reactLogo from "./React-icon.svg";
+import nodeJsLogo from "./NodeJsLogo.png";
+import typescriptLogo from "./typescript.png";
 
 import styles from "./About.module.scss";
 
@@ -21,25 +25,25 @@ const About = (props: Props) => {
                 </div>
                 <div className={styles.flexItem}>
                     <div className={styles.logo}>
-                        <img src="http://placehold.it/300" alt="" />
+                        <img src={expressLogo} alt="ExpressJS Logo" />
                     </div>
                     <p>Express.js</p>
                 </div>
                 <div className={styles.flexItem}>
                     <div className={styles.logo}>
-                        <img src="http://placehold.it/300" alt="" />
+                        <img src={reactLogo} alt="ReactJS Logo" />
                     </div>
                     <p>React.js</p>
                 </div>
                 <div className={styles.flexItem}>
                     <div className={styles.logo}>
-                        <img src="http://placehold.it/300" alt="" />
+                        <img src={nodeJsLogo} alt="NodeJS Logo" />
                     </div>
                     <p>Node.js</p>
                 </div>
                 <div className={styles.flexItem}>
                     <div className={styles.logo}>
-                        <img src="http://placehold.it/300" alt="" />
+                        <img src={typescriptLogo} alt="TypeScript Logl" />
                     </div>
                     <p>TypeScript</p>
                 </div>
