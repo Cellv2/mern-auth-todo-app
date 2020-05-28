@@ -1,3 +1,27 @@
 .grid {
     grid-area: main;
 }
+
+.flexContainer {
+    display: flex;
+    align-content: space-between;
+    flex-direction: column;
+
+    .flexItem {
+        display: flex;
+        align-items: center;
+        margin: 1rem 0;
+
+        img {
+            display: inline-block;
+            height: 5rem;
+            width: 5rem;
+        }
+
+        p {
+            display: inline-block;
+            margin: 0;
+            margin-left: 1rem;
+        }
+    }
+}
