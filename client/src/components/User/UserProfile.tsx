@@ -44,6 +44,26 @@ const UserProfile = (props: Props) => {
         props.handleAppStateUpdate(newState, "updateThemeState");
     };
 
+    const handleDeleteUser = (event: React.MouseEvent<HTMLButtonElement>) => {
+        const { isAuthenticated, user, username } = props.applicationState;
+
+        if (isAuthenticated && user) {
+            const randomInts = Array.from(new Array(5)).map((item) =>
+                Math.floor(Math.random() * 10)
+            );
+            const randomString = randomInts.join("-");
+
+            const input = prompt(
+                `Please enter ${randomString} to confirm account deletion`
+            );
+
+            if (input === randomString) {
+                // TODO: Send API call to delete user
+                // TODO: log user out and send them back to home page (also make sure that the todo items go away)
+            }
+        }
+    };
+
     return (
         <div className={styles.grid}>
             <h1>This is the user page</h1>
@@ -56,6 +76,11 @@ const UserProfile = (props: Props) => {
             </button>
             <hr />
             <EditableText initialText={"Test"} />
+            <br />
+            <div style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
+                <p>Danger</p>
+                <button onClick={handleDeleteUser}>Delete User</button>
+            </div>
         </div>
     );
 };
