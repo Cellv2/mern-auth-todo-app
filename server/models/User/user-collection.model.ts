@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
+import ToDoCollection from "../Todo/todo-collection.model";
+
 const Schema = mongoose.Schema;
 
 export interface UserCollection extends mongoose.Document {
@@ -37,6 +39,23 @@ userSchema.pre<UserCollection>("save", function (next) {
             next();
         });
     }
+});
+
+userSchema.pre<UserCollection>("findOneAndDelete", function (next) {
+    //@ts-expect-error
+    const mongooseQuery: mongoose.Query<UserCollection> = this;
+    const userIdToRemove = mongooseQuery.getQuery()._id;
+    const deleteQuery = { userid: userIdToRemove };
+    console.log(deleteQuery);
+
+    ToDoCollection.deleteMany(deleteQuery, (err) => {
+        if (err) {
+            console.error(err);
+            next(err);
+        } else {
+            next();
+        }
+    });
 });
 
 const UserCollection = mongoose.model<UserCollection>("User", userSchema);
