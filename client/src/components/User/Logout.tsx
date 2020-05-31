@@ -27,7 +27,7 @@ const Logout = (props: Props) => {
     const handleOnClick = () => {
         const { items } = props.applicationState;
 
-        // "_id" should only exist if it came from the Db in the first place, so we filter these out
+        // "_id" should only exist if it came from the DB in the first place, so we filter these out
         const unsavedItems = items.filter((item) => !("_id" in item));
 
         let newAppState = props.applicationState;

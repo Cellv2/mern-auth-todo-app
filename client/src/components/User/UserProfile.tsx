@@ -44,9 +44,13 @@ const UserProfile = (props: Props) => {
         props.handleAppStateUpdate(newState, "updateThemeState");
     };
 
-    const handleDeleteUser = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleDeleteUser = async (
+        event: React.MouseEvent<HTMLButtonElement>
+    ): Promise<void> => {
         const { isAuthenticated, user, username } = props.applicationState;
+        const token = props.applicationState.user?.token as string;
 
+        // TODO: If this fails, say so through the UI
         if (isAuthenticated && user) {
             const randomInts = Array.from(new Array(5)).map((item) =>
                 Math.floor(Math.random() * 10)
@@ -58,8 +62,34 @@ const UserProfile = (props: Props) => {
             );
 
             if (input === randomString) {
-                // TODO: Send API call to delete user
                 // TODO: log user out and send them back to home page (also make sure that the todo items go away)
+                const request = await fetch(`/api/user/deleteUser`, {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: token,
+                    },
+                });
+
+                await request.json().then((deletedUser) => {
+                    const { items } = props.applicationState;
+
+                    // "_id" should only exist if it came from the DB in the first place, so we filter these out
+                    const unsavedItems = items.filter(
+                        (item) => !("_id" in item)
+                    );
+
+                    let newAppState = props.applicationState;
+                    newAppState.isAuthenticated = false;
+                    newAppState.user = null;
+                    newAppState.username = null;
+                    newAppState.items = unsavedItems;
+
+                    props.handleAppStateUpdate(newAppState, "updateUserState");
+
+                    console.log("User deleted", deletedUser);
+                });
+
+                return;
             }
         }
     };
