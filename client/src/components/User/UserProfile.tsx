@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import EditableText from "./EditableText";
 
@@ -8,15 +9,22 @@ import { AvailableThemes } from "../../types/theme.types";
 
 import styles from "./UserProfile.module.scss";
 
-type Props = {
+interface Props extends RouteComponentProps {
     applicationState: ApplicationState;
     handleAppStateUpdate: (
         newState: ApplicationState,
         actionToTake: UpdateStateActions
     ) => void;
-};
+}
 
 const UserProfile = (props: Props) => {
+    const redirectToHome = () => {
+        const { history } = props;
+        if (history) {
+            history.push("/");
+        }
+    };
+
     const handleOnClick = async (theme: AvailableThemes): Promise<void> => {
         if (props.applicationState.isAuthenticated) {
             const token = props.applicationState.user?.token as string;
@@ -47,7 +55,7 @@ const UserProfile = (props: Props) => {
     const handleDeleteUser = async (
         event: React.MouseEvent<HTMLButtonElement>
     ): Promise<void> => {
-        const { isAuthenticated, user, username } = props.applicationState;
+        const { isAuthenticated, user } = props.applicationState;
         const token = props.applicationState.user?.token as string;
 
         // TODO: If this fails, say so through the UI
@@ -62,7 +70,6 @@ const UserProfile = (props: Props) => {
             );
 
             if (input === randomString) {
-                // TODO: log user out and send them back to home page (also make sure that the todo items go away)
                 const request = await fetch(`/api/user/deleteUser`, {
                     method: "DELETE",
                     headers: {
@@ -87,6 +94,7 @@ const UserProfile = (props: Props) => {
                     props.handleAppStateUpdate(newAppState, "updateUserState");
 
                     console.log("User deleted", deletedUser);
+                    redirectToHome();
                 });
 
                 return;
@@ -115,4 +123,4 @@ const UserProfile = (props: Props) => {
     );
 };
 
-export default UserProfile;
+export default withRouter(UserProfile);
