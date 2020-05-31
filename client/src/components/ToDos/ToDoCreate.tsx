@@ -12,6 +12,12 @@ class ToDoCreate extends Component<Props, State> {
         input: "",
     };
 
+    handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter" && this.state.input !== "") {
+            this.props.handleCreateOnClick(this.state.input);
+        }
+    };
+
     handleInputOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         event.persist();
@@ -47,6 +53,7 @@ class ToDoCreate extends Component<Props, State> {
                     type="text"
                     placeholder="Please enter your item text here"
                     value={this.state.input}
+                    onKeyDown={this.handleInputKeyDown}
                     onChange={this.handleInputOnChange}
                 />
                 <button onClick={this.handleSubmitOnClick}>
