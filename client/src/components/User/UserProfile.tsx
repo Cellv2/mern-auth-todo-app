@@ -122,9 +122,8 @@ const UserProfile = (props: Props) => {
             </div>
             <br />
             {props.applicationState.user?.token && (
-                <PasswordUpdate token={props.applicationState.user?.token} />
-                )}
-                <PasswordUpdate token={props.applicationState.user?.token} />
+                <PasswordUpdate token={props.applicationState.user.token} />
+            )}
         </div>
     );
 };

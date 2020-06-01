@@ -23,8 +23,37 @@ const PasswordUpdate = (props: Props) => {
         }
     };
 
-    const requestPasswordUpdate = () => {
-        console.log("requestPasswordUpdate");
+    // TODO: Add some UI feedback on successful/failed password update
+    const requestPasswordUpdate = async (): Promise<void> => {
+        if (!props.token) {
+            console.error("You must be signed in");
+            return;
+        }
+
+        try {
+            const token = props.token as string;
+            const passwordUpdate = { password: inputVal };
+
+            const request = await fetch(`/api/user/password/updatePassword`, {
+                method: "PUT",
+                headers: {
+                    Authorization: token,
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                body: JSON.stringify(passwordUpdate),
+            });
+
+            const response = await request;
+            if (!response.ok) {
+                throw new Error(
+                    `The response code (${response.status}) did not indicate success. The response was ${response.statusText}`
+                );
+            }
+
+            console.log("Password updated successfully");
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
