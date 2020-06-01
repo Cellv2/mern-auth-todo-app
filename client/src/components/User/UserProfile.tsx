@@ -2,6 +2,7 @@ import React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import EditableText from "./EditableText";
+import PasswordUpdate from "./PasswordUpdate";
 
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
@@ -119,6 +120,11 @@ const UserProfile = (props: Props) => {
                 <p>Danger</p>
                 <button onClick={handleDeleteUser}>Delete User</button>
             </div>
+            <br />
+            {props.applicationState.user?.token && (
+                <PasswordUpdate token={props.applicationState.user?.token} />
+                )}
+                <PasswordUpdate token={props.applicationState.user?.token} />
         </div>
     );
 };
