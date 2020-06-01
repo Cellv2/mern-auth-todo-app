@@ -6,6 +6,7 @@ import { secretOrKey } from "../../../../../utils/secrets";
 
 const router: Router = express.Router();
 
+// TODO: Add auth / ID checks
 const updatePassword = (req: Request, res: Response): void => {
     const paramsId = "5ed56cb4a1391d6dd0a89a0d";
 
@@ -23,7 +24,6 @@ const updatePassword = (req: Request, res: Response): void => {
 
         const newPassword = req.body.password;
         user.password = newPassword;
-        console.log(user);
 
         // we do a save because updateOne pre hooks do not play nicely with this.isModified
         // https://mongoosejs.com/docs/middleware.html#notes
