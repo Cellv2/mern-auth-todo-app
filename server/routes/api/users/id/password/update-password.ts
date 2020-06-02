@@ -6,7 +6,6 @@ import { secretOrKey } from "../../../../../utils/secrets";
 
 const router: Router = express.Router();
 
-// TODO: Add auth / ID checks
 const updatePassword = (req: Request, res: Response): void => {
     if (!req.headers.authorization) {
         res.sendStatus(401);
@@ -54,6 +53,7 @@ const updatePassword = (req: Request, res: Response): void => {
                 }
 
                 res.sendStatus(204);
+                return;
             });
 
             return;
