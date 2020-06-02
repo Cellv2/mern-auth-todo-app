@@ -8,41 +8,60 @@ const router: Router = express.Router();
 
 // TODO: Add auth / ID checks
 const updatePassword = (req: Request, res: Response): void => {
-    const paramsId = "5ed56cb4a1391d6dd0a89a0d";
+    if (!req.headers.authorization) {
+        res.sendStatus(401);
+        return;
+    }
 
-    UserCollection.findById(paramsId, (err, user) => {
+    const token = req.headers.authorization.split(" ")[1];
+
+    jwt.verify(token, secretOrKey, (err, authorizedData) => {
         if (err) {
             console.error(err);
             res.sendStatus(500);
             return;
         }
 
-        if (!user) {
-            res.sendStatus(404);
+        if (!authorizedData) {
+            res.sendStatus(403);
             return;
         }
 
-        const newPassword = req.body.password;
-        user.password = newPassword;
+        //@ts-expect-error
+        const userId = authorizedData.id;
 
-        // we do a save because updateOne pre hooks do not play nicely with this.isModified
-        // https://mongoosejs.com/docs/middleware.html#notes
-        user.save((err) => {
+        UserCollection.findById(userId, (err, user) => {
             if (err) {
                 console.error(err);
                 res.sendStatus(500);
                 return;
             }
 
-            res.sendStatus(204);
-        });
+            if (!user) {
+                res.sendStatus(404);
+                return;
+            }
 
-        return;
+            // we do a save because updateOne pre hooks do not play nicely with this.isModified
+            // https://mongoosejs.com/docs/middleware.html#notes
+            const newPassword = req.body.password;
+            user.password = newPassword;
+            user.save((err) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                    return;
+                }
+
+                res.sendStatus(204);
+            });
+
+            return;
+        });
     });
 };
 
 router.put("/user/password/updatePassword", (req: Request, res: Response) => {
-    // res.json({ updatePassword: "updatePassword.ts" });
     updatePassword(req, res);
 });
 
