@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import styles from "./ToDoItem.module.scss";
 
@@ -15,6 +15,9 @@ const ToDoItem = (props: Props) => {
     const { item, index, handleIsCompleteChange, handleDeleteOnClick } = props;
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>("");
+    useEffect(() => {
+        setInputValue(props.item.text);
+    }, []);
 
     // TODO: Pass this up
     const handleIsEditingOnClick = (): void => {
