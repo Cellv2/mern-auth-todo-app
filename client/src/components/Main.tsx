@@ -4,7 +4,7 @@ import JwtDecode from "jwt-decode";
 import ToDoForm from "./ToDos/ToDoForm";
 import ApiCallButton from "./ApiCallButton";
 
-import { Item } from "../types/to-do.types";
+import { Item,ItemUpdates } from "../types/to-do.types";
 import { ApplicationState, UserToken } from "../types/application-state.types";
 import { UpdateStateActions } from "../types/state-action.types";
 
@@ -149,6 +149,47 @@ class Main extends Component<Props, State> {
         return;
     };
 
+
+
+
+    // TODO: WIP
+    /**
+     * Generic item update handler for both local state and database updates
+     *
+     * @param update
+     */
+    handleItemUpdate = async (update: ItemUpdates): Promise<void> => {
+        console.log("handleItemUpdate - clicky");
+        console.log(`Type: ${update.type}`);
+        console.log(`index: ${update.index}`);
+
+        switch (update.type) {
+            case "DELETE_ITEM": {
+                console.log("Delete item");
+                return;
+            }
+
+            case "SWITCH_IS_COMPLETE": {
+                console.log("Switch item complete");
+                console.log(`payload: ${update.payload}`);
+                return;
+            }
+
+            case "UPDATE_TEXT": {
+                console.log("Update text");
+                console.log(`payload: ${update.payload}`);
+                return;
+            }
+
+            default:
+                return;
+        }
+    };
+    // TODO: ^^^^^
+
+
+
+
     handleDeleteOnClick = async (index: number): Promise<void> => {
         const { handleAppStateUpdate, applicationState } = this.props;
         const {
@@ -205,6 +246,7 @@ class Main extends Component<Props, State> {
                         handleCreateOnClick={this.handleCreateOnClick}
                         handleIsCompleteChange={this.handleIsCompleteChange}
                         handleDeleteOnClick={this.handleDeleteOnClick}
+                        handleItemUpdate={this.handleItemUpdate}
                     />
                 </header>
             </div>

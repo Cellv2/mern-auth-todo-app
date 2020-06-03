@@ -3,7 +3,7 @@ import React from "react";
 import ToDoItem from "./ToDoItem";
 import ToDoCreate from "./ToDoCreate";
 
-import { Item } from "../../types/to-do.types";
+import { Item, ItemUpdates } from "../../types/to-do.types";
 
 type Props = {
     items?: Item[];
@@ -11,6 +11,7 @@ type Props = {
     handleCreateOnClick: (inText: string) => void;
     handleIsCompleteChange: (index: number) => void;
     handleDeleteOnClick: (index: number) => void;
+    handleItemUpdate: (update: ItemUpdates) => void;
 };
 
 const ToDoForm = (props: Props) => {
@@ -20,6 +21,7 @@ const ToDoForm = (props: Props) => {
         handleCreateOnClick,
         handleIsCompleteChange,
         handleDeleteOnClick,
+        handleItemUpdate,
     } = props;
 
     let toDoItems: JSX.Element | JSX.Element[];
@@ -32,6 +34,7 @@ const ToDoForm = (props: Props) => {
                     item={item}
                     handleIsCompleteChange={handleIsCompleteChange}
                     handleDeleteOnClick={handleDeleteOnClick}
+                    handleItemUpdate={handleItemUpdate}
                 />
             );
         });
@@ -42,7 +45,12 @@ const ToDoForm = (props: Props) => {
     return (
         <div>
             <p>There should probably be a header here or something</p>
-            {!isAuthenticated && <p>You are not signed in! You will lose your items if you leave the page</p>}
+            {!isAuthenticated && (
+                <p>
+                    You are not signed in! You will lose your items if you leave
+                    the page
+                </p>
+            )}
             <ToDoCreate handleCreateOnClick={handleCreateOnClick} />
             {toDoItems}
         </div>

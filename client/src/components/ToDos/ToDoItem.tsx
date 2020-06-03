@@ -2,17 +2,24 @@ import React, { useState, useEffect } from "react";
 
 import styles from "./ToDoItem.module.scss";
 
-import { Item } from "../../types/to-do.types";
+import { Item, ItemUpdates } from "../../types/to-do.types";
 
 type Props = {
     item: Item;
     index: number;
     handleIsCompleteChange: (index: number) => void;
     handleDeleteOnClick: (index: number) => void;
+    handleItemUpdate: (update: ItemUpdates) => void;
 };
 
 const ToDoItem = (props: Props) => {
-    const { item, index, handleIsCompleteChange, handleDeleteOnClick } = props;
+    const {
+        item,
+        index,
+        handleIsCompleteChange,
+        handleDeleteOnClick,
+        handleItemUpdate,
+    } = props;
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>("");
     useEffect(() => {
@@ -24,6 +31,14 @@ const ToDoItem = (props: Props) => {
         if (isEditing === true) {
             const newText = inputValue;
         }
+
+        // TODO: This is just an example, add in the relevant update types
+        const updates: ItemUpdates = {
+            index: index,
+            payload: "Test",
+            type: "UPDATE_TEXT"
+        }
+        handleItemUpdate(updates);
 
         setIsEditing(!isEditing);
     };
