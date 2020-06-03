@@ -33,74 +33,37 @@ const ToDoItem = (props: Props) => {
     };
 
     return (
-        <>
-            {/* <div>
-                <input
-                    type="checkbox"
-                    name="isComplete"
-                    checked={item.isComplete}
-                    onChange={() => handleIsCompleteChange(index)}
-                />
-                <span className={item.isComplete ? styles.complete : ""}>
-                    {item.text}
-                </span>
-                <button onClick={() => handleDeleteOnClick(index)}>
-                    Click this to delete
-                </button>
-                <br />
-                <br />
-            </div>
-            <div>NEW</div>
+        <div>
             <input
                 type="checkbox"
-                name={`isComplete${props.index}`}
-                checked={props.item.isComplete}
+                name="isComplete"
+                checked={item.isComplete}
                 onChange={() => handleIsCompleteChange(index)}
-            /> */}
-            <div>
-                <input
-                    type="checkbox"
-                    name="isComplete"
-                    checked={item.isComplete}
-                    onChange={() => handleIsCompleteChange(index)}
-                />
-                {!isEditing ? (
-                    <>
-                        <span
-                            className={item.isComplete ? styles.complete : ""}
-                        >
-                            {item.text}
-                        </span>
-                        <button onClick={handleIsEditingOnClick}>Edit</button>
-                        <button onClick={() => handleDeleteOnClick(index)}>
-                            Delete
-                        </button>
-                    </>
-                ) : (
-                    <>
-                        <span>
-                            <input
-                                type="text"
-                                placeholder={item.text}
-                                onChange={handleInputOnChange}
-                                value={inputValue}
-                            />
-                        </span>
-                        <button onClick={handleIsEditingOnClick}>Done</button>
-                    </>
-                )}
-            </div>
-        </>
-    );
-};
-
-const EditableItem = (props: Props) => {
-    return (
-        <input
-            type="checkbox"
-            name={`isComplete${props.index}`}
-            checked={props.item.isComplete}
-        ></input>
+            />
+            {!isEditing ? (
+                <>
+                    <span className={item.isComplete ? styles.complete : ""}>
+                        {item.text}
+                    </span>
+                    <button onClick={handleIsEditingOnClick}>Edit</button>
+                    <button onClick={() => handleDeleteOnClick(index)}>
+                        Delete
+                    </button>
+                </>
+            ) : (
+                <>
+                    <span>
+                        <input
+                            type="text"
+                            placeholder={item.text}
+                            onChange={handleInputOnChange}
+                            value={inputValue}
+                        />
+                    </span>
+                    <button onClick={handleIsEditingOnClick}>Done</button>
+                </>
+            )}
+        </div>
     );
 };
 
