@@ -58,6 +58,12 @@ const ToDoItem = (props: Props) => {
                 onChange={() => handleIsCompleteChange(index)}
             /> */}
             <div>
+                <input
+                    type="checkbox"
+                    name="isComplete"
+                    checked={item.isComplete}
+                    onChange={() => handleIsCompleteChange(index)}
+                />
                 {!isEditing ? (
                     <>
                         <span
