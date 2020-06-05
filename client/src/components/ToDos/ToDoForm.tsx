@@ -9,7 +9,6 @@ type Props = {
     items?: Item[];
     isAuthenticated: boolean;
     handleCreateOnClick: (inText: string) => void;
-    handleIsCompleteChange: (index: number) => void;
     handleDeleteOnClick: (index: number) => void;
     handleItemUpdate: (item: Item, index: number) => void;
 };
@@ -19,7 +18,6 @@ const ToDoForm = (props: Props) => {
         items,
         isAuthenticated,
         handleCreateOnClick,
-        handleIsCompleteChange,
         handleDeleteOnClick,
         handleItemUpdate,
     } = props;
@@ -32,7 +30,6 @@ const ToDoForm = (props: Props) => {
                     key={index}
                     index={index}
                     item={item}
-                    handleIsCompleteChange={handleIsCompleteChange}
                     handleDeleteOnClick={handleDeleteOnClick}
                     handleItemUpdate={handleItemUpdate}
                 />

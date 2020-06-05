@@ -7,19 +7,12 @@ import { Item } from "../../types/to-do.types";
 type Props = {
     item: Item;
     index: number;
-    handleIsCompleteChange: (index: number) => void;
     handleDeleteOnClick: (index: number) => void;
     handleItemUpdate: (item: Item, index: number) => void;
 };
 
 const ToDoItem = (props: Props) => {
-    const {
-        item,
-        index,
-        handleIsCompleteChange,
-        handleDeleteOnClick,
-        handleItemUpdate,
-    } = props;
+    const { item, index, handleDeleteOnClick, handleItemUpdate } = props;
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>("");
     const [isComplete, setIsComplete] = useState<boolean>(false);

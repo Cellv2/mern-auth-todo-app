@@ -5,7 +5,7 @@ import ToDoForm from "./ToDos/ToDoForm";
 import ApiCallButton from "./ApiCallButton";
 
 import { Item } from "../types/to-do.types";
-import { ApplicationState, UserToken } from "../types/application-state.types";
+import { ApplicationState } from "../types/application-state.types";
 import { UpdateStateActions } from "../types/state-action.types";
 
 import styles from "./Main.module.scss";
@@ -235,7 +235,6 @@ class Main extends Component<Props, State> {
                             this.props.applicationState.isAuthenticated
                         }
                         handleCreateOnClick={this.handleCreateOnClick}
-                        handleIsCompleteChange={this.handleIsCompleteChange}
                         handleDeleteOnClick={this.handleDeleteOnClick}
                         handleItemUpdate={this.handleItemUpdate}
                     />
