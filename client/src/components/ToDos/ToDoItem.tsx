@@ -28,7 +28,6 @@ const ToDoItem = (props: Props) => {
         setIsComplete(props.item.isComplete);
     }, []);
 
-    // TODO: Pass this up
     const handleTextEdit = (): void => {
         if (isEditing === true) {
             updateItem();
@@ -49,13 +48,6 @@ const ToDoItem = (props: Props) => {
         updatedItem.isComplete = isComplete;
 
         handleItemUpdate(updatedItem, index);
-    };
-
-    const handleInputOnChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ): void => {
-        event.persist();
-        setInputValue(event.target.value);
     };
 
     return (
@@ -82,7 +74,7 @@ const ToDoItem = (props: Props) => {
                         <input
                             type="text"
                             placeholder={item.text}
-                            onChange={handleInputOnChange}
+                            onChange={(e) => setInputValue(e.target.value)}
                             value={inputValue}
                         />
                     </span>
