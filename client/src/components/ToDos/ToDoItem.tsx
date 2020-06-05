@@ -22,29 +22,33 @@ const ToDoItem = (props: Props) => {
     } = props;
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>("");
+    const [isComplete, setIsComplete] = useState<boolean>(false);
     useEffect(() => {
         setInputValue(props.item.text);
+        setIsComplete(props.item.isComplete);
     }, []);
 
     // TODO: Pass this up
-    const handleIsEditingOnClick = (): void => {
+    const handleTextEdit = (): void => {
         if (isEditing === true) {
-            const newText = inputValue;
-
-            // TODO: This is just an example, add in the relevant update types
-            // const updates: Item = {
-            //     index: index,
-            //     payload: "Test",
-            //     type: "UPDATE_TEXT"
-            // }
-
-            let updatedItem = props.item;
-            updatedItem.text = inputValue;
-
-            handleItemUpdate(updatedItem, index);
+            updateItem();
         }
 
         setIsEditing(!isEditing);
+    };
+
+    // this is its own function because we want this to trigger immediately every time
+    const handleIsComplete = (): void => {
+        setIsComplete(!isComplete);
+        updateItem();
+    };
+
+    const updateItem = (): void => {
+        let updatedItem = props.item;
+        updatedItem.text = inputValue;
+        updatedItem.isComplete = isComplete;
+
+        handleItemUpdate(updatedItem, index);
     };
 
     const handleInputOnChange = (
@@ -59,15 +63,15 @@ const ToDoItem = (props: Props) => {
             <input
                 type="checkbox"
                 name="isComplete"
-                checked={item.isComplete}
-                onChange={() => handleIsCompleteChange(index)}
+                checked={isComplete}
+                onChange={handleIsComplete}
             />
             {!isEditing ? (
                 <>
-                    <span className={item.isComplete ? styles.complete : ""}>
+                    <span className={isComplete ? styles.complete : ""}>
                         {item.text}
                     </span>
-                    <button onClick={handleIsEditingOnClick}>Edit</button>
+                    <button onClick={handleTextEdit}>Edit</button>
                     <button onClick={() => handleDeleteOnClick(index)}>
                         Delete
                     </button>
@@ -82,7 +86,7 @@ const ToDoItem = (props: Props) => {
                             value={inputValue}
                         />
                     </span>
-                    <button onClick={handleIsEditingOnClick}>Done</button>
+                    <button onClick={handleTextEdit}>Done</button>
                 </>
             )}
         </div>
