@@ -4,7 +4,7 @@ import JwtDecode from "jwt-decode";
 import ToDoForm from "./ToDos/ToDoForm";
 import ApiCallButton from "./ApiCallButton";
 
-import { Item,ItemUpdates } from "../types/to-do.types";
+import { Item } from "../types/to-do.types";
 import { ApplicationState, UserToken } from "../types/application-state.types";
 import { UpdateStateActions } from "../types/state-action.types";
 
@@ -156,34 +156,25 @@ class Main extends Component<Props, State> {
     /**
      * Generic item update handler for both local state and database updates
      *
-     * @param update
+     * @param {Item} item The updated Item object to be saved
+     * @param {number} index The index of the item - required as local state items do not have an ID
      */
-    handleItemUpdate = async (update: ItemUpdates): Promise<void> => {
+    handleItemUpdate = async (item: Item, index: number): Promise<void> => {
+        const { handleAppStateUpdate, applicationState } = this.props;
+        const {
+            isAuthenticated,
+            user,
+            items: appStateItems,
+        } = applicationState;
         console.log("handleItemUpdate - clicky");
-        console.log(`Type: ${update.type}`);
-        console.log(`index: ${update.index}`);
 
-        switch (update.type) {
-            case "DELETE_ITEM": {
-                console.log("Delete item");
-                return;
-            }
+        // const currentItem = appStateItems[index];
 
-            case "SWITCH_IS_COMPLETE": {
-                console.log("Switch item complete");
-                console.log(`payload: ${update.payload}`);
-                return;
-            }
+        let newState = applicationState;
+        newState.items[index] = item;
 
-            case "UPDATE_TEXT": {
-                console.log("Update text");
-                console.log(`payload: ${update.payload}`);
-                return;
-            }
+        handleAppStateUpdate(newState, "updateItemsState");
 
-            default:
-                return;
-        }
     };
     // TODO: ^^^^^
 

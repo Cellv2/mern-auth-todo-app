@@ -3,7 +3,7 @@ import React from "react";
 import ToDoItem from "./ToDoItem";
 import ToDoCreate from "./ToDoCreate";
 
-import { Item, ItemUpdates } from "../../types/to-do.types";
+import { Item } from "../../types/to-do.types";
 
 type Props = {
     items?: Item[];
@@ -11,7 +11,7 @@ type Props = {
     handleCreateOnClick: (inText: string) => void;
     handleIsCompleteChange: (index: number) => void;
     handleDeleteOnClick: (index: number) => void;
-    handleItemUpdate: (update: ItemUpdates) => void;
+    handleItemUpdate: (item: Item, index: number) => void;
 };
 
 const ToDoForm = (props: Props) => {
