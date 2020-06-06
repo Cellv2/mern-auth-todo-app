@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 import { secretOrKey } from "../../../../utils/secrets";
 import TodoCollection from "../../../../models/Todo/todo-collection.model";
+import { Item } from "../../../../../client/src/types/to-do.types";
 
 const router: Router = express.Router();
 
@@ -54,8 +55,33 @@ const createToDo = (req: Request, res: Response) => {
     });
 };
 
+const createToDos = (req: Request, res: Response) => {
+    const items: Item[] = req.body;
+
+    const mappedItems = items.map((item) => {
+        const todo = new TodoCollection({
+            userid: "5ed56cb4a1391d6dd0a89a0d",
+            isComplete: item.isComplete,
+            text: item.text,
+        });
+        return todo;
+    });
+
+    TodoCollection.insertMany(mappedItems, (err, items) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+            return;
+        }
+
+        res.json(items);
+        return;
+    });
+};
+
 router.post("/user/todos", (req: Request, res: Response) => {
-    createToDo(req, res);
+    // createToDo(req, res);
+    createToDos(req, res);
 });
 
 export default router;

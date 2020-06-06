@@ -192,7 +192,41 @@ class Main extends Component<Props, State> {
         return;
     };
 
+    /**
+     * Sends request to save an array items into the database
+     * @param {Item[]} items An array of items
+     */
+    handleItemCreation = async (items: Item[]): Promise<void> => {
+        console.log("handle item create clicked");
+        const saveRequest = await fetch(`/api/user/todos`, {
+            method: "POST",
+            headers: {
+                // Authorization: ,
+                "Content-Type": "application/json;charset=utf-8",
+            },
+            body: JSON.stringify(items),
+        });
+
+        const saveResponse = await saveRequest.json();
+        console.log(saveResponse);
+    };
+
+    handleSaveUnsavedItems = (): void => {
+        const { items } = this.props.applicationState;
+        const itemsToSave = items.filter((item) => !("_id" in item));
+        this.handleItemCreation(itemsToSave);
+    }
+
     render() {
+        const { isAuthenticated, user, items } = this.props.applicationState;
+        const unsavedItemsExist: boolean =
+            isAuthenticated &&
+            user !== null &&
+            !items.every((item) => "_id" in item);
+
+            const fakeItem = {isComplete: false, text: "fakeItem"};
+            const fakeItemArr :Item[] = [{isComplete: false, text: "fakeItemArr 1"}, {isComplete: false, text: "fakeItemArr 2"}]
+
         return (
             <div className={styles.app}>
                 <header className={styles.appHeader}>
@@ -209,6 +243,12 @@ class Main extends Component<Props, State> {
                         handleItemUpdate={this.handleItemUpdate}
                     />
                 </header>
+                {unsavedItemsExist && (
+                    <p>
+                        You have items that are not in the database{" "}
+                        <button onClick={this.handleSaveUnsavedItems}>Click to save</button>
+                    </p>
+                )}
             </div>
         );
     }
