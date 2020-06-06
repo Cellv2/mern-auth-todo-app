@@ -34,7 +34,6 @@ router.use("/api", deleteUser);
  */
 router.use("/api", updatePassword);
 
-// router.use("/api", addTodo);
 // -----
 // PRIVATE ROUTES
 // -----
