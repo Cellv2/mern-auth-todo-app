@@ -113,49 +113,8 @@ class Main extends Component<Props, State> {
         this.props.handleAppStateUpdate(newState, "updateItemsState");
     };
 
-    // TODO: Make this a generic update handler for todo items?
-    handleIsCompleteChange = async (index: number): Promise<void> => {
-        const { applicationState, handleAppStateUpdate } = this.props;
-        const { isAuthenticated, user } = applicationState;
-
-        let newState = applicationState;
-        newState.items[index].isComplete = !newState.items[index].isComplete;
-        const payload = newState.items[index];
-
-        try {
-            if (isAuthenticated && user && payload._id) {
-                const token = user.token as string;
-
-                const updateRequest = await fetch(
-                    `/api/user/todos/${payload._id}`,
-                    {
-                        method: "PUT",
-                        headers: {
-                            Authorization: token,
-                            "Content-Type": "application/json;charset=utf-8",
-                        },
-                        body: JSON.stringify(payload),
-                    }
-                );
-
-                await updateRequest;
-            }
-
-            handleAppStateUpdate(newState, "updateItemsState");
-        } catch (error) {
-            console.error(error);
-        }
-
-        return;
-    };
-
-
-
-
-    // TODO: WIP
     /**
      * Generic item update handler for both local state and database updates
-     *
      * @param {Item} item The updated Item object to be saved
      * @param {number} index The index of the item - required as local state items do not have an ID
      */
@@ -163,7 +122,6 @@ class Main extends Component<Props, State> {
         const { handleAppStateUpdate, applicationState } = this.props;
         const { isAuthenticated, user } = applicationState;
         console.log("handleItemUpdate - clicky");
-
 
         try {
             if (isAuthenticated && user && item._id) {
@@ -188,15 +146,10 @@ class Main extends Component<Props, State> {
             newState.items[index] = item;
 
             handleAppStateUpdate(newState, "updateItemsState");
-        } catch (error) {
-            console.error(error);
+        } catch (err) {
+            console.error(err);
         }
-
     };
-    // TODO: ^^^^^
-
-
-
 
     handleDeleteOnClick = async (index: number): Promise<void> => {
         const { handleAppStateUpdate, applicationState } = this.props;
@@ -232,8 +185,8 @@ class Main extends Component<Props, State> {
             // in case there is no DB call, we still update state here
             newState.items.splice(index, 1);
             handleAppStateUpdate(newState, "updateItemsState");
-        } catch (error) {
-            console.error(error);
+        } catch (err) {
+            console.error(err);
         }
 
         return;
