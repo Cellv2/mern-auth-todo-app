@@ -161,19 +161,36 @@ class Main extends Component<Props, State> {
      */
     handleItemUpdate = async (item: Item, index: number): Promise<void> => {
         const { handleAppStateUpdate, applicationState } = this.props;
-        const {
-            isAuthenticated,
-            user,
-            items: appStateItems,
-        } = applicationState;
+        const { isAuthenticated, user } = applicationState;
         console.log("handleItemUpdate - clicky");
 
-        // const currentItem = appStateItems[index];
 
-        let newState = applicationState;
-        newState.items[index] = item;
+        try {
+            if (isAuthenticated && user && item._id) {
+                const token = user.token as string;
 
-        handleAppStateUpdate(newState, "updateItemsState");
+                const updateRequest = await fetch(
+                    `/api/user/todos/${item._id}`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            Authorization: token,
+                            "Content-Type": "application/json;charset=utf-8",
+                        },
+                        body: JSON.stringify(item),
+                    }
+                );
+
+                await updateRequest;
+            }
+
+            let newState = applicationState;
+            newState.items[index] = item;
+
+            handleAppStateUpdate(newState, "updateItemsState");
+        } catch (error) {
+            console.error(error);
+        }
 
     };
     // TODO: ^^^^^
