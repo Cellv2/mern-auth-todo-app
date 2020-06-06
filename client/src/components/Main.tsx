@@ -77,6 +77,7 @@ class Main extends Component<Props, State> {
         return;
     };
 
+    // TODO: Fix this function so it calls handleItemCreation
     handleCreateOnClick = async (inText: string): Promise<void> => {
         const {
             isAuthenticated,
@@ -87,7 +88,8 @@ class Main extends Component<Props, State> {
         // this is used futher down so we don't need to repeat the state update depending on whether user is authed
         let newState = this.props.applicationState;
 
-        const newItem: Item = { isComplete: false, text: inText };
+        // this is an array as the API expects an array input
+        const newItem: Item[] = [{ isComplete: false, text: inText }];
 
         if (isAuthenticated && user !== null) {
             const token = user.token as string;
@@ -102,11 +104,12 @@ class Main extends Component<Props, State> {
                 body: JSON.stringify(newItem),
             });
 
-            const createdItem: Item = await response.json();
-            const newItems = [...appStateItems, createdItem];
+            // the API returns an array of Item objects
+            const createdItem: Item[] = await response.json();
+            const newItems = [...appStateItems, ...createdItem];
             newState.items = newItems;
         } else {
-            const newItems = [...appStateItems, newItem];
+            const newItems = [...appStateItems, ...newItem];
             newState.items = newItems;
         }
 
@@ -226,6 +229,8 @@ class Main extends Component<Props, State> {
         const { items } = this.props.applicationState;
         const itemsToSave = items.filter((item) => !("_id" in item));
         this.handleItemCreation(itemsToSave);
+
+        // TODO: Update the now saved items with their IDs in local state
     }
 
     render() {
