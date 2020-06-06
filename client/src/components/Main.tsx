@@ -198,17 +198,28 @@ class Main extends Component<Props, State> {
      */
     handleItemCreation = async (items: Item[]): Promise<void> => {
         console.log("handle item create clicked");
-        const saveRequest = await fetch(`/api/user/todos`, {
-            method: "POST",
-            headers: {
-                // Authorization: ,
-                "Content-Type": "application/json;charset=utf-8",
-            },
-            body: JSON.stringify(items),
-        });
+        const { handleAppStateUpdate, applicationState } = this.props;
+        const { isAuthenticated, user } = applicationState;
+        try {
+            if (isAuthenticated && user !== null) {
+                const token = user.token as string;
 
-        const saveResponse = await saveRequest.json();
-        console.log(saveResponse);
+                const saveRequest = await fetch(`/api/user/todos`, {
+                    method: "POST",
+                    headers: {
+                        Authorization: token,
+                        "Content-Type": "application/json;charset=utf-8",
+                    },
+                    body: JSON.stringify(items),
+                });
+
+                // TODO: Update the now saved items with their IDs in local state
+                const saveResponse = await saveRequest.json();
+                console.log(saveResponse);
+            }
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     handleSaveUnsavedItems = (): void => {
