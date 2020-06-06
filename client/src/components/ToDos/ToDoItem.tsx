@@ -14,12 +14,15 @@ type Props = {
 const ToDoItem = (props: Props) => {
     const { item, index, handleDeleteOnClick, handleItemUpdate } = props;
     const [isEditing, setIsEditing] = useState<boolean>(false);
-    const [inputValue, setInputValue] = useState<string>("");
-    const [isComplete, setIsComplete] = useState<boolean>(false);
+    const [inputValue, setInputValue] = useState<string>(props.item.text);
+    const [isComplete, setIsComplete] = useState<boolean>(
+        props.item.isComplete
+    );
+
+    // we have to ensure the update is done after the state is updated
     useEffect(() => {
-        setInputValue(props.item.text);
-        setIsComplete(props.item.isComplete);
-    }, []);
+        updateItem();
+    }, [isComplete]);
 
     const handleTextEdit = (): void => {
         if (isEditing === true) {
@@ -27,12 +30,6 @@ const ToDoItem = (props: Props) => {
         }
 
         setIsEditing(!isEditing);
-    };
-
-    // this is its own function because we want this to trigger immediately every time
-    const handleIsComplete = (): void => {
-        setIsComplete(!isComplete);
-        updateItem();
     };
 
     const updateItem = (): void => {
@@ -49,7 +46,7 @@ const ToDoItem = (props: Props) => {
                 type="checkbox"
                 name="isComplete"
                 checked={isComplete}
-                onChange={handleIsComplete}
+                onChange={() => setIsComplete(!isComplete)}
             />
             {!isEditing ? (
                 <>
