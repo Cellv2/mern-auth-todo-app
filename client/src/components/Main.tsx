@@ -279,8 +279,12 @@ class Main extends Component<Props, State> {
         return (
             <div className={styles.app}>
                 <header className={styles.appHeader}>
-                    {/* The user in the application state is:{" "}
-                    {this.props.applicationState.user} */}
+                    {this.props.applicationState.username && (
+                        <p>
+                            You are signed in as{" "}
+                            {this.props.applicationState.username}
+                        </p>
+                    )}
                     <ApiCallButton />
                     <ToDoForm
                         items={this.props.applicationState.items}
