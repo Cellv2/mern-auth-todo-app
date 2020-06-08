@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import JwtDecode from "jwt-decode";
 
 import ToDoForm from "./ToDos/ToDoForm";
 
