@@ -199,7 +199,7 @@ class Main extends Component<Props, State> {
      * Sends request to save an array items into the database
      * @param {Item[]} items An array of items
      */
-    handleItemCreation = async (items: Item[]): Promise<void> => {
+    handleItemCreation = async (items: Item[]): Promise<Item[] | undefined> => {
         console.log("handle item create clicked");
         const { handleAppStateUpdate, applicationState } = this.props;
         const { isAuthenticated, user } = applicationState;
@@ -219,19 +219,55 @@ class Main extends Component<Props, State> {
                 // TODO: Update the now saved items with their IDs in local state
                 const saveResponse = await saveRequest.json();
                 console.log(saveResponse);
+                return saveResponse;
             }
         } catch (err) {
             console.error(err);
         }
     };
 
-    handleSaveUnsavedItems = (): void => {
+    handleSaveUnsavedItems = async (): Promise<void> => {
         const { items } = this.props.applicationState;
-        const itemsToSave = items.filter((item) => !("_id" in item));
-        this.handleItemCreation(itemsToSave);
 
-        // TODO: Update the now saved items with their IDs in local state
-    }
+        // we cannot both filter items AND keep the index of where that item was in state
+        // we create a type which keeps the index which the item is in, then filter it down to only the items we need to save
+        // we then use this later on to overwrite the specific state item based
+        // we do this to avoid additional database calls (i.e. loading all items again)
+        type ItemsWithStateIndex = {
+            index: number;
+            item: Item;
+        };
+        const itemsToSaveWithIndex: ItemsWithStateIndex[] = items
+            .map((item, index) => {
+                const itemToSave: ItemsWithStateIndex = {
+                    index: index,
+                    item: item,
+                };
+
+                return itemToSave;
+            })
+            .filter((item) => !("_id" in item.item));
+
+        const itemsToSave: Item[] = itemsToSaveWithIndex.map(
+            (item) => item.item
+        );
+
+        try {
+            let stateItemsToSave = items;
+
+            const createdItems = await this.handleItemCreation(itemsToSave);
+            createdItems?.forEach((item, index) => {
+                stateItemsToSave[index] = item;
+            });
+
+            this.setState((prevState: State) => ({
+                ...prevState,
+                items: stateItemsToSave,
+            }));
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     render() {
         const { isAuthenticated, user, items } = this.props.applicationState;
@@ -240,8 +276,11 @@ class Main extends Component<Props, State> {
             user !== null &&
             !items.every((item) => "_id" in item);
 
-            const fakeItem = {isComplete: false, text: "fakeItem"};
-            const fakeItemArr :Item[] = [{isComplete: false, text: "fakeItemArr 1"}, {isComplete: false, text: "fakeItemArr 2"}]
+        const fakeItem = { isComplete: false, text: "fakeItem" };
+        const fakeItemArr: Item[] = [
+            { isComplete: false, text: "fakeItemArr 1" },
+            { isComplete: false, text: "fakeItemArr 2" },
+        ];
 
         return (
             <div className={styles.app}>
@@ -262,7 +301,9 @@ class Main extends Component<Props, State> {
                 {unsavedItemsExist && (
                     <p>
                         You have items that are not in the database{" "}
-                        <button onClick={this.handleSaveUnsavedItems}>Click to save</button>
+                        <button onClick={this.handleSaveUnsavedItems}>
+                            Click to save
+                        </button>
                     </p>
                 )}
             </div>
