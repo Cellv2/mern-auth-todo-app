@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import JwtDecode from "jwt-decode";
 
 import ToDoForm from "./ToDos/ToDoForm";
-import ApiCallButton from "./ApiCallButton";
 
 import { Item } from "../types/to-do.types";
 import { ApplicationState } from "../types/application-state.types";
@@ -285,7 +284,6 @@ class Main extends Component<Props, State> {
                             {this.props.applicationState.username}
                         </p>
                     )}
-                    <ApiCallButton />
                     <ToDoForm
                         items={this.props.applicationState.items}
                         isAuthenticated={
