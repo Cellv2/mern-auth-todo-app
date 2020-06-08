@@ -201,7 +201,7 @@ class Main extends Component<Props, State> {
      */
     handleItemCreation = async (items: Item[]): Promise<Item[] | undefined> => {
         console.log("handle item create clicked");
-        const { handleAppStateUpdate, applicationState } = this.props;
+        const { applicationState } = this.props;
         const { isAuthenticated, user } = applicationState;
         try {
             if (isAuthenticated && user !== null) {
@@ -275,12 +275,6 @@ class Main extends Component<Props, State> {
             isAuthenticated &&
             user !== null &&
             !items.every((item) => "_id" in item);
-
-        const fakeItem = { isComplete: false, text: "fakeItem" };
-        const fakeItemArr: Item[] = [
-            { isComplete: false, text: "fakeItemArr 1" },
-            { isComplete: false, text: "fakeItemArr 2" },
-        ];
 
         return (
             <div className={styles.app}>
