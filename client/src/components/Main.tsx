@@ -23,9 +23,9 @@ type State = {
 class Main extends Component<Props, State> {
     state: State = {
         items: [
-            { isComplete: true, text: "Item 1" },
-            { isComplete: false, text: "Item 2" },
-            { isComplete: false, text: "Item 3" },
+            { isComplete: true, text: "Item 1", timestamp: Date.now() },
+            { isComplete: false, text: "Item 2", timestamp: Date.now() },
+            { isComplete: false, text: "Item 3", timestamp: Date.now() },
         ],
     };
 
@@ -55,6 +55,7 @@ class Main extends Component<Props, State> {
                         userid: todo.userid,
                         isComplete: todo.isComplete,
                         text: todo.text,
+                        timestamp: todo.timestamp
                     };
 
                     return item;
@@ -87,7 +88,7 @@ class Main extends Component<Props, State> {
         let newState = this.props.applicationState;
 
         // this is an array as the API expects an array input
-        const newItem: Item[] = [{ isComplete: false, text: inText }];
+        const newItem: Item[] = [{ isComplete: false, text: inText, timestamp: Date.now() }];
 
         if (isAuthenticated && user !== null) {
             const token = user.token as string;

@@ -24,4 +24,5 @@ export type Item = {
     userid?: string;
     isComplete: boolean;
     text: string;
+    timestamp: number;
 };

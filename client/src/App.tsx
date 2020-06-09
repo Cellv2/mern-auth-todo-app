@@ -36,6 +36,7 @@ class App extends Component<Props, ApplicationState> {
             {
                 isComplete: false,
                 text: "This is a test item, delete me",
+                timestamp: Date.now(),
             },
         ],
         username: null,
