@@ -35,6 +35,7 @@ const createToDos = (req: Request, res: Response) => {
                     userid: userId,
                     isComplete: item.isComplete,
                     text: item.text,
+                    timestamp: item.timestamp
                 });
                 return todo;
             });
