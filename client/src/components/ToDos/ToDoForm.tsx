@@ -24,7 +24,12 @@ const ToDoForm = (props: Props) => {
 
     let toDoItems: JSX.Element | JSX.Element[];
     if (items && items.length > 0) {
-        const mappedItems = items.map((item: Item, index: number) => {
+        // sort by timestamp in order to show the most recently created items at the top of the list
+        const timestampSortedItems = items.sort(
+            (a, b) => b.timestamp - a.timestamp
+        );
+
+        toDoItems = timestampSortedItems.map((item: Item, index: number) => {
             return (
                 <ToDoItem
                     key={index}
@@ -35,9 +40,6 @@ const ToDoForm = (props: Props) => {
                 />
             );
         });
-
-        // we want the items to start from the bottom and go upwards, so we reverse the array
-        toDoItems = mappedItems.reverse();
     } else {
         toDoItems = <div>There are no items</div>;
     }
