@@ -9,12 +9,13 @@ import { Item } from "../../types/to-do.types";
 type Props = {
     item: Item;
     index: number;
+    isAuthenticated: boolean;
     handleDeleteOnClick: (index: number) => void;
     handleItemUpdate: (item: Item, index: number) => void;
 };
 
 const ToDoItem = (props: Props) => {
-    const { item, index, handleDeleteOnClick, handleItemUpdate } = props;
+    const { item, index, isAuthenticated, handleDeleteOnClick, handleItemUpdate } = props;
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>(props.item.text);
     const [isComplete, setIsComplete] = useState<boolean>(
@@ -44,11 +45,14 @@ const ToDoItem = (props: Props) => {
 
     return (
         <div>
-            <FontAwesomeIcon
-                icon={faExclamationTriangle}
-                className={styles.unsavedItemIcon}
-                size={"xs"}
-            />
+            {isAuthenticated && item._id === undefined && (
+                <FontAwesomeIcon
+                    icon={faExclamationTriangle}
+                    className={styles.unsavedItemIcon}
+                    size={"xs"}
+                    title={"This item is unsaved!"}
+                />
+            )}
             <input
                 type="checkbox"
                 name="isComplete"

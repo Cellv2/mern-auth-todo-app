@@ -35,6 +35,7 @@ const ToDoForm = (props: Props) => {
                     key={index}
                     index={index}
                     item={item}
+                    isAuthenticated={isAuthenticated}
                     handleDeleteOnClick={handleDeleteOnClick}
                     handleItemUpdate={handleItemUpdate}
                 />
