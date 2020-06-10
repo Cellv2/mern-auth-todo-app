@@ -15,6 +15,7 @@ class ToDoCreate extends Component<Props, State> {
     handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter" && this.state.input !== "") {
             this.props.handleCreateOnClick(this.state.input);
+            this.setState({ input: "" });
         }
     };
 
@@ -38,6 +39,7 @@ class ToDoCreate extends Component<Props, State> {
         // TODO: Set up hook into a global error state manager so errors can be shown elsewhere?
         if (this.state.input !== "") {
             this.props.handleCreateOnClick(this.state.input);
+            this.setState({ input: "" });
         } else {
             console.log("Woah there, you don't have anything in the input!");
         }
