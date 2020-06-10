@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./ToDoItem.module.scss";
 
@@ -42,6 +44,11 @@ const ToDoItem = (props: Props) => {
 
     return (
         <div>
+            <FontAwesomeIcon
+                icon={faExclamationTriangle}
+                className={styles.unsavedItemIcon}
+                size={"xs"}
+            />
             <input
                 type="checkbox"
                 name="isComplete"
