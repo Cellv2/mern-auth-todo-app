@@ -1,4 +1,3 @@
-import { JwtHeader } from "jsonwebtoken";
 import { AvailableThemes } from "./theme.types";
 
 export type ApplicationState = {
