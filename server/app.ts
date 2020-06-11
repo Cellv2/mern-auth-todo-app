@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import mongoose from "mongoose";
 import passport from "passport";
 import passportStrategy from "./utils/passport-strategy";
 
@@ -27,8 +28,8 @@ app.options("*", cors());
 app.use(passport.initialize());
 passportStrategy(passport);
 
-// test GET and serve
-import mongoose from "mongoose";
+// mongoose setup
+// TODO: Connect this to some cloud provider
 const mongoUrl: string = "mongodb://localhost:27017";
 mongoose
     .connect(mongoUrl, {
@@ -45,30 +46,6 @@ mongoose
             err
         );
     });
-
-app.get("/", (req, res) => {
-    res.send("kek");
-});
-// import mongodb from "mongodb";
-// const mongoClient = mongodb.MongoClient;
-app.get("/api/kek", (req, res) => {
-    // mongoClient.connect("mongodb://localhost:27017", (err, client) => {
-    //     if (err) {
-    //         console.log(err);
-    //     }
-    //     console.log(`We connected to mongodb`);
-    // });
-    res.json({ kek: "top kek" });
-});
-
-// Test passport-jwt authenticated route
-app.get(
-    "/api/testAuth",
-    passport.authenticate("jwt", { session: false }),
-    (req, res) => {
-        res.send("Authed");
-    }
-);
 
 // router
 app.use("/", router);
