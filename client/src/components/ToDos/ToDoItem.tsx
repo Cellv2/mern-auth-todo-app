@@ -15,14 +15,25 @@ type Props = {
 };
 
 const ToDoItem = (props: Props) => {
-    const { item, index, isAuthenticated, handleDeleteOnClick, handleItemUpdate } = props;
+    const {
+        item,
+        index,
+        isAuthenticated,
+        handleDeleteOnClick,
+        handleItemUpdate,
+    } = props;
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>(props.item.text);
     const [isComplete, setIsComplete] = useState<boolean>(
         props.item.isComplete
     );
 
-    // we have to ensure the update is done after the state is updated
+    useEffect(() => {
+        setInputValue(props.item.text);
+        setIsComplete(props.item.isComplete);
+    }, [props.item]);
+
+    // we have to ensure the update is done after the state is updated (hook update is async)
     useEffect(() => {
         updateItem();
     }, [isComplete]);
