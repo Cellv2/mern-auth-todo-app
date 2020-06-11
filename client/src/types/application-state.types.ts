@@ -1,4 +1,5 @@
 import { AvailableThemes } from "./theme.types";
+import { Item } from "./to-do.types";
 
 export type ApplicationState = {
     isAuthenticated: boolean;
@@ -16,12 +17,4 @@ export type UserToken = {
     id: string;
     iat: number;
     exp: number;
-};
-
-export type Item = {
-    _id?: string;
-    userid?: string;
-    isComplete: boolean;
-    text: string;
-    timestamp: number;
 };
