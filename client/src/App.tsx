@@ -32,13 +32,7 @@ class App extends Component<Props, ApplicationState> {
             token: "",
         },
         theme: "dark",
-        items: [
-            {
-                isComplete: false,
-                text: "This is a test item, delete me",
-                timestamp: Date.now(),
-            },
-        ],
+        items: [],
         username: null,
     };
 
