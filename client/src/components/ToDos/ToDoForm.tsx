@@ -5,6 +5,8 @@ import ToDoCreate from "./ToDoCreate";
 
 import { Item } from "../../types/to-do.types";
 
+import styles from "./ToDoForm.module.scss";
+
 type Props = {
     items?: Item[];
     isAuthenticated: boolean;
@@ -46,7 +48,7 @@ const ToDoForm = (props: Props) => {
     }
 
     return (
-        <div>
+        <div className={styles.formContainer}>
             <p>What do you need to get done today?</p>
             <ToDoCreate handleCreateOnClick={handleCreateOnClick} />
 
