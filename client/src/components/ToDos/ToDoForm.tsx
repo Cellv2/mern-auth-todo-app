@@ -47,14 +47,9 @@ const ToDoForm = (props: Props) => {
 
     return (
         <div>
-            <p>There should probably be a header here or something</p>
-            {!isAuthenticated && (
-                <p>
-                    You are not signed in! You will lose your items if you leave
-                    the page
-                </p>
-            )}
+            <p>What do you need to get done today?</p>
             <ToDoCreate handleCreateOnClick={handleCreateOnClick} />
+
             {toDoItems}
         </div>
     );
