@@ -51,7 +51,6 @@ const ToDoForm = (props: Props) => {
         <div className={styles.formContainer}>
             <p>What do you need to get done today?</p>
             <ToDoCreate handleCreateOnClick={handleCreateOnClick} />
-
             {toDoItems}
         </div>
     );
