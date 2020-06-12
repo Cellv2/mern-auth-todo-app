@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+
+import styles from "./ToDoCreate.module.scss";
 
 type Props = {
     handleCreateOnClick: (inText: string) => void;
@@ -29,15 +33,16 @@ const ToDoCreate = (props: Props) => {
 
     return (
         <div>
-            Create an item
             <input
                 type="text"
-                placeholder="Please enter your item text here"
+                placeholder="Create an item"
                 value={inputValue}
                 onKeyDown={handleKeyDown}
                 onChange={(e) => setInputValue(e.target.value)}
             />
-            <button onClick={handleSubmit}>Click this to create</button>
+            <button onClick={handleSubmit}>
+                <FontAwesomeIcon icon={faPlusCircle} />
+            </button>
         </div>
     );
 };
