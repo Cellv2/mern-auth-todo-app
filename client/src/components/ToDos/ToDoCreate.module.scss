@@ -1,0 +1,12 @@
+.flexContainer {
+    display: flex;
+
+    & .createInput {
+        flex: 1 100%;
+        text-align: center;
+    }
+}
+
+.createButton {
+    margin-left: 0.2rem;
+}
