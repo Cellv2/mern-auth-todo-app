@@ -21,7 +21,7 @@ import { updateItems, updateItemsActions } from "./actions/update-items.action";
 import { ApplicationState } from "./types/application-state.types";
 import { UpdateStateActions } from "./types/state-action.types";
 
-import "./App.global.scss";
+import "./styles/globals.scss";
 
 type Props = {};
 

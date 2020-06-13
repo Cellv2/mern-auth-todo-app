@@ -1,0 +1,11 @@
+@import "./variables";
+
+.dark {
+    color: $primary-color--dark;
+    background-color: $secondary-color--dark;
+}
+
+.light {
+    color: $primary-color--light;
+    background-color: $secondary-color--light;
+}
