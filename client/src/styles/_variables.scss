@@ -1,0 +1,17 @@
+@import "./colours";
+
+$main-brand-color: $main-brand;
+
+// primary-color: text
+// primary-color-accent: cta text
+// secondary-color: background
+// secondary-color-accent: cta areas
+$primary-color--light: $dark-shade;
+$primary-color-accent--light: $dark-accent;
+$secondary-color--light: $light-shade;
+$secondary-color-accent--light: $light-accent;
+
+$primary-color--dark: $light-shade;
+$primary-color-accent--dark: $light-accent;
+$secondary-color--dark: $dark-shade;
+$secondary-color-accent--dark: $dark-accent;
