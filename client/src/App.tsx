@@ -6,10 +6,6 @@ import {
     Redirect,
 } from "react-router-dom";
 
-import { updateUser, updateUserActions } from "./actions/update-user.action";
-import { updateTheme, updateThemeActions } from "./actions/update-theme.action";
-import { updateItems, updateItemsActions } from "./actions/update-items.action";
-
 import Layout from "./layouts/Layout";
 import Main from "./components/Main";
 import About from "./components/About/About";
@@ -19,8 +15,13 @@ import Login from "./components/User/Login";
 import Logout from "./components/User/Logout";
 import PageNotFound from "./pages/PageNotFound";
 
+import { updateUser, updateUserActions } from "./actions/update-user.action";
+import { updateTheme, updateThemeActions } from "./actions/update-theme.action";
+import { updateItems, updateItemsActions } from "./actions/update-items.action";
 import { ApplicationState } from "./types/application-state.types";
 import { UpdateStateActions } from "./types/state-action.types";
+
+import "./App.global.scss";
 
 type Props = {};
 
@@ -75,58 +76,68 @@ class App extends Component<Props, ApplicationState> {
     render() {
         return (
             <Router>
-                <Layout
-                    applicationState={this.state}
-                    isAuthenticated={this.state.isAuthenticated}
-                    handleAppStateUpdate={this.handleAppStateUpdate}
-                >
-                    <Switch>
-                        <Route path="/about">
-                            <About />
-                        </Route>
-                        <Route path="/profile">
-                            <UserProfile
-                                applicationState={this.state}
-                                handleAppStateUpdate={this.handleAppStateUpdate}
-                            />
-                            {/* The below will be used later on, remove this when the UserProfile page is done */}
-                            {/* {!this.state.isAuthenticated ? (
-                                <Redirect to="/login" />
-                            ) : (
+                <div className={this.state.theme}>
+                    <Layout
+                        applicationState={this.state}
+                        isAuthenticated={this.state.isAuthenticated}
+                        handleAppStateUpdate={this.handleAppStateUpdate}
+                    >
+                        <Switch>
+                            <Route path="/about">
+                                <About />
+                            </Route>
+                            <Route path="/profile">
                                 <UserProfile
                                     applicationState={this.state}
                                     handleAppStateUpdate={
                                         this.handleAppStateUpdate
                                     }
                                 />
-                            )} */}
-                        </Route>
-                        <Route path="/register">
-                            <Register />
-                        </Route>
-                        <Route path="/login">
-                            <Login
-                                applicationState={this.state}
-                                handleAppStateUpdate={this.handleAppStateUpdate}
-                            />
-                        </Route>
-                        <Route path="/logout">
-                            <Logout
-                                applicationState={this.state}
-                                handleAppStateUpdate={this.handleAppStateUpdate}
-                            />
-                        </Route>
-                        <Route exact path="/">
-                            <Main
-                                applicationState={this.state}
-                                handleAppStateUpdate={this.handleAppStateUpdate}
-                            />
-                        </Route>
-                        <Route path="">
-                            <PageNotFound />
-                        </Route>
-                    </Switch>
-                </Layout>
+                                {/* The below will be used later on, remove this when the UserProfile page is done */}
+                                {/* {!this.state.isAuthenticated ? (
+                                <Redirect to="/login" />
+                                ) : (
+                                    <UserProfile
+                                    applicationState={this.state}
+                                    handleAppStateUpdate={
+                                        this.handleAppStateUpdate
+                                    }
+                                    />
+                                )} */}
+                            </Route>
+                            <Route path="/register">
+                                <Register />
+                            </Route>
+                            <Route path="/login">
+                                <Login
+                                    applicationState={this.state}
+                                    handleAppStateUpdate={
+                                        this.handleAppStateUpdate
+                                    }
+                                />
+                            </Route>
+                            <Route path="/logout">
+                                <Logout
+                                    applicationState={this.state}
+                                    handleAppStateUpdate={
+                                        this.handleAppStateUpdate
+                                    }
+                                />
+                            </Route>
+                            <Route exact path="/">
+                                <Main
+                                    applicationState={this.state}
+                                    handleAppStateUpdate={
+                                        this.handleAppStateUpdate
+                                    }
+                                />
+                            </Route>
+                            <Route path="">
+                                <PageNotFound />
+                            </Route>
+                        </Switch>
+                    </Layout>
+                </div>
             </Router>
         );
     }
