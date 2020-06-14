@@ -55,7 +55,7 @@ class Main extends Component<Props, State> {
                         userid: todo.userid,
                         isComplete: todo.isComplete,
                         text: todo.text,
-                        timestamp: todo.timestamp
+                        timestamp: todo.timestamp,
                     };
 
                     return item;
@@ -88,7 +88,9 @@ class Main extends Component<Props, State> {
         let newState = this.props.applicationState;
 
         // this is an array as the API expects an array input
-        const newItem: Item[] = [{ isComplete: false, text: inText, timestamp: Date.now() }];
+        const newItem: Item[] = [
+            { isComplete: false, text: inText, timestamp: Date.now() },
+        ];
 
         if (isAuthenticated && user !== null) {
             const token = user.token as string;
@@ -275,6 +277,7 @@ class Main extends Component<Props, State> {
             user !== null &&
             !items.every((item) => "_id" in item);
 
+        // TODO: Rename styles
         return (
             <div className={styles.app}>
                 <header className={styles.appHeader}>
