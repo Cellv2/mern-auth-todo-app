@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import {
+    faExclamationTriangle,
+    faEdit,
+    faTrashAlt,
+    faCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./ToDoItem.module.scss";
 
@@ -55,7 +60,7 @@ const ToDoItem = (props: Props) => {
     };
 
     return (
-        <div>
+        <div className={styles.flexContainer}>
             {isAuthenticated && item._id === undefined && (
                 <FontAwesomeIcon
                     icon={faExclamationTriangle}
@@ -72,25 +77,55 @@ const ToDoItem = (props: Props) => {
             />
             {!isEditing ? (
                 <>
-                    <span className={isComplete ? styles.complete : ""}>
+                    <span
+                        className={`${styles.itemText} ${
+                            isComplete ? styles.complete : ""
+                        }`}
+                    >
                         {item.text}
                     </span>
-                    <button onClick={handleTextEdit}>Edit</button>
-                    <button onClick={() => handleDeleteOnClick(index)}>
-                        Delete
+                    <button
+                        onClick={handleTextEdit}
+                        className={styles.itemButton}
+                    >
+                        <FontAwesomeIcon
+                            icon={faEdit}
+                            className={styles.editIcon}
+                            title="Edit Item"
+                        />
+                    </button>
+                    <button
+                        onClick={() => handleDeleteOnClick(index)}
+                        className={styles.itemButton}
+                    >
+                        <FontAwesomeIcon
+                            icon={faTrashAlt}
+                            className={styles.deleteIcon}
+                            title="Delete Item"
+                        />
                     </button>
                 </>
             ) : (
                 <>
-                    <span>
+                    <span className={styles.itemText}>
                         <input
                             type="text"
                             placeholder={item.text}
                             onChange={(e) => setInputValue(e.target.value)}
                             value={inputValue}
+                            className={styles.itemEditInput}
                         />
                     </span>
-                    <button onClick={handleTextEdit}>Done</button>
+                    <button
+                        onClick={handleTextEdit}
+                        className={styles.itemButton}
+                    >
+                        <FontAwesomeIcon
+                            icon={faCheck}
+                            className={styles.saveEditsIcon}
+                            title="Save Item Edits"
+                        />
+                    </button>
                 </>
             )}
         </div>
