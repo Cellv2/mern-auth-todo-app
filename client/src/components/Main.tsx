@@ -277,10 +277,9 @@ class Main extends Component<Props, State> {
             user !== null &&
             !items.every((item) => "_id" in item);
 
-        // TODO: Rename styles
         return (
-            <div className={styles.app}>
-                <header className={styles.appHeader}>
+            <div className={styles.gridMain}>
+                <main className={styles.mainContent}>
                     {this.props.applicationState.username && (
                         <p>
                             You are signed in as{" "}
@@ -296,7 +295,7 @@ class Main extends Component<Props, State> {
                         handleDeleteOnClick={this.handleDeleteOnClick}
                         handleItemUpdate={this.handleItemUpdate}
                     />
-                </header>
+                </main>
                 {unsavedItemsExist && (
                     <p>
                         You have items that are not in the database{" "}
