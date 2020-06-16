@@ -78,7 +78,7 @@ const ToDoItem = (props: Props) => {
                             <FontAwesomeIcon
                                 icon={faExclamationTriangle}
                                 className={styles.unsavedItemIcon}
-                                size={"xs"}
+                                size={"sm"}
                                 title={"This item is unsaved!"}
                             />
                         </InputGroup.Text>
@@ -97,17 +97,20 @@ const ToDoItem = (props: Props) => {
                     <Button
                         variant="outline-secondary"
                         onClick={handleTextEdit}
+                        className={styles.actionButtons}
                     >
                         {isEditing ? (
                             <FontAwesomeIcon
                                 icon={faCheck}
                                 className="text-success"
+                                size={"sm"}
                                 title="Save Item Edits"
                             />
                         ) : (
                             <FontAwesomeIcon
                                 icon={faEdit}
                                 className="text-primary"
+                                size={"sm"}
                                 title="Edit Item"
                             />
                         )}
@@ -115,10 +118,12 @@ const ToDoItem = (props: Props) => {
                     <Button
                         variant="outline-secondary"
                         onClick={() => handleDeleteOnClick(index)}
+                        className={styles.actionButtons}
                     >
                         <FontAwesomeIcon
                             icon={faTrashAlt}
                             className={styles.deleteIcon}
+                            size={"sm"}
                             title="Delete Item"
                         />
                     </Button>
