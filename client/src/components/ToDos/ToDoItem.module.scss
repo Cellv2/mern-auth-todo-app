@@ -36,7 +36,7 @@ svg {
     }
 
     &.editIcon {
-        color: $dark-shade;
+        color: lightblue;
     }
 
     &.deleteIcon {
@@ -51,4 +51,9 @@ svg {
 // new
 .inputText {
     text-align: center;
+
+    &.complete {
+        font-style: italic;
+        text-decoration: line-through;
+    }
 }

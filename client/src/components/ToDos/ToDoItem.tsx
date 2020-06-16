@@ -88,8 +88,9 @@ const ToDoItem = (props: Props) => {
                     <FormControl
                         aria-label="Text input with checkbox"
                         value={inputValue}
-                        readOnly
-                        className={styles.inputText}
+                        readOnly={!isEditing}
+                        className={`${styles.inputText} ${isComplete ? styles.complete : ""}`}
+                        onChange={(e) => setInputValue(e.target.value)}
                     />
                     <InputGroup.Append>
                         <Button
@@ -99,13 +100,13 @@ const ToDoItem = (props: Props) => {
                             {isEditing ? (
                                 <FontAwesomeIcon
                                     icon={faCheck}
-                                    className={styles.saveEditsIcon}
+                                    className="text-success"
                                     title="Save Item Edits"
                                 />
                             ) : (
                                 <FontAwesomeIcon
                                     icon={faEdit}
-                                    className={styles.editIcon}
+                                    className="text-primary"
                                     title="Edit Item"
                                 />
                             )}
