@@ -96,11 +96,19 @@ const ToDoItem = (props: Props) => {
                             variant="outline-secondary"
                             onClick={handleTextEdit}
                         >
-                            <FontAwesomeIcon
-                                icon={faEdit}
-                                className={styles.editIcon}
-                                title="Edit Item"
-                            />
+                            {isEditing ? (
+                                <FontAwesomeIcon
+                                    icon={faCheck}
+                                    className={styles.saveEditsIcon}
+                                    title="Save Item Edits"
+                                />
+                            ) : (
+                                <FontAwesomeIcon
+                                    icon={faEdit}
+                                    className={styles.editIcon}
+                                    title="Edit Item"
+                                />
+                            )}
                         </Button>
                         <Button
                             variant="outline-secondary"
