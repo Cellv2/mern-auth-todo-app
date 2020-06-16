@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
+import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faExclamationTriangle,
@@ -60,75 +63,129 @@ const ToDoItem = (props: Props) => {
     };
 
     return (
-        <div className={styles.flexContainer}>
-            {isAuthenticated && item._id === undefined && (
-                <FontAwesomeIcon
-                    icon={faExclamationTriangle}
-                    className={styles.unsavedItemIcon}
-                    size={"xs"}
-                    title={"This item is unsaved!"}
+        <>
+            <div>
+                <InputGroup className="my-2" size="sm">
+                    <InputGroup.Prepend>
+                        <InputGroup.Checkbox
+                            aria-label="Checkbox for following text input"
+                            checked={isComplete}
+                            onChange={() => setIsComplete(!isComplete)}
+                        />
+                    </InputGroup.Prepend>
+                    {isAuthenticated && item._id === undefined && (
+                        <InputGroup.Prepend>
+                            <InputGroup.Text id={`unsaved-item-${index}`}>
+                                <FontAwesomeIcon
+                                    icon={faExclamationTriangle}
+                                    className={styles.unsavedItemIcon}
+                                    size={"xs"}
+                                    title={"This item is unsaved!"}
+                                />
+                            </InputGroup.Text>
+                        </InputGroup.Prepend>
+                    )}
+                    <FormControl
+                        aria-label="Text input with checkbox"
+                        value={inputValue}
+                        readOnly
+                        className={styles.inputText}
+                    />
+                    <InputGroup.Append>
+                        <Button
+                            variant="outline-secondary"
+                            onClick={handleTextEdit}
+                        >
+                            <FontAwesomeIcon
+                                icon={faEdit}
+                                className={styles.editIcon}
+                                title="Edit Item"
+                            />
+                        </Button>
+                        <Button
+                            variant="outline-secondary"
+                            onClick={() => handleDeleteOnClick(index)}
+                        >
+                            <FontAwesomeIcon
+                                icon={faTrashAlt}
+                                className={styles.deleteIcon}
+                                title="Delete Item"
+                            />
+                        </Button>
+                    </InputGroup.Append>
+                </InputGroup>
+            </div>
+            {/* OLD - REMOVE */}
+            <div className={styles.flexContainer}>
+                {isAuthenticated && item._id === undefined && (
+                    <FontAwesomeIcon
+                        icon={faExclamationTriangle}
+                        className={styles.unsavedItemIcon}
+                        size={"xs"}
+                        title={"This item is unsaved!"}
+                    />
+                )}
+                <input
+                    type="checkbox"
+                    name="isComplete"
+                    checked={isComplete}
+                    onChange={() => setIsComplete(!isComplete)}
                 />
-            )}
-            <input
-                type="checkbox"
-                name="isComplete"
-                checked={isComplete}
-                onChange={() => setIsComplete(!isComplete)}
-            />
-            {!isEditing ? (
-                <>
-                    <span
-                        className={`${styles.itemText} ${
-                            isComplete ? styles.complete : ""
-                        }`}
-                    >
-                        {item.text}
-                    </span>
-                    <button
-                        onClick={handleTextEdit}
-                        className={styles.itemButton}
-                    >
-                        <FontAwesomeIcon
-                            icon={faEdit}
-                            className={styles.editIcon}
-                            title="Edit Item"
-                        />
-                    </button>
-                    <button
-                        onClick={() => handleDeleteOnClick(index)}
-                        className={styles.itemButton}
-                    >
-                        <FontAwesomeIcon
-                            icon={faTrashAlt}
-                            className={styles.deleteIcon}
-                            title="Delete Item"
-                        />
-                    </button>
-                </>
-            ) : (
-                <>
-                    <span className={styles.itemText}>
-                        <input
-                            type="text"
-                            placeholder={item.text}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            value={inputValue}
-                            className={styles.itemEditInput}
-                        />
-                    </span>
-                    <button
-                        onClick={handleTextEdit}
-                        className={styles.itemButton}
-                    >
-                        <FontAwesomeIcon
-                            icon={faCheck}
-                            className={styles.saveEditsIcon}
-                            title="Save Item Edits"
-                        />
-                    </button>
-                </>
-            )}
-        </div>
+                {!isEditing ? (
+                    <>
+                        <span
+                            className={`${styles.itemText} ${
+                                isComplete ? styles.complete : ""
+                            }`}
+                        >
+                            {item.text}
+                        </span>
+                        <button
+                            onClick={handleTextEdit}
+                            className={styles.itemButton}
+                        >
+                            <FontAwesomeIcon
+                                icon={faEdit}
+                                className={styles.editIcon}
+                                title="Edit Item"
+                            />
+                        </button>
+                        <button
+                            onClick={() => handleDeleteOnClick(index)}
+                            className={styles.itemButton}
+                        >
+                            <FontAwesomeIcon
+                                icon={faTrashAlt}
+                                className={styles.deleteIcon}
+                                title="Delete Item"
+                            />
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <span className={styles.itemText}>
+                            <input
+                                type="text"
+                                placeholder={item.text}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                value={inputValue}
+                                className={styles.itemEditInput}
+                            />
+                        </span>
+                        <button
+                            onClick={handleTextEdit}
+                            className={styles.itemButton}
+                        >
+                            <FontAwesomeIcon
+                                icon={faCheck}
+                                className={styles.saveEditsIcon}
+                                title="Save Item Edits"
+                            />
+                        </button>
+                    </>
+                )}
+            </div>
+        </>
     );
 };
 
