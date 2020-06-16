@@ -1,33 +1,10 @@
-@import "../../styles/_colours";
-
-.flexContainer {
-    display: flex;
-    height: 3rem;
-    align-items: center;
-    justify-content: center;
-    font-size: initial;
-}
-
-.itemButton {
-    margin-left: 0.2rem;
-    width: 30px;
-}
-
-.itemText {
-    flex: 1;
+.inputText {
     text-align: center;
 
-    display: flex;
-    justify-content: center;
-    > .itemEditInput {
-        text-align: inherit;
-        flex-grow: 1;
+    &.complete {
+        font-style: italic;
+        text-decoration: line-through;
     }
-}
-
-.complete {
-    font-style: italic;
-    text-decoration: line-through;
 }
 
 svg {
@@ -45,15 +22,5 @@ svg {
 
     &.saveEditsIcon {
         color: lightgreen;
-    }
-}
-
-// new
-.inputText {
-    text-align: center;
-
-    &.complete {
-        font-style: italic;
-        text-decoration: line-through;
     }
 }
