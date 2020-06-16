@@ -63,138 +63,68 @@ const ToDoItem = (props: Props) => {
     };
 
     return (
-        <>
-            <div>
-                <InputGroup className="my-2" size="sm">
-                    <InputGroup.Prepend>
-                        <InputGroup.Checkbox
-                            aria-label="Checkbox for following text input"
-                            checked={isComplete}
-                            onChange={() => setIsComplete(!isComplete)}
-                        />
-                    </InputGroup.Prepend>
-                    {isAuthenticated && item._id === undefined && (
-                        <InputGroup.Prepend>
-                            <InputGroup.Text id={`unsaved-item-${index}`}>
-                                <FontAwesomeIcon
-                                    icon={faExclamationTriangle}
-                                    className={styles.unsavedItemIcon}
-                                    size={"xs"}
-                                    title={"This item is unsaved!"}
-                                />
-                            </InputGroup.Text>
-                        </InputGroup.Prepend>
-                    )}
-                    <FormControl
-                        aria-label="Text input with checkbox"
-                        value={inputValue}
-                        readOnly={!isEditing}
-                        className={`${styles.inputText} ${isComplete ? styles.complete : ""}`}
-                        onChange={(e) => setInputValue(e.target.value)}
+        <div>
+            <InputGroup className="my-2" size="sm">
+                <InputGroup.Prepend>
+                    <InputGroup.Checkbox
+                        aria-label="Checkbox for following text input"
+                        checked={isComplete}
+                        onChange={() => setIsComplete(!isComplete)}
                     />
-                    <InputGroup.Append>
-                        <Button
-                            variant="outline-secondary"
-                            onClick={handleTextEdit}
-                        >
-                            {isEditing ? (
-                                <FontAwesomeIcon
-                                    icon={faCheck}
-                                    className="text-success"
-                                    title="Save Item Edits"
-                                />
-                            ) : (
-                                <FontAwesomeIcon
-                                    icon={faEdit}
-                                    className="text-primary"
-                                    title="Edit Item"
-                                />
-                            )}
-                        </Button>
-                        <Button
-                            variant="outline-secondary"
-                            onClick={() => handleDeleteOnClick(index)}
-                        >
-                            <FontAwesomeIcon
-                                icon={faTrashAlt}
-                                className={styles.deleteIcon}
-                                title="Delete Item"
-                            />
-                        </Button>
-                    </InputGroup.Append>
-                </InputGroup>
-            </div>
-            {/* OLD - REMOVE */}
-            <div className={styles.flexContainer}>
+                </InputGroup.Prepend>
                 {isAuthenticated && item._id === undefined && (
-                    <FontAwesomeIcon
-                        icon={faExclamationTriangle}
-                        className={styles.unsavedItemIcon}
-                        size={"xs"}
-                        title={"This item is unsaved!"}
-                    />
+                    <InputGroup.Prepend>
+                        <InputGroup.Text id={`unsaved-item-${index}`}>
+                            <FontAwesomeIcon
+                                icon={faExclamationTriangle}
+                                className={styles.unsavedItemIcon}
+                                size={"xs"}
+                                title={"This item is unsaved!"}
+                            />
+                        </InputGroup.Text>
+                    </InputGroup.Prepend>
                 )}
-                <input
-                    type="checkbox"
-                    name="isComplete"
-                    checked={isComplete}
-                    onChange={() => setIsComplete(!isComplete)}
+                <FormControl
+                    aria-label="Text input with checkbox"
+                    value={inputValue}
+                    readOnly={!isEditing}
+                    className={`${styles.inputText} ${
+                        isComplete ? styles.complete : ""
+                    }`}
+                    onChange={(e) => setInputValue(e.target.value)}
                 />
-                {!isEditing ? (
-                    <>
-                        <span
-                            className={`${styles.itemText} ${
-                                isComplete ? styles.complete : ""
-                            }`}
-                        >
-                            {item.text}
-                        </span>
-                        <button
-                            onClick={handleTextEdit}
-                            className={styles.itemButton}
-                        >
-                            <FontAwesomeIcon
-                                icon={faEdit}
-                                className={styles.editIcon}
-                                title="Edit Item"
-                            />
-                        </button>
-                        <button
-                            onClick={() => handleDeleteOnClick(index)}
-                            className={styles.itemButton}
-                        >
-                            <FontAwesomeIcon
-                                icon={faTrashAlt}
-                                className={styles.deleteIcon}
-                                title="Delete Item"
-                            />
-                        </button>
-                    </>
-                ) : (
-                    <>
-                        <span className={styles.itemText}>
-                            <input
-                                type="text"
-                                placeholder={item.text}
-                                onChange={(e) => setInputValue(e.target.value)}
-                                value={inputValue}
-                                className={styles.itemEditInput}
-                            />
-                        </span>
-                        <button
-                            onClick={handleTextEdit}
-                            className={styles.itemButton}
-                        >
+                <InputGroup.Append>
+                    <Button
+                        variant="outline-secondary"
+                        onClick={handleTextEdit}
+                    >
+                        {isEditing ? (
                             <FontAwesomeIcon
                                 icon={faCheck}
-                                className={styles.saveEditsIcon}
+                                className="text-success"
                                 title="Save Item Edits"
                             />
-                        </button>
-                    </>
-                )}
-            </div>
-        </>
+                        ) : (
+                            <FontAwesomeIcon
+                                icon={faEdit}
+                                className="text-primary"
+                                title="Edit Item"
+                            />
+                        )}
+                    </Button>
+                    <Button
+                        variant="outline-secondary"
+                        onClick={() => handleDeleteOnClick(index)}
+                    >
+                        <FontAwesomeIcon
+                            icon={faTrashAlt}
+                            className={styles.deleteIcon}
+                            title="Delete Item"
+                        />
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
+        </div>
     );
 };
 
