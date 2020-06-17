@@ -42,6 +42,7 @@ const ToDoCreate = (props: Props) => {
                 value={inputValue}
                 onKeyDown={handleKeyDown}
                 onChange={(e) => setInputValue(e.target.value)}
+                placeholder={"Enter something to do!"}
             />
             <InputGroup.Append>
                 <Button
