@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
+import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
-import styles from './ToDoCreate.module.scss'
+import styles from "./ToDoCreate.module.scss";
 
 type Props = {
     handleCreateOnClick: (inText: string) => void;
@@ -32,19 +35,24 @@ const ToDoCreate = (props: Props) => {
     };
 
     return (
-        <div className={styles.flexContainer}>
-            <input
-                type="text"
+        <InputGroup className="my-3">
+            <FormControl
+                aria-label="Text for a new to do item"
                 className={styles.createInput}
-                placeholder="Create an item"
                 value={inputValue}
                 onKeyDown={handleKeyDown}
                 onChange={(e) => setInputValue(e.target.value)}
             />
-            <button className={styles.createButton} onClick={handleSubmit}>
-                <FontAwesomeIcon icon={faPlusCircle} />
-            </button>
-        </div>
+            <InputGroup.Append>
+                <Button
+                    variant="outline-primary"
+                    onClick={handleSubmit}
+                    className={styles.actionButtons}
+                >
+                    <FontAwesomeIcon icon={faPlusCircle} size={"sm"} />
+                </Button>
+            </InputGroup.Append>
+        </InputGroup>
     );
 };
 
