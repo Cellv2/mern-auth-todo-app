@@ -46,12 +46,23 @@ const ToDoItem = (props: Props) => {
         updateItem();
     }, [isComplete]);
 
-    const handleTextEdit = (): void => {
+    const handleButtonClick = (
+        event: React.MouseEvent<HTMLButtonElement>
+    ): void => {
         if (isEditing === true) {
             updateItem();
         }
 
         setIsEditing(!isEditing);
+    };
+
+    const handleKeyDown = (
+        event: React.KeyboardEvent<HTMLInputElement>
+    ): void => {
+        if (isEditing === true && event.key === "Enter") {
+            updateItem();
+            setIsEditing(false);
+        }
     };
 
     const updateItem = (): void => {
@@ -91,12 +102,13 @@ const ToDoItem = (props: Props) => {
                     className={`${styles.inputText} ${
                         isComplete ? styles.complete : ""
                     }`}
+                    onKeyDown={handleKeyDown}
                     onChange={(e) => setInputValue(e.target.value)}
                 />
                 <InputGroup.Append>
                     <Button
                         variant="outline-secondary"
-                        onClick={handleTextEdit}
+                        onClick={handleButtonClick}
                         className={styles.actionButtons}
                     >
                         {isEditing ? (
