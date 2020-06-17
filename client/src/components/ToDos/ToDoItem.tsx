@@ -35,6 +35,7 @@ const ToDoItem = (props: Props) => {
     const [isComplete, setIsComplete] = useState<boolean>(
         props.item.isComplete
     );
+    const [inputSnapshot, setInputSnapshop] = useState<string>(props.item.text);
 
     useEffect(() => {
         setInputValue(props.item.text);
@@ -49,7 +50,11 @@ const ToDoItem = (props: Props) => {
     const handleButtonClick = (
         event: React.MouseEvent<HTMLButtonElement>
     ): void => {
-        if (isEditing === true) {
+        if (!isEditing) {
+            setInputSnapshop(inputValue);
+        }
+
+        if (isEditing) {
             updateItem();
         }
 
@@ -59,8 +64,13 @@ const ToDoItem = (props: Props) => {
     const handleKeyDown = (
         event: React.KeyboardEvent<HTMLInputElement>
     ): void => {
-        if (isEditing === true && event.key === "Enter") {
+        if (isEditing && event.key === "Enter" && inputValue !== "") {
             updateItem();
+            setIsEditing(false);
+        }
+
+        if (isEditing && event.key === "Escape") {
+            setInputValue(inputSnapshot);
             setIsEditing(false);
         }
     };
