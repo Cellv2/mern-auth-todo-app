@@ -5,7 +5,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 
 import ThemeSwitch from "../ThemeSwitch/ThemeSwitch";
-import HeaderProfile from "./HeaderProfile";
+import NavProfile from "./NavProfile";
 import NavLinks from "./NavLinks";
 
 import { ApplicationState } from "../../types/application-state.types";
@@ -40,7 +40,7 @@ const Header = (props: Props) => {
                         handleAppStateUpdate={props.handleAppStateUpdate}
                     />
                 </Nav.Item>
-                <HeaderProfile />
+                <NavProfile />
             </Navbar>
         </Container>
     );

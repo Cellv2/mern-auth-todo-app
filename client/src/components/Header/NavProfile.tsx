@@ -9,7 +9,7 @@ interface Props extends RouteComponentProps {}
 // sign in  / register if not authed
 // show name / profile dropdown if authed
 
-const HeaderProfile = (props: Props) => {
+const NavProfile = (props: Props) => {
     const { location } = props;
     return (
         <Nav activeKey={location.pathname}>
@@ -24,7 +24,7 @@ const HeaderProfile = (props: Props) => {
                     Profile
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/logout" eventKey="logout-page">
+                <NavDropdown.Item as={Link} to="/logout" eventKey="/logout">
                     Logout
                 </NavDropdown.Item>
             </NavDropdown>
@@ -32,4 +32,4 @@ const HeaderProfile = (props: Props) => {
     );
 };
 
-export default withRouter(HeaderProfile);
+export default withRouter(NavProfile);
