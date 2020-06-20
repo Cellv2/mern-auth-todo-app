@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Navbar from "react-bootstrap/Navbar";
+import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import NavItem from "react-bootstrap/NavItem";
 import NavLink from "react-bootstrap/NavLink";
@@ -8,6 +10,9 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 import ProfileDropdown from "./ProfileDropdown";
 import ThemeSwitch from "../ThemeSwitch/ThemeSwitch";
+
+import HeaderProfile from "./HeaderProfile";
+import NavLinks from "./NavLinks";
 
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
@@ -25,46 +30,25 @@ type Props = {
 
 const Header = (props: Props) => {
     return (
-        <Nav
-            fill
-            variant="pills"
-            defaultActiveKey="home-page"
-            className={styles.gridHeader}
-        >
-            <Nav.Item>
-                <Nav.Link as={Link} to="/" eventKey="home-page">
-                    Home
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link as={Link} to="/about" eventKey="about-page">
-                    About
-                </Nav.Link>
-            </Nav.Item>
-            <NavDropdown title="Dropdown" id="nav-dropdown">
-                <NavDropdown.Item as={Link} to="/login" eventKey="sign-in-page">
-                    Sign In
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                    as={Link}
-                    to="/register"
-                    eventKey="register-page"
-                >
-                    Register
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                    as={Link}
-                    to="/profile"
-                    eventKey="profile-page"
-                >
-                    Profile
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/logout" eventKey="logout-page">
-                    Logout
-                </NavDropdown.Item>
-            </NavDropdown>
-        </Nav>
+        <Container fluid className={styles.gridHeader}>
+            <Navbar
+                variant={
+                    props.applicationState.theme === "dark" ? "dark" : "light"
+                }
+            >
+                <Navbar.Brand as={Link} to="/">
+                    MERN ToDo
+                </Navbar.Brand>
+                <NavLinks />
+                <Nav.Item>
+                    <ThemeSwitch
+                        applicationState={props.applicationState}
+                        handleAppStateUpdate={props.handleAppStateUpdate}
+                    />
+                </Nav.Item>
+                <HeaderProfile />
+            </Navbar>
+        </Container>
         // <>
         //     <div className={styles.logo}>
         //         <Link to="/">Home from logo</Link>
@@ -103,7 +87,7 @@ const Header = (props: Props) => {
         //             handleAppStateUpdate={props.handleAppStateUpdate}
         //         />
         //     </div>
-        // </>
+        // </HeaderProfile>
     );
 };
 
