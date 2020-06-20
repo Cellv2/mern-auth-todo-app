@@ -6,11 +6,15 @@ import styles from "./Footer.module.scss";
 
 type Props = {};
 
-const Footer = (props: Props) => {
-    const randomQuoteNumber: number = Math.floor(Math.random() * quotes.length);
-    const randomQuote: string = quotes[randomQuoteNumber];
+class Footer extends React.PureComponent<Props> {
+    render() {
+        const randomQuoteNumber: number = Math.floor(
+            Math.random() * quotes.length
+        );
+        const randomQuote: string = quotes[randomQuoteNumber];
 
-    return <div className={styles.footer}>{randomQuote}</div>;
-};
+        return <div className={styles.footer}>{randomQuote}</div>;
+    }
+}
 
 export default Footer;
