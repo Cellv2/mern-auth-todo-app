@@ -2,7 +2,7 @@
     display: grid;
     min-height: 100vh;
     grid-template-areas:
-        "logo header profile"
+        "header header header"
         "main main main"
         "footer footer footer";
     grid-template-columns: 1fr 8fr 2fr;
