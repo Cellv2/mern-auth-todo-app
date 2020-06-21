@@ -114,7 +114,7 @@ class Login extends Component<Props, State> {
         return (
             <div className={styles.gridMain}>
                 <h1 className="text-center mt-3 mb-sm-5">Sign in</h1>
-                <Form onSubmit={this.handleOnSubmit}>
+                <Form noValidate onSubmit={this.handleOnSubmit}>
                     <Container fluid>
                         <Form.Group
                             as={Row}
@@ -181,47 +181,6 @@ class Login extends Component<Props, State> {
                         </Form.Group>
                     </Container>
                 </Form>
-
-                {/* <div className={styles.gridMain}>
-                    {Object.keys(this.state.errors).length > 0 &&
-                        Object.keys(this.state.errors).map((error) => {
-                            return (
-                                <p key={error} className={styles.error}>
-                                    Error: {this.state.errors[error]}
-                                </p>
-                            );
-                        })}
-                    <form onSubmit={this.handleOnSubmit}>
-                        <div>
-                            <label htmlFor="email">Email:</label>
-                            <input
-                                name="email"
-                                type="text"
-                                value={this.state.email}
-                                onChange={this.handleInputOnChange}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="password">Password:</label>
-                            <input
-                                name="password"
-                                type="text"
-                                value={this.state.password}
-                                onChange={this.handleInputOnChange}
-                                autoComplete="new-password"
-                            />
-                        </div>
-
-                        <button type="submit">Submit</button>
-                    </form>
-                    <div>
-                        Not signed up yet? Click{" "}
-                        <span>
-                            <Link to="/register">here</Link>
-                        </span>
-                        !
-                    </div>
-                </div> */}
             </div>
         );
     }
