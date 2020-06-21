@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Alert, { AlertProps } from "react-bootstrap/Alert";
 
 interface Props extends AlertProps {
@@ -11,11 +11,20 @@ interface Props extends AlertProps {
 /**
  * Wraps react-bootstrap's <Alert> component with a little extra logic
  * If errors.length !== 0, it will display all the errors passed in
- * If no variant is passed in, it will default back to "info"
+ * Defaults: variant: info, dismissable: true
  * @param props Expects both an alertHeading and an error object
  */
 const Alerts = (props: Props) => {
-    const errorText: string[] = [];
+    const [show, setShow] = useState<boolean>(false);
+    useEffect(() => {
+        if (errorText.length !== 0) {
+            setShow(true);
+        } else {
+            setShow(false);
+        }
+    }, [props.errors]);
+
+    let errorText: string[] = [];
     for (const error in props.errors) {
         if (Object.prototype.hasOwnProperty.call(props.errors, error)) {
             const element = props.errors[error];
@@ -23,14 +32,24 @@ const Alerts = (props: Props) => {
         }
     }
 
-    return errorText.length !== 0 ? (
-        <Alert variant={props.variant ?? "info"} className={props.className}>
-            <Alert.Heading>{props.alertHeading}</Alert.Heading>
-            {errorText.map((error, index) => {
-                return <p key={index}>{error}</p>;
-            })}
-        </Alert>
-    ) : null;
+    if (show) {
+        return (
+            <Alert
+                {...props}
+                variant={props.variant ?? "info"}
+                className={props.className}
+                dismissible={props.dismissible ?? true}
+                onClose={() => setShow(false)}
+            >
+                <Alert.Heading>{props.alertHeading}</Alert.Heading>
+                {errorText.map((error, index) => {
+                    return <p key={index}>{error}</p>;
+                })}
+            </Alert>
+        );
+    }
+
+    return null;
 };
 
 export default Alerts;
