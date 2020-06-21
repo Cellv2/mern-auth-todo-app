@@ -43,7 +43,11 @@ const Alerts = (props: Props) => {
             >
                 <Alert.Heading>{props.alertHeading}</Alert.Heading>
                 {errorText.map((error, index) => {
-                    return <p key={index}>{error}</p>;
+                    return (
+                        <p key={index} className="m-2">
+                            {error}
+                        </p>
+                    );
                 })}
             </Alert>
         );
