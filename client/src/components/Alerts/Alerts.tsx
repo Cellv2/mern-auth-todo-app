@@ -15,6 +15,9 @@ interface Props extends AlertProps {
  * @param props Expects both an alertHeading and an error object
  */
 const Alerts = (props: Props) => {
+    // separate out our own props and those inherited from AlertProps, which we apply later
+    const { alertHeading, errors, ...rest } = props;
+
     const [show, setShow] = useState<boolean>(false);
     useEffect(() => {
         if (errorText.length !== 0) {
@@ -22,12 +25,12 @@ const Alerts = (props: Props) => {
         } else {
             setShow(false);
         }
-    }, [props.errors]);
+    }, [errors]);
 
     let errorText: string[] = [];
-    for (const error in props.errors) {
-        if (Object.prototype.hasOwnProperty.call(props.errors, error)) {
-            const element = props.errors[error];
+    for (const error in errors) {
+        if (Object.prototype.hasOwnProperty.call(errors, error)) {
+            const element = errors[error];
             errorText.push(element);
         }
     }
@@ -35,13 +38,13 @@ const Alerts = (props: Props) => {
     if (show) {
         return (
             <Alert
-                {...props}
+                {...rest}
                 variant={props.variant ?? "info"}
                 className={props.className}
                 dismissible={props.dismissible ?? true}
                 onClose={() => setShow(false)}
             >
-                <Alert.Heading>{props.alertHeading}</Alert.Heading>
+                <Alert.Heading>{alertHeading}</Alert.Heading>
                 {errorText.map((error, index) => {
                     return (
                         <p key={index} className="m-2">
