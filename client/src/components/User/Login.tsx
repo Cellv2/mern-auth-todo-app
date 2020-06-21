@@ -3,14 +3,16 @@ import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 import jwtDecode from "jwt-decode";
+
+import Alerts from "../Alerts/Alerts";
 
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
 
 import styles from "./Login.module.scss";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
 
 interface Props extends RouteComponentProps {
     applicationState: ApplicationState;
@@ -114,6 +116,20 @@ class Login extends Component<Props, State> {
                 <h1 className="text-center mt-3 mb-sm-5">Sign in</h1>
                 <Form onSubmit={this.handleOnSubmit}>
                     <Container fluid>
+                        <Form.Group
+                            as={Row}
+                            controlId="formAlerts"
+                            className="justify-content-md-center"
+                        >
+                            <Col sm={9}>
+                                <Alerts
+                                    alertHeading="Ut-oh! Errors!"
+                                    errors={this.state.errors}
+                                    variant="danger"
+                                    className="p-1 mb-sm-4 text-center"
+                                />
+                            </Col>
+                        </Form.Group>
                         <Form.Group
                             as={Row}
                             controlId="formEmail"
