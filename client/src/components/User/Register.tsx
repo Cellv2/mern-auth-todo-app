@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -9,7 +9,7 @@ import Button from "react-bootstrap/Button";
 
 import styles from "./Register.module.scss";
 
-type Props = {};
+interface Props extends RouteComponentProps {}
 
 type State = {
     username: string;
@@ -30,6 +30,13 @@ class Register extends Component<Props, State> {
         errors: {},
     };
 
+    redirectToLogin = () => {
+        const { history } = this.props;
+        if (history) {
+            history.push("/login");
+        }
+    };
+
     handleOnSubmit = async (
         event: React.FormEvent<HTMLFormElement>
     ): Promise<void> => {
@@ -48,7 +55,7 @@ class Register extends Component<Props, State> {
             body: JSON.stringify(body),
         });
 
-        if ((await request.status) === 400) {
+        if (!(await request.ok)) {
             const errors = await request.json();
             console.log(errors);
 
@@ -59,6 +66,13 @@ class Register extends Component<Props, State> {
         } else {
             const content = await request.json();
             console.log(content);
+
+            this.setState((prevState: State) => ({
+                ...prevState,
+                errors: {},
+            }));
+
+            this.redirectToLogin();
         }
     };
 
@@ -208,4 +222,4 @@ class Register extends Component<Props, State> {
     }
 }
 
-export default Register;
+export default withRouter(Register);
