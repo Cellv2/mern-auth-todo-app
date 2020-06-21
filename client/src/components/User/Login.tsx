@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import jwtDecode from "jwt-decode";
 
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
 
 import styles from "./Login.module.scss";
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 
 interface Props extends RouteComponentProps {
     applicationState: ApplicationState;
@@ -105,46 +110,100 @@ class Login extends Component<Props, State> {
 
     render() {
         return (
-            <div className={styles.gridMain}>
-                {Object.keys(this.state.errors).length > 0 &&
-                    Object.keys(this.state.errors).map((error) => {
-                        return (
-                            <p key={error} className={styles.error}>
-                                Error: {this.state.errors[error]}
-                            </p>
-                        );
-                    })}
-                <form onSubmit={this.handleOnSubmit}>
-                    <div>
-                        <label htmlFor="email">Email:</label>
-                        <input
-                            name="email"
-                            type="text"
-                            value={this.state.email}
-                            onChange={this.handleInputOnChange}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="password">Password:</label>
-                        <input
-                            name="password"
-                            type="text"
-                            value={this.state.password}
-                            onChange={this.handleInputOnChange}
-                            autoComplete="new-password"
-                        />
-                    </div>
+            <>
+                <Form
+                    className={styles.gridMain}
+                    onSubmit={this.handleOnSubmit}
+                >
+                    <Container fluid>
+                        <Form.Group
+                            as={Row}
+                            controlId="formEmail"
+                            className="justify-content-md-center"
+                        >
+                            <Form.Label column sm={2}>
+                                Email
+                            </Form.Label>
+                            <Col sm={6}>
+                                <Form.Control
+                                    type="email"
+                                    placeholder="Email"
+                                    name="email"
+                                    value={this.state.email}
+                                    onChange={this.handleInputOnChange}
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group
+                            as={Row}
+                            controlId="formPassword"
+                            className="justify-content-md-center"
+                        >
+                            <Form.Label column sm={2}>
+                                Password
+                            </Form.Label>
+                            <Col sm={6}>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Password"
+                                    name="password"
+                                    value={this.state.password}
+                                    onChange={this.handleInputOnChange}
+                                    autoComplete="new-password"
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group
+                            as={Row}
+                            className="justify-content-md-center"
+                        >
+                            <Col sm={{ span: 6, offset: 2 }}>
+                                <Button type="submit">Sign in</Button>
+                            </Col>
+                        </Form.Group>
+                    </Container>
+                </Form>
+                {/* <div className={styles.gridMain}>
+                    {Object.keys(this.state.errors).length > 0 &&
+                        Object.keys(this.state.errors).map((error) => {
+                            return (
+                                <p key={error} className={styles.error}>
+                                    Error: {this.state.errors[error]}
+                                </p>
+                            );
+                        })}
+                    <form onSubmit={this.handleOnSubmit}>
+                        <div>
+                            <label htmlFor="email">Email:</label>
+                            <input
+                                name="email"
+                                type="text"
+                                value={this.state.email}
+                                onChange={this.handleInputOnChange}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="password">Password:</label>
+                            <input
+                                name="password"
+                                type="text"
+                                value={this.state.password}
+                                onChange={this.handleInputOnChange}
+                                autoComplete="new-password"
+                            />
+                        </div>
 
-                    <button type="submit">Submit</button>
-                </form>
-                <div>
-                    Not signed up yet? Click{" "}
-                    <span>
-                        <Link to="/register">here</Link>
-                    </span>
-                    !
-                </div>
-            </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                    <div>
+                        Not signed up yet? Click{" "}
+                        <span>
+                            <Link to="/register">here</Link>
+                        </span>
+                        !
+                    </div>
+                </div> */}
+            </>
         );
     }
 }
