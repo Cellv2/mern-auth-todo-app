@@ -159,10 +159,15 @@ class Login extends Component<Props, State> {
                         >
                             <Col sm={{ span: 6, offset: 2 }}>
                                 <Button type="submit">Sign in</Button>
+                                <Form.Text className="mt-3">
+                                    Not registered yet? Click{" "}
+                                    <Link to="/register">here</Link>!
+                                </Form.Text>
                             </Col>
                         </Form.Group>
                     </Container>
                 </Form>
+
                 {/* <div className={styles.gridMain}>
                     {Object.keys(this.state.errors).length > 0 &&
                         Object.keys(this.state.errors).map((error) => {
