@@ -1,5 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Alerts from "../Alerts/Alerts";
+import Button from "react-bootstrap/Button";
 
 import styles from "./Register.module.scss";
 
@@ -56,7 +62,9 @@ class Register extends Component<Props, State> {
         }
     };
 
-    handleInputOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    handleInputOnChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ): void => {
         event.preventDefault();
 
         const key = event.target.name;
@@ -71,7 +79,93 @@ class Register extends Component<Props, State> {
     render() {
         return (
             <div className={styles.gridMain}>
-                <div>This is the register page</div>
+                <h1 className="text-center mt-3 mb-sm-5">Register</h1>
+                <Form noValidate onSubmit={this.handleOnSubmit}>
+                    <Container fluid>
+                        <Form.Group
+                            as={Row}
+                            controlId="formAlerts"
+                            className="justify-content-md-center"
+                        >
+                            <Col sm={9}>
+                                <Alerts
+                                    alertHeading="Ut-oh! Errors!"
+                                    errors={this.state.errors}
+                                    variant="danger"
+                                    className="p-1 mb-sm-4 text-center"
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group
+                            as={Row}
+                            controlId="formUsername"
+                            className="justify-content-md-center"
+                        >
+                            <Form.Label column sm={2}>
+                                Username
+                            </Form.Label>
+                            <Col sm={6}>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Username"
+                                    name="username"
+                                    value={this.state.username}
+                                    onChange={this.handleInputOnChange}
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group
+                            as={Row}
+                            controlId="formEmail"
+                            className="justify-content-md-center"
+                        >
+                            <Form.Label column sm={2}>
+                                Email
+                            </Form.Label>
+                            <Col sm={6}>
+                                <Form.Control
+                                    type="email"
+                                    placeholder="Email"
+                                    name="email"
+                                    value={this.state.email}
+                                    onChange={this.handleInputOnChange}
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group
+                            as={Row}
+                            controlId="formPassword"
+                            className="justify-content-md-center"
+                        >
+                            <Form.Label column sm={2}>
+                                Password
+                            </Form.Label>
+                            <Col sm={6}>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Password"
+                                    name="password"
+                                    value={this.state.password}
+                                    onChange={this.handleInputOnChange}
+                                    autoComplete="new-password"
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group
+                            as={Row}
+                            className="justify-content-md-center"
+                        >
+                            <Col sm={{ span: 6, offset: 2 }}>
+                                <Button type="submit">Register</Button>
+                                <Form.Text className="mt-3">
+                                    Already registered? Sign in{" "}
+                                    <Link to="/login">here</Link>!
+                                </Form.Text>
+                            </Col>
+                        </Form.Group>
+                    </Container>
+                </Form>
+                {/* <div>This is the register page</div>
                 <div>
                     Already registered? Click{" "}
                     <span>
@@ -108,7 +202,7 @@ class Register extends Component<Props, State> {
                         />
                     </div>
                     <button>Click to submit</button>
-                </form>
+                </form> */}
             </div>
         );
     }
