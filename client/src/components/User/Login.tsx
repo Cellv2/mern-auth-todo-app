@@ -110,11 +110,9 @@ class Login extends Component<Props, State> {
 
     render() {
         return (
-            <>
-                <Form
-                    className={styles.gridMain}
-                    onSubmit={this.handleOnSubmit}
-                >
+            <div className={styles.gridMain}>
+                <h1 className="text-center mt-3 mb-sm-5">Sign in</h1>
+                <Form onSubmit={this.handleOnSubmit}>
                     <Container fluid>
                         <Form.Group
                             as={Row}
@@ -208,7 +206,7 @@ class Login extends Component<Props, State> {
                         !
                     </div>
                 </div> */}
-            </>
+            </div>
         );
     }
 }
