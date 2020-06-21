@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Alert, { AlertProps } from "react-bootstrap/Alert";
 
+import styles from "./Alerts.module.scss";
+
 interface Props extends AlertProps {
     alertHeading: string;
     errors: {
@@ -11,12 +13,12 @@ interface Props extends AlertProps {
 /**
  * Wraps react-bootstrap's <Alert> component with a little extra logic
  * If errors.length !== 0, it will display all the errors passed in
- * Defaults: variant: info, dismissable: true
  * @param props Expects both an alertHeading and an error object
+ * @defaults variant: info, dismissable: true
  */
 const Alerts = (props: Props) => {
-    // separate out our own props and those inherited from AlertProps, which we apply later
-    const { alertHeading, errors, ...rest } = props;
+    // separate own props/className and those inherited from AlertProps for the spread operator later
+    const { alertHeading, errors, className, ...rest } = props;
 
     const [show, setShow] = useState<boolean>(false);
     useEffect(() => {
@@ -36,11 +38,13 @@ const Alerts = (props: Props) => {
     }
 
     if (show) {
+        const classNameList = `${className ? className : ""} ${styles.buttonCloseColourFix}`;
+
         return (
             <Alert
                 {...rest}
                 variant={props.variant ?? "info"}
-                className={props.className}
+                className={classNameList}
                 dismissible={props.dismissible ?? true}
                 onClose={() => setShow(false)}
             >
