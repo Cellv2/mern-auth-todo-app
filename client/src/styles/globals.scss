@@ -3,9 +3,11 @@
 .dark {
     color: $primary-color--dark;
     background-color: $secondary-color--dark;
+    transition: all 0.35s ease-out;
 }
 
 .light {
     color: $primary-color--light;
     background-color: $secondary-color--light;
+    transition: all 0.35s ease-out;
 }
