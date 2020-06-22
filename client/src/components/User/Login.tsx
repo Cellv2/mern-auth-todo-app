@@ -124,7 +124,7 @@ class Login extends Component<Props, State> {
                             <Col sm={9}>
                                 <Alerts
                                     alertHeading="Ut-oh! Errors!"
-                                    errors={this.state.errors}
+                                    messages={this.state.errors}
                                     variant="danger"
                                     className="p-1 mb-sm-4 text-center"
                                 />

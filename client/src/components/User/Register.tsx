@@ -4,8 +4,9 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Alerts from "../Alerts/Alerts";
 import Button from "react-bootstrap/Button";
+
+import Alerts from "../Alerts/Alerts";
 
 import styles from "./Register.module.scss";
 
@@ -104,7 +105,7 @@ class Register extends Component<Props, State> {
                             <Col sm={9}>
                                 <Alerts
                                     alertHeading="Ut-oh! Errors!"
-                                    errors={this.state.errors}
+                                    messages={this.state.errors}
                                     variant="danger"
                                     className="p-1 mb-sm-4 text-center"
                                 />

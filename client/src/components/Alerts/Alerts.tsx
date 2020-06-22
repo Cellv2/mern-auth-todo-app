@@ -5,7 +5,7 @@ import styles from "./Alerts.module.scss";
 
 interface Props extends AlertProps {
     alertHeading: string;
-    errors: {
+    messages: {
         [key: string]: string;
     };
 }
@@ -13,27 +13,27 @@ interface Props extends AlertProps {
 /**
  * Wraps react-bootstrap's <Alert> component with a little extra logic
  * If errors.length !== 0, it will display all the errors passed in
- * @param props Expects both an alertHeading and an error object
+ * @param props Expects both an alertHeading and a message object
  * @defaults variant: info, dismissable: true
  */
 const Alerts = (props: Props) => {
     // separate own props/className and those inherited from AlertProps for the spread operator later
-    const { alertHeading, errors, className, ...rest } = props;
+    const { alertHeading, messages, className, ...rest } = props;
 
     const [show, setShow] = useState<boolean>(false);
     useEffect(() => {
-        if (errorText.length !== 0) {
+        if (messageArray.length !== 0) {
             setShow(true);
         } else {
             setShow(false);
         }
-    }, [errors]);
+    }, [messages]);
 
-    let errorText: string[] = [];
-    for (const error in errors) {
-        if (Object.prototype.hasOwnProperty.call(errors, error)) {
-            const element = errors[error];
-            errorText.push(element);
+    let messageArray: string[] = [];
+    for (const message in messages) {
+        if (Object.prototype.hasOwnProperty.call(messages, message)) {
+            const element = messages[message];
+            messageArray.push(element);
         }
     }
 
@@ -49,7 +49,7 @@ const Alerts = (props: Props) => {
                 onClose={() => setShow(false)}
             >
                 <Alert.Heading>{alertHeading}</Alert.Heading>
-                {errorText.map((error, index) => {
+                {messageArray.map((error, index) => {
                     return (
                         <p key={index} className="m-2">
                             {error}
