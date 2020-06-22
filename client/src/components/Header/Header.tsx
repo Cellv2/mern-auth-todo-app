@@ -40,7 +40,7 @@ const Header = (props: Props) => {
                         handleAppStateUpdate={props.handleAppStateUpdate}
                     />
                 </Nav.Item>
-                <NavProfile />
+                <NavProfile isAuthenticated={props.isAuthenticated} />
             </Navbar>
         </Container>
     );
