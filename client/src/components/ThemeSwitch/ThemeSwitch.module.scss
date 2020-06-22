@@ -12,10 +12,13 @@
     position: relative;
     width: 6rem;
     height: 3rem;
-    outline: none;
 
     &:active {
         border-style: outset;
+    }
+
+    &:focus {
+        outline: none;
     }
 }
 
