@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,8 +16,20 @@ type Props = {
     ) => void;
 };
 
-// TODO: Make nicer transition between the dark/light toggle
 const ThemeSwitch = (props: Props) => {
+    const { isAuthenticated, theme } = props.applicationState;
+    const [initialTheme, setInitialTheme] = useState<AvailableThemes>(theme);
+    const [currentTheme, setCurrentTheme] = useState<AvailableThemes>(theme);
+
+    useEffect(() => {
+        setInitialTheme(theme);
+        setCurrentTheme(theme);
+    }, []);
+
+    useEffect(() => {
+        setCurrentTheme(theme);
+    }, [theme]);
+
     const handleThemeSwitch = async (): Promise<void> => {
         const currentTheme = props.applicationState.theme;
         const newTheme: AvailableThemes =
@@ -59,11 +71,11 @@ const ThemeSwitch = (props: Props) => {
             />
             <FontAwesomeIcon icon={faSun} className={styles.sun} size={"3x"} />
             <div
-                className={
-                    props.applicationState.theme === "light"
-                        ? `${styles.toggle} ${styles.light}`
-                        : `${styles.toggle} ${styles.dark}`
-                }
+                className={`
+                ${styles.toggle}
+                ${initialTheme === "light" ? styles.light : styles.dark}
+                ${currentTheme === "light" ? styles.moveLight : ""}
+                `}
             ></div>
         </button>
     );

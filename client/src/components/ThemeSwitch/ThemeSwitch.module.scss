@@ -33,7 +33,7 @@
     width: 2.2rem;
     background-color: #fff;
     border-radius: 50%;
-    transition: all 5s linear;
+    transition: all 0.35s ease-out;
 
     &.light {
         left: 5px;
@@ -41,5 +41,9 @@
 
     &.dark {
         right: 5px;
+    }
+
+    &.moveLight {
+        transform: translateX(-3rem);
     }
 }
