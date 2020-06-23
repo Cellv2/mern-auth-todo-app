@@ -13,14 +13,24 @@ const NavProfile = (props: Props) => {
     if (!props.isAuthenticated) {
         return (
             <Nav activeKey={location.pathname}>
-                <NavDropdown title="My Account" id="nav-dropdown">
-                    <NavDropdown.Item as={Link} to="/login" eventKey="/login">
+                <NavDropdown
+                    title="My Account"
+                    id="nav-dropdown"
+                    className="text-center"
+                >
+                    <NavDropdown.Item
+                        as={Link}
+                        to="/login"
+                        eventKey="/login"
+                        className="text-center"
+                    >
                         Sign In
                     </NavDropdown.Item>
                     <NavDropdown.Item
                         as={Link}
                         to="/register"
                         eventKey="/register"
+                        className="text-center"
                     >
                         Register
                     </NavDropdown.Item>
@@ -31,12 +41,26 @@ const NavProfile = (props: Props) => {
 
     return (
         <Nav activeKey={location.pathname}>
-            <NavDropdown title="My Account" id="nav-dropdown">
-                <NavDropdown.Item as={Link} to="/profile" eventKey="/profile">
+            <NavDropdown
+                title="My Account"
+                id="nav-dropdown"
+                className="text-center"
+            >
+                <NavDropdown.Item
+                    as={Link}
+                    to="/profile"
+                    eventKey="/profile"
+                    className="text-center"
+                >
                     Profile
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/logout" eventKey="/logout">
+                <NavDropdown.Item
+                    as={Link}
+                    to="/logout"
+                    eventKey="/logout"
+                    className="text-center"
+                >
                     Logout
                 </NavDropdown.Item>
             </NavDropdown>
