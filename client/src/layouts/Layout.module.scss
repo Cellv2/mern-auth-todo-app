@@ -6,5 +6,5 @@
         "main main main"
         "footer footer footer";
     grid-template-columns: 1fr 8fr 2fr;
-    grid-template-rows: 10vh auto 5vh;
+    grid-template-rows: minmax(10vh, min-content) auto 5vh;
 }

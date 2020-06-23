@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
@@ -29,18 +29,23 @@ const Header = (props: Props) => {
                 variant={
                     props.applicationState.theme === "dark" ? "dark" : "light"
                 }
+                collapseOnSelect
+                expand="sm"
             >
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Brand as={Link} to="/">
                     MERN ToDo
                 </Navbar.Brand>
-                <NavLinks />
-                <Nav.Item>
-                    <ThemeSwitch
-                        applicationState={props.applicationState}
-                        handleAppStateUpdate={props.handleAppStateUpdate}
-                    />
-                </Nav.Item>
-                <NavProfile isAuthenticated={props.isAuthenticated} />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <NavLinks />
+                    <Nav.Item>
+                        <ThemeSwitch
+                            applicationState={props.applicationState}
+                            handleAppStateUpdate={props.handleAppStateUpdate}
+                        />
+                    </Nav.Item>
+                    <NavProfile isAuthenticated={props.isAuthenticated} />
+                </Navbar.Collapse>
             </Navbar>
         </Container>
     );
