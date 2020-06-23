@@ -1,11 +1,12 @@
 import React from "react";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 import ToDoItem from "./ToDoItem";
 import ToDoCreate from "./ToDoCreate";
 
 import { Item } from "../../types/to-do.types";
-
-import styles from "./ToDoForm.module.scss";
 
 type Props = {
     items?: Item[];
@@ -48,11 +49,15 @@ const ToDoForm = (props: Props) => {
     }
 
     return (
-        <div className={styles.formContainer}>
-            <p>What do you need to get done today?</p>
-            <ToDoCreate handleCreateOnClick={handleCreateOnClick} />
-            {toDoItems}
-        </div>
+        <Container fluid>
+            <Row className="justify-content-md-center">
+                <Col sm={8}>
+                    <p>What do you need to get done today?</p>
+                    <ToDoCreate handleCreateOnClick={handleCreateOnClick} />
+                    {toDoItems}
+                </Col>
+            </Row>
+        </Container>
     );
 };
 
