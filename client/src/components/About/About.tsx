@@ -18,14 +18,14 @@ type Props = {};
 const About = (props: Props) => {
     return (
         <div className={styles.gridMain}>
-            <h1 className="text-center">This is the about page</h1>
-            <Container style={{ height: "5rem" }}>
+            <h1 className="text-center mb-4">Techs Used</h1>
+            <Container style={{ height: "5rem" }} className="my-3">
                 <Row
                     //  style={{ height: "100%" }}
                     className="h-100"
                 >
                     <Col
-                        sm={3}
+                        // sm={3}
                         // style={{ height: "100%" }}
                         className="text-center h-100"
                     >
@@ -37,7 +37,9 @@ const About = (props: Props) => {
                             // style={{ maxHeight: "100%" }}
                         />
                     </Col>
-                    <Col sm={9} className="h-100">
+                    <Col
+                    //  sm={9}
+                     className="h-100">
                         <h5>MongoDB title</h5>
                         <p>MongoDB text</p>
                     </Col>
