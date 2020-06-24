@@ -17,6 +17,7 @@ const NavProfile = (props: Props) => {
                     title="My Account"
                     id="nav-dropdown"
                     className="text-center"
+                    alignRight
                 >
                     <NavDropdown.Item
                         as={Link}
@@ -45,6 +46,7 @@ const NavProfile = (props: Props) => {
                 title="My Account"
                 id="nav-dropdown"
                 className="text-center"
+                alignRight
             >
                 <NavDropdown.Item
                     as={Link}
