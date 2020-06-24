@@ -2,37 +2,6 @@
     grid-area: main;
 }
 
-.flexContainer {
-    display: flex;
-    align-content: space-between;
-    flex-direction: column;
-}
-
-.flexItem {
-    display: flex;
-    align-items: center;
-    margin: 1rem 0;
-    width: 5rem;
-    height: 5rem;
-
-    .logo {
-        min-width: 5rem;
-        text-align: center;
-
-        img {
-            display: inline-block;
-            max-height: 5rem;
-            max-width: 5rem;
-        }
-    }
-
-    p {
-        display: inline-block;
-        margin: 0;
-        margin-left: 1rem;
-    }
-}
-
 .containerItem {
     height: 5rem;
 }
