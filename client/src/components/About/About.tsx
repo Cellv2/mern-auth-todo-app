@@ -51,7 +51,7 @@ const About = (props: Props) => {
 
     return (
         <div className={styles.gridMain}>
-            <h1 className="text-center mb-4">Techs Used</h1>
+            <h1 className="text-center mb-5">Techs Used</h1>
             {aboutItems.map((item) => {
                 return (
                     <Container className={`${styles.containerItem} my-3`}>
