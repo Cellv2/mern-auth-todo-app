@@ -15,40 +15,40 @@ import styles from "./About.module.scss";
 
 type Props = {};
 
-const About = (props: Props) => {
-    const aboutItems = [
-        {
-            src: mongoDbLogo,
-            alt: "MongoDB Logo",
-            title: "MongoDB title",
-            text: "MongoDB text",
-        },
-        {
-            src: expressLogo,
-            alt: "Express Logo",
-            title: "Express title",
-            text: "Express text",
-        },
-        {
-            src: reactLogo,
-            alt: "React Logo",
-            title: "React title",
-            text: "React text",
-        },
-        {
-            src: nodeJsLogo,
-            alt: "NodeJS Logo",
-            title: "NodeJS title",
-            text: "NodeJS text",
-        },
-        {
-            src: typescriptLogo,
-            alt: "TypeScript Logo",
-            title: "TypeScript title",
-            text: "TypeScript text",
-        },
-    ];
+const aboutItems = [
+    {
+        src: mongoDbLogo,
+        alt: "MongoDB Logo",
+        title: "MongoDB title",
+        text: "MongoDB text",
+    },
+    {
+        src: expressLogo,
+        alt: "Express Logo",
+        title: "Express title",
+        text: "Express text",
+    },
+    {
+        src: reactLogo,
+        alt: "React Logo",
+        title: "React title",
+        text: "React text",
+    },
+    {
+        src: nodeJsLogo,
+        alt: "NodeJS Logo",
+        title: "NodeJS title",
+        text: "NodeJS text",
+    },
+    {
+        src: typescriptLogo,
+        alt: "TypeScript Logo",
+        title: "TypeScript title",
+        text: "TypeScript text",
+    },
+];
 
+const About = (props: Props) => {
     return (
         <div className={styles.gridMain}>
             <h1 className="text-center mb-5">Techs Used</h1>
