@@ -1,7 +1,6 @@
 import React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
-import EditableText from "../../components/User/EditableText";
 import PasswordUpdate from "../../components/User/PasswordUpdate";
 
 import { ApplicationState } from "../../types/application-state.types";
@@ -114,8 +113,6 @@ const UserProfile = (props: Props) => {
                 Set light theme
             </button>
             <hr />
-            <EditableText initialText={"Test"} />
-            <br />
             <div style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
                 <p>Danger</p>
                 <button onClick={handleDeleteUser}>Delete User</button>
