@@ -1,5 +1,7 @@
 import React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Alert from "react-bootstrap/Alert";
 
 import PasswordUpdate from "../../components/User/PasswordUpdate";
 
@@ -103,24 +105,44 @@ const UserProfile = (props: Props) => {
     };
 
     return (
-        <div className={styles.grid}>
-            <h1>This is the user page</h1>
-            <p>The current theme is: {props.applicationState.theme}</p>
-            <button onClick={() => handleOnClick("dark")}>
-                Set dark theme
-            </button>
-            <button onClick={() => handleOnClick("light")}>
-                Set light theme
-            </button>
-            <hr />
-            <div style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <p>Danger</p>
-                <button onClick={handleDeleteUser}>Delete User</button>
-            </div>
-            <br />
-            {props.applicationState.user?.token && (
-                <PasswordUpdate token={props.applicationState.user.token} />
-            )}
+        <div className={styles.gridMain}>
+            <Container className="text-center">
+                <h1>
+                    Hey,{" "}
+                    {props.applicationState.username ?? "how did you get here?"}
+                </h1>
+                <p>
+                    <em>
+                        {props.applicationState.items.length
+                            ? `You have ${props.applicationState.items.length} items on your to do list - get on with it!`
+                            : "There's nothing on your to do list? Go add something!"}
+                    </em>
+                </p>
+                {props.applicationState.user?.token && (
+                    <>
+                        <Alert variant="info">
+                            <Alert.Heading>Update Password</Alert.Heading>
+                            <p>
+                                If you'd like to update your password, please
+                                use the input below
+                            </p>
+                            <PasswordUpdate
+                                token={props.applicationState.user.token}
+                            />
+                        </Alert>
+                        <Alert variant="danger">
+                            <Alert.Heading>Delete Account</Alert.Heading>
+                            <p>
+                                Here be danger! Click below to delete your
+                                account
+                            </p>
+                            <button onClick={handleDeleteUser}>
+                                Delete User
+                            </button>
+                        </Alert>
+                    </>
+                )}
+            </Container>
         </div>
     );
 };
