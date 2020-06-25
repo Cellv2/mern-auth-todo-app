@@ -53,7 +53,7 @@ const About = (props: Props) => {
             <h1 className="text-center mb-5">Techs Used</h1>
             {aboutItems.map((item) => {
                 return (
-                    <Container className={`${styles.containerItem} my-3`}>
+                    <Container key={item.title} className={`${styles.containerItem} my-3`}>
                         <Row className="h-100">
                             <Col className="text-center h-100">
                                 <Image
