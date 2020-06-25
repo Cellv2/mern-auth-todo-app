@@ -9,7 +9,7 @@ import {
 import Layout from "./layouts/Layout";
 import Main from "./components/Main";
 import About from "./pages/About/About";
-import UserProfile from "./components/User/UserProfile";
+import UserProfile from "./pages/UserProfile/UserProfile";
 import Register from "./components/User/Register";
 import Login from "./components/User/Login";
 import Logout from "./components/User/Logout";

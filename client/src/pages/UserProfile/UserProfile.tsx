@@ -1,8 +1,8 @@
 import React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
-import EditableText from "./EditableText";
-import PasswordUpdate from "./PasswordUpdate";
+import EditableText from "../../components/User/EditableText";
+import PasswordUpdate from "../../components/User/PasswordUpdate";
 
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
