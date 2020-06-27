@@ -61,10 +61,11 @@ class Main extends Component<Props, State> {
                     return item;
                 });
 
-                const newItems = [
-                    ...this.props.applicationState.items,
-                    ...todoToItems,
-                ];
+                // no need to merge with current state EXECPT if the items have no ID (they are not committed to the DB)
+                const unsavedItems = this.props.applicationState.items.filter(
+                    (item) => !("_id" in item)
+                );
+                const newItems = [...unsavedItems, ...todoToItems];
 
                 let newState = this.props.applicationState;
                 newState.items = newItems;
