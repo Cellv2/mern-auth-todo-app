@@ -2,6 +2,7 @@ import React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 
 import PasswordUpdate from "../../components/User/PasswordUpdate";
 
@@ -92,7 +93,7 @@ const UserProfile = (props: Props) => {
                 </p>
                 {props.applicationState.user?.token && (
                     <>
-                        <Alert variant="info">
+                        <Alert>
                             <Alert.Heading>Update Password</Alert.Heading>
                             <p>
                                 If you'd like to update your password, please
@@ -108,9 +109,9 @@ const UserProfile = (props: Props) => {
                                 Here be danger! Click below to delete your
                                 account
                             </p>
-                            <button onClick={handleDeleteUser}>
+                            <Button variant="danger" onClick={handleDeleteUser}>
                                 Delete User
-                            </button>
+                            </Button>
                         </Alert>
                     </>
                 )}
