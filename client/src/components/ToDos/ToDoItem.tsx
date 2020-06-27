@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
@@ -30,6 +30,7 @@ const ToDoItem = (props: Props) => {
         handleDeleteOnClick,
         handleItemUpdate,
     } = props;
+    const inputRef = useRef<HTMLTextAreaElement>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>(props.item.text);
     const [isComplete, setIsComplete] = useState<boolean>(
@@ -47,6 +48,21 @@ const ToDoItem = (props: Props) => {
         updateItem();
     }, [isComplete]);
 
+    useEffect(() => {
+        correctTextAreaHeightViaRef(inputRef);
+    }, [inputValue]);
+
+    const correctTextAreaHeightViaRef = (
+        ref: React.RefObject<HTMLTextAreaElement>
+    ): void => {
+        if (ref !== null && ref.current !== null) {
+            const element = ref.current;
+            // height doesn't seem to set correctly unless you update it first
+            element.style.height = "1px";
+            element.style.height = `${element.scrollHeight + 2}px`;
+        }
+    };
+
     const handleButtonClick = (
         event: React.MouseEvent<HTMLButtonElement>
     ): void => {
@@ -62,7 +78,7 @@ const ToDoItem = (props: Props) => {
     };
 
     const handleKeyDown = (
-        event: React.KeyboardEvent<HTMLInputElement>
+        event: React.KeyboardEvent<HTMLTextAreaElement>
     ): void => {
         if (isEditing && event.key === "Enter" && inputValue !== "") {
             updateItem();
@@ -106,6 +122,8 @@ const ToDoItem = (props: Props) => {
                     </InputGroup.Prepend>
                 )}
                 <FormControl
+                    ref={inputRef}
+                    as="textarea"
                     aria-label="Text input with checkbox"
                     value={inputValue}
                     readOnly={!isEditing}
