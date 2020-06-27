@@ -12,6 +12,14 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import Alerts from "../Alerts/Alerts";
 
 import { UserToken } from "../../types/application-state.types";
+import {
+    signInError,
+    pwIsEmpty,
+    pwsNotMatching,
+    server500,
+    serverPasswordUpdated,
+    server401,
+} from "../../constants/alert-settings";
 
 type Props = {
     token: string | UserToken | undefined;
@@ -35,72 +43,27 @@ const PasswordUpdate = (props: Props) => {
         messages: {},
     });
 
-    const handleInputOnChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        setPwOne(event.target.value);
-    };
-
-    const handleInputOnKeyDown = (
-        event: React.KeyboardEvent<HTMLInputElement>
-    ) => {
-        if (event.key === "Enter") {
-            requestPasswordUpdate();
-        }
-    };
-
-    // TODO: Add some UI feedback on successful/failed password update
     const requestPasswordUpdate = async (
         event: React.FormEvent<HTMLFormElement>
     ): Promise<void> => {
         // we want to prevent form redirection when submitted
         event.preventDefault();
 
-        let alertSettings: AlertSettings = {
-            heading: "",
-            messages: {},
-        };
-
         if (!props.token) {
-            alertSettings = {
-                heading: "We couldn't sign you in",
-                messages: {
-                    "Sign in error":
-                        "You do not seem to be signed in - Please sign in again and try updating your password again",
-                },
-                variant: "danger",
-            };
-
             console.error("You must be signed in");
-            setAlerts(alertSettings);
+            setAlerts(signInError);
             return;
         }
 
         if (pwOne === "" || pwTwo === "") {
-            alertSettings = {
-                heading: "Password is empty",
-                messages: {
-                    pwsNotMatching:
-                        "Please ensure that both passwords have a value and try again",
-                },
-                variant: "warning",
-            };
             console.error("One of the passwords is blank");
-            setAlerts(alertSettings);
+            setAlerts(pwIsEmpty);
             return;
         }
 
         if (pwOne !== pwTwo) {
-            alertSettings = {
-                heading: "The passwords do not match",
-                messages: {
-                    pwsNotMatching:
-                        "Please ensure that both passwords match and try again",
-                },
-                variant: "warning",
-            };
             console.error("The passwords do not match");
-            setAlerts(alertSettings);
+            setAlerts(pwsNotMatching);
             return;
         }
 
@@ -119,44 +82,21 @@ const PasswordUpdate = (props: Props) => {
 
             const response = await request;
             if (!response.ok) {
-                alertSettings = {
-                    heading: "Nope, server says 500!",
-                    messages: {
-                        "500": "Something went wrong, please try again later",
-                    },
-                    variant: "danger",
-                };
-
-                setAlerts(alertSettings);
+                setAlerts(server500);
 
                 throw new Error(
                     `The response code (${response.status}) did not indicate success. The response was ${response.statusText}`
                 );
             }
 
-            alertSettings = {
-                heading: "Password updated!",
-                messages: {
-                    pwUpdated: "Password has been updated successfully",
-                },
-                variant: "success",
-            };
             console.log("Password updated successfully");
-            setAlerts(alertSettings);
+            setAlerts(serverPasswordUpdated);
             setPwOne("");
             setPwTwo("");
         } catch (error) {
-            alertSettings = {
-                heading: "Nope, server says 401!",
-                messages: {
-                    "401":
-                        "Please sign in again and try updating your password again",
-                },
-                variant: "danger",
-            };
-
             console.error(error);
-            setAlerts(alertSettings);
+            setAlerts(server401);
+            return;
         }
     };
 
@@ -188,7 +128,6 @@ const PasswordUpdate = (props: Props) => {
                                 placeholder="New Password"
                                 name="newPasswordOne"
                                 value={pwOne}
-                                // onKeyDown={handleInputOnKeyDown}
                                 onChange={(e) => setPwOne(e.target.value)}
                             />
                             <InputGroup.Append>
@@ -214,7 +153,6 @@ const PasswordUpdate = (props: Props) => {
                                 placeholder="Confirm Password"
                                 name="newPasswordOne"
                                 value={pwTwo}
-                                // onKeyDown={handleInputOnKeyDown}
                                 onChange={(e) => setPwTwo(e.target.value)}
                             />
                             <InputGroup.Append>
