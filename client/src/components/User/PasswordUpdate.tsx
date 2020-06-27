@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
-import { AlertProps } from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
@@ -12,6 +11,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import Alerts from "../Alerts/Alerts";
 
 import { UserToken } from "../../types/application-state.types";
+import { AlertSettings } from "../../types/alerts.types";
 import {
     signInError,
     pwIsEmpty,
@@ -23,14 +23,6 @@ import {
 
 type Props = {
     token: string | UserToken | undefined;
-};
-
-type AlertSettings = {
-    heading: string;
-    messages: {
-        [key: string]: string;
-    };
-    variant?: AlertProps["variant"];
 };
 
 const PasswordUpdate = (props: Props) => {
