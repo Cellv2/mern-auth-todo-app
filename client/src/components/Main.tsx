@@ -281,12 +281,6 @@ class Main extends Component<Props, State> {
         return (
             <div className={styles.gridMain}>
                 <main className={styles.mainContent}>
-                    {this.props.applicationState.username && (
-                        <p>
-                            You are signed in as{" "}
-                            {this.props.applicationState.username}
-                        </p>
-                    )}
                     <ToDoForm
                         items={this.props.applicationState.items}
                         isAuthenticated={
@@ -295,6 +289,7 @@ class Main extends Component<Props, State> {
                         handleCreateOnClick={this.handleCreateOnClick}
                         handleDeleteOnClick={this.handleDeleteOnClick}
                         handleItemUpdate={this.handleItemUpdate}
+                        username={this.props.applicationState.username}
                     />
                 </main>
                 {unsavedItemsExist && (

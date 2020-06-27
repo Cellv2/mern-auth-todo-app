@@ -14,6 +14,7 @@ type Props = {
     handleCreateOnClick: (inText: string) => void;
     handleDeleteOnClick: (index: number) => void;
     handleItemUpdate: (item: Item, index: number) => void;
+    username: string | null;
 };
 
 const ToDoForm = (props: Props) => {
@@ -52,7 +53,12 @@ const ToDoForm = (props: Props) => {
         <Container fluid>
             <Row className="justify-content-md-center">
                 <Col sm={8}>
-                    <p>What do you need to get done today?</p>
+                    <div className="mb-5">
+                        <h1>Hey, {props.username ?? "mysterious user"}!</h1>
+                        <small>
+                            <em>What do you need to get done today?</em>
+                        </small>
+                    </div>
                     <ToDoCreate handleCreateOnClick={handleCreateOnClick} />
                     {toDoItems}
                 </Col>
