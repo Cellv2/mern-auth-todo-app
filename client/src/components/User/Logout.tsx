@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
-import { ApplicationState, Item } from "../../types/application-state.types";
+import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
 
 import styles from "./Logout.module.scss";

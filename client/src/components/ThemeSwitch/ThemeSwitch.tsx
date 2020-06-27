@@ -35,7 +35,7 @@ const ThemeSwitch = (props: Props) => {
         const newTheme: AvailableThemes =
             currentTheme !== "light" ? "light" : "dark";
 
-        if (props.applicationState.isAuthenticated) {
+        if (isAuthenticated) {
             const token = props.applicationState.user?.token as string;
             const payload = {
                 theme: newTheme,

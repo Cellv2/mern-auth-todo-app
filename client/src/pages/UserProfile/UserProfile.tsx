@@ -7,7 +7,6 @@ import PasswordUpdate from "../../components/User/PasswordUpdate";
 
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
-import { AvailableThemes } from "../../types/theme.types";
 
 import styles from "./UserProfile.module.scss";
 
@@ -27,33 +26,6 @@ const UserProfile = (props: Props) => {
         }
     };
 
-    const handleOnClick = async (theme: AvailableThemes): Promise<void> => {
-        if (props.applicationState.isAuthenticated) {
-            const token = props.applicationState.user?.token as string;
-            const payload = {
-                theme: theme,
-            };
-
-            const request = await fetch(`/api/user/profile`, {
-                method: "PATCH",
-                headers: {
-                    Authorization: token,
-                    "Content-Type": "application/json;charset=utf-8",
-                },
-                body: JSON.stringify(payload),
-            });
-
-            const response = await request.json();
-            console.log(response);
-        }
-
-        // update the theme locally as well, just in case we're not logged in
-        let newState = props.applicationState;
-        newState.theme = theme;
-
-        props.handleAppStateUpdate(newState, "updateThemeState");
-    };
-
     const handleDeleteUser = async (
         event: React.MouseEvent<HTMLButtonElement>
     ): Promise<void> => {
@@ -62,7 +34,7 @@ const UserProfile = (props: Props) => {
 
         // TODO: If this fails, say so through the UI
         if (isAuthenticated && user) {
-            const randomInts = Array.from(new Array(5)).map((item) =>
+            const randomInts = Array.from(new Array(5)).map(() =>
                 Math.floor(Math.random() * 10)
             );
             const randomString = randomInts.join("-");
