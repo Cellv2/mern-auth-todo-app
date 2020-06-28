@@ -61,7 +61,7 @@ const PasswordUpdate = (props: Props) => {
 
         try {
             const token = props.token as string;
-            const passwordUpdate = { password: pwOne };
+            const passwordUpdate = { passwordOne: pwOne, passwordTwo: pwTwo };
 
             const request = await fetch(`/api/user/password/updatePassword`, {
                 method: "PUT",

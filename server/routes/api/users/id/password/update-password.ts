@@ -43,8 +43,17 @@ const updatePassword = (req: Request, res: Response): void => {
 
             // we do a save because updateOne pre hooks do not play nicely with this.isModified
             // https://mongoosejs.com/docs/middleware.html#notes
-            const newPassword = req.body.password;
-            user.password = newPassword;
+            const pwOne = req.body.passwordOne;
+            const pwTwo = req.body.passwordTwo;
+
+            if (pwOne !== pwTwo) {
+                console.error("Passwords do not match");
+                res.sendStatus(422);
+                return;
+            }
+
+            // check whether the strings are the same is already done, so we can take either password
+            user.password = pwOne;
             user.save((err) => {
                 if (err) {
                     console.error(err);
