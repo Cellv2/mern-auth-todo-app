@@ -26,10 +26,19 @@ export const pwsNotMatching: AlertSettings = {
     variant: "warning",
 };
 
-export const server401: AlertSettings = {
-    heading: "Nope, server says 401!",
+export const serverAuthError: AlertSettings = {
+    heading: "Nope, server says it doesn't know you!",
     messages: {
-        "401": "Please sign in again and try updating your password again",
+        "authError": "Please sign in again and try updating your password again",
+    },
+    variant: "danger",
+};
+
+export const server422: AlertSettings = {
+    heading: "Nope, server says 422!",
+    messages: {
+        "422":
+            "This is likely due to the passwords not matching. Please ensure both passwords match and try again",
     },
     variant: "danger",
 };
@@ -48,4 +57,12 @@ export const serverPasswordUpdated: AlertSettings = {
         pwUpdated: "Password has been updated successfully",
     },
     variant: "success",
+};
+
+export const serverUnknownError: AlertSettings = {
+    heading: "Something went wrong",
+    messages: {
+        somethingDied: "We're not sure what went wrong, please try again",
+    },
+    variant: "danger",
 };

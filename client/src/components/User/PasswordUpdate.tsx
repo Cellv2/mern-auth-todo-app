@@ -18,7 +18,8 @@ import {
     pwsNotMatching,
     server500,
     serverPasswordUpdated,
-    server401,
+    serverAuthError,
+    serverUnknownError,
 } from "../../constants/alert-settings";
 
 type Props = {
@@ -42,19 +43,16 @@ const PasswordUpdate = (props: Props) => {
         event.preventDefault();
 
         if (!props.token) {
-            console.error("You must be signed in");
             setAlerts(signInError);
             return;
         }
 
         if (pwOne === "" || pwTwo === "") {
-            console.error("One of the passwords is blank");
             setAlerts(pwIsEmpty);
             return;
         }
 
         if (pwOne !== pwTwo) {
-            console.error("The passwords do not match");
             setAlerts(pwsNotMatching);
             return;
         }
@@ -74,20 +72,26 @@ const PasswordUpdate = (props: Props) => {
 
             const response = await request;
             if (!response.ok) {
-                setAlerts(server500);
+                if (response.status === 500) {
+                    setAlerts(server500);
+                }
 
-                throw new Error(
-                    `The response code (${response.status}) did not indicate success. The response was ${response.statusText}`
-                );
+                if (response.status === 422) {
+                    setAlerts(pwsNotMatching);
+                }
+
+                if (response.status === 401 || response.status === 403) {
+                    setAlerts(serverAuthError);
+                }
+
+                return;
             }
 
-            console.log("Password updated successfully");
             setAlerts(serverPasswordUpdated);
             setPwOne("");
             setPwTwo("");
         } catch (error) {
-            console.error(error);
-            setAlerts(server401);
+            setAlerts(serverUnknownError);
             return;
         }
     };
