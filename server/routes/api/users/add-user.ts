@@ -34,7 +34,7 @@ const addUser = (req: Request, res: Response): void => {
         const newUser = new UserCollection({
             name: req.body.username,
             email: req.body.email,
-            password: req.body.password,
+            password: req.body.passwordOne,
         });
 
         newUser.save((err) => {

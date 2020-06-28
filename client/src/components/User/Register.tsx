@@ -15,7 +15,8 @@ interface Props extends RouteComponentProps {}
 type State = {
     username: string;
     email: string;
-    password: string;
+    passwordOne: string;
+    passwordTwo: string;
     errors?: {
         username?: string;
         email?: string;
@@ -23,11 +24,13 @@ type State = {
     };
 };
 
+// TODO: really need to refactor this to a functional component
 class Register extends Component<Props, State> {
     state = {
         username: "",
         email: "",
-        password: "",
+        passwordOne: "",
+        passwordTwo: "",
         errors: {},
     };
 
@@ -42,12 +45,12 @@ class Register extends Component<Props, State> {
         event: React.FormEvent<HTMLFormElement>
     ): Promise<void> => {
         event.preventDefault();
-        console.log("aweadsawdasd");
 
         const body = {
             username: this.state.username,
             email: this.state.email,
-            password: this.state.password,
+            passwordOne: this.state.passwordOne,
+            passwordTwo: this.state.passwordTwo,
         };
 
         const request = await fetch("/api/users/addUser", {
@@ -159,8 +162,27 @@ class Register extends Component<Props, State> {
                                 <Form.Control
                                     type="password"
                                     placeholder="Password"
-                                    name="password"
-                                    value={this.state.password}
+                                    name="passwordOne"
+                                    value={this.state.passwordOne}
+                                    onChange={this.handleInputOnChange}
+                                    autoComplete="new-password"
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group
+                            as={Row}
+                            controlId="formPassword"
+                            className="justify-content-md-center"
+                        >
+                            <Form.Label column sm={2}>
+                                Confirm Password
+                            </Form.Label>
+                            <Col sm={6}>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Confirm Password"
+                                    name="passwordTwo"
+                                    value={this.state.passwordTwo}
                                     onChange={this.handleInputOnChange}
                                     autoComplete="new-password"
                                 />

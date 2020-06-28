@@ -3,7 +3,8 @@ import validator from "validator";
 type RegistrationData = {
     username: string;
     email: string;
-    password: string;
+    passwordOne: string;
+    passwordTwo: string;
 };
 
 type RegistrationErrors = {
@@ -22,7 +23,8 @@ const validateRegistration = (data: RegistrationData): ValidateRegistration => {
 
     data.username = data.username ?? "";
     data.email = data.email ?? "";
-    data.password = data.password ?? "";
+    data.passwordOne = data.passwordOne ?? "";
+    data.passwordTwo = data.passwordTwo ?? "";
 
     // name checks
     if (!data.username.length) {
@@ -37,12 +39,12 @@ const validateRegistration = (data: RegistrationData): ValidateRegistration => {
     }
 
     // password checks
-    if (!data.password.length) {
-        errors.password = "Please enter a password";
+    if (!data.passwordOne.length || !data.passwordTwo.length) {
+        errors.password = "Please enter a password into both fields";
+    } else if (!validator.equals(data.passwordOne, data.passwordTwo)) {
+        errors.password =
+            "Please ensure that both passwords match and try again";
     }
-
-    // TODO: Add a second password field to check whether the PWs match
-    // if !password.length {validator.equals(pw, pw2)}
 
     return {
         errors,
