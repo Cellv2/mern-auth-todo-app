@@ -28,6 +28,7 @@
         "watch-server": "nodemon --experimental-specifier-resolution=node dist/server/server.js"
     },
     "dependencies": {
+        "@reduxjs/toolkit": "^1.4.0",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.19.0",
         "bootstrap": "^4.5.0",
@@ -41,6 +42,7 @@
         "passport": "^0.4.1",
         "passport-jwt": "^4.0.0",
         "react-bootstrap": "^1.0.1",
+        "react-redux": "^7.2.0",
         "react-router-dom": "^5.1.2",
         "validator": "^13.0.0"
     },
@@ -61,11 +63,13 @@
         "@types/passport-jwt": "^3.0.3",
         "@types/react": "^16.9.34",
         "@types/react-dom": "^16.9.6",
+        "@types/react-redux": "^7.1.9",
         "@types/react-router-dom": "^5.1.5",
         "@types/supertest": "^2.0.8",
         "@types/validator": "^13.0.0",
         "concurrently": "^5.2.0",
         "jest": "^25.4.0",
+        "redux-devtools-extension": "^2.13.8",
         "supertest": "^4.0.2",
         "ts-jest": "^25.4.0",
         "typescript": "^3.8.3"
