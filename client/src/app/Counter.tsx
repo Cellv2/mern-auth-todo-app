@@ -6,6 +6,7 @@ import {
     decrement,
     increment,
     updateByAmount,
+    updateByAmountAsync,
 } from "./counterSlice";
 
 interface Props {}
@@ -32,7 +33,7 @@ const Counter = (props: Props) => {
             </p>
             <input
                 type="text"
-                placeholder="How much to increment the state by?"
+                placeholder="How much to update the state by?"
                 onChange={(e) => setIncrementAmount(e.currentTarget.value)}
                 value={incrementAmount}
             />
@@ -42,6 +43,14 @@ const Counter = (props: Props) => {
                 }
             >
                 Clicky!
+            </button>
+            <hr />
+            <button
+                onClick={() =>
+                    dispatch(updateByAmountAsync(Number(incrementAmount)))
+                }
+            >
+                Click for async update
             </button>
         </div>
     );
