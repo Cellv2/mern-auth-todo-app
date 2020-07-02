@@ -8,6 +8,9 @@ import { UpdateStateActions } from "../types/state-action.types";
 
 import styles from "./Main.module.scss";
 
+//TODO: Remove
+import Counter from "../app/Counter";
+
 type Props = {
     applicationState: ApplicationState;
     handleAppStateUpdate: (
@@ -280,6 +283,8 @@ class Main extends Component<Props, State> {
 
         return (
             <div className={styles.gridMain}>
+                {/* //TODO: Remove */}
+                <Counter />
                 <main className={styles.mainContent}>
                     <ToDoForm
                         items={this.props.applicationState.items}
