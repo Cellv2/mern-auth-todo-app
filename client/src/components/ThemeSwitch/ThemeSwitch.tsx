@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+
+import {
+    isAuthenticatedSelector,
+    themeSelector,
+    updateTheme,
+} from "../../app/user-slice";
 
 import { AvailableThemes } from "../../types/theme.types";
 import { ApplicationState } from "../../types/application-state.types";
@@ -21,6 +28,11 @@ const ThemeSwitch = (props: Props) => {
     const [initialTheme, setInitialTheme] = useState<AvailableThemes>(theme);
     const [currentTheme, setCurrentTheme] = useState<AvailableThemes>(theme);
 
+    // redux
+    const dispatch = useDispatch();
+    const themeRedux = useSelector(themeSelector);
+    const isAuthenticatedRedux = useSelector(isAuthenticatedSelector);
+
     useEffect(() => {
         setInitialTheme(theme);
         setCurrentTheme(theme);
@@ -31,7 +43,8 @@ const ThemeSwitch = (props: Props) => {
     }, [theme]);
 
     const handleThemeSwitch = async (): Promise<void> => {
-        const currentTheme = props.applicationState.theme;
+        // const currentTheme = props.applicationState.theme;
+        const currentTheme = themeRedux;
         const newTheme: AvailableThemes =
             currentTheme !== "light" ? "light" : "dark";
 
@@ -58,6 +71,7 @@ const ThemeSwitch = (props: Props) => {
         newState.theme = newTheme;
 
         props.handleAppStateUpdate(newState, "updateThemeState");
+        dispatch(updateTheme(newTheme));
 
         return;
     };
@@ -73,10 +87,17 @@ const ThemeSwitch = (props: Props) => {
             <div
                 className={`
                 ${styles.toggle}
+                ${themeRedux === "light" ? styles.light : styles.dark}
+                ${themeRedux === "light" ? styles.moveLight : ""}
+                `}
+            ></div>
+            {/* <div
+                className={`
+                ${styles.toggle}
                 ${initialTheme === "light" ? styles.light : styles.dark}
                 ${currentTheme === "light" ? styles.moveLight : ""}
                 `}
-            ></div>
+            ></div> */}
         </button>
     );
 };
