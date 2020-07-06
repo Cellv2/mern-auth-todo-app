@@ -1,4 +1,5 @@
 import React, { Component, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -11,6 +12,7 @@ import Alerts from "../Alerts/Alerts";
 
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
+import { updateAuthenticated, updateTheme } from "../../app/user-slice";
 
 import styles from "./Login.module.scss";
 
@@ -38,6 +40,7 @@ const LoginRedux = (props: Props) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [errors, setErrors] = useState<Errors>({});
+    const dispatch = useDispatch();
 
     const redirectToHome = () => {
         const { history } = props;
@@ -82,6 +85,8 @@ const LoginRedux = (props: Props) => {
             newAppState.username = content.username;
 
             props.handleAppStateUpdate(newAppState, "updateUserState");
+            dispatch(updateTheme(content.theme));
+            dispatch(updateAuthenticated(true));
 
             redirectToHome();
         }
