@@ -24,14 +24,13 @@ type Props = {
 };
 
 const ThemeSwitch = (props: Props) => {
-    const { isAuthenticated, theme } = props.applicationState;
+    const theme = useSelector(themeSelector);
+    const isAuthenticated = useSelector(isAuthenticatedSelector);
+    const dispatch = useDispatch();
+
+    // const { isAuthenticated, theme } = props.applicationState;
     const [initialTheme, setInitialTheme] = useState<AvailableThemes>(theme);
     const [currentTheme, setCurrentTheme] = useState<AvailableThemes>(theme);
-
-    // redux
-    const dispatch = useDispatch();
-    const themeRedux = useSelector(themeSelector);
-    const isAuthenticatedRedux = useSelector(isAuthenticatedSelector);
 
     useEffect(() => {
         setInitialTheme(theme);
@@ -44,7 +43,7 @@ const ThemeSwitch = (props: Props) => {
 
     const handleThemeSwitch = async (): Promise<void> => {
         // const currentTheme = props.applicationState.theme;
-        const currentTheme = themeRedux;
+        const currentTheme = theme;
         const newTheme: AvailableThemes =
             currentTheme !== "light" ? "light" : "dark";
 
@@ -87,8 +86,8 @@ const ThemeSwitch = (props: Props) => {
             <div
                 className={`
                 ${styles.toggle}
-                ${themeRedux === "light" ? styles.light : styles.dark}
-                ${themeRedux === "light" ? styles.moveLight : ""}
+                ${theme === "light" ? styles.light : styles.dark}
+                ${theme === "light" ? styles.moveLight : ""}
                 `}
             ></div>
             {/* <div
