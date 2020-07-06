@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
@@ -13,6 +14,7 @@ import {
 import styles from "./ToDoItem.module.scss";
 
 import { Item } from "../../types/to-do.types";
+import { isAuthenticatedSelector } from "../../app/user-slice";
 
 type Props = {
     item: Item;
@@ -23,10 +25,11 @@ type Props = {
 };
 
 const ToDoItem = (props: Props) => {
+    const isAuthenticated = useSelector(isAuthenticatedSelector);
     const {
         item,
         index,
-        isAuthenticated,
+        // isAuthenticated,
         handleDeleteOnClick,
         handleItemUpdate,
     } = props;

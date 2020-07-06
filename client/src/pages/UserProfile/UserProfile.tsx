@@ -13,6 +13,7 @@ import {
     usernameSelector,
     updateUsername,
     updateAuthenticated,
+    isAuthenticatedSelector,
 } from "../../app/user-slice";
 
 import styles from "./UserProfile.module.scss";
@@ -27,6 +28,7 @@ interface Props extends RouteComponentProps {
 
 const UserProfile = (props: Props) => {
     const username = useSelector(usernameSelector);
+    const isAuthenticated = useSelector(isAuthenticatedSelector);
     const dispatch = useDispatch();
 
     const redirectToHome = () => {
@@ -39,7 +41,8 @@ const UserProfile = (props: Props) => {
     const handleDeleteUser = async (
         event: React.MouseEvent<HTMLButtonElement>
     ): Promise<void> => {
-        const { isAuthenticated, user } = props.applicationState;
+        // const { isAuthenticated, user } = props.applicationState;
+        const { user } = props.applicationState;
         const token = props.applicationState.user?.token as string;
 
         // TODO: If this fails, say so through the UI

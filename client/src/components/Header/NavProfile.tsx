@@ -1,16 +1,20 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Nav from "react-bootstrap/Nav";
+
+import { isAuthenticatedSelector } from "../../app/user-slice";
 
 interface Props extends RouteComponentProps {
     isAuthenticated: boolean;
 }
 
 const NavProfile = (props: Props) => {
+    const isAuthenticated = useSelector(isAuthenticatedSelector);
     const { location } = props;
 
-    if (!props.isAuthenticated) {
+    if (!isAuthenticated) {
         return (
             <Nav activeKey={location.pathname}>
                 <NavDropdown
