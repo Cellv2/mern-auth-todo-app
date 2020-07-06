@@ -12,7 +12,11 @@ import Alerts from "../Alerts/Alerts";
 
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
-import { updateAuthenticated, updateTheme } from "../../app/user-slice";
+import {
+    updateAuthenticated,
+    updateTheme,
+    updateUsername,
+} from "../../app/user-slice";
 
 import styles from "./Login.module.scss";
 
@@ -87,6 +91,7 @@ const LoginRedux = (props: Props) => {
             props.handleAppStateUpdate(newAppState, "updateUserState");
             dispatch(updateTheme(content.theme));
             dispatch(updateAuthenticated(true));
+            dispatch(updateUsername(content.username));
 
             redirectToHome();
         }

@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -7,6 +8,7 @@ import ToDoItem from "./ToDoItem";
 import ToDoCreate from "./ToDoCreate";
 
 import { Item } from "../../types/to-do.types";
+import { usernameSelector } from "../../app/user-slice";
 
 type Props = {
     items?: Item[];
@@ -18,6 +20,7 @@ type Props = {
 };
 
 const ToDoForm = (props: Props) => {
+    const username = useSelector(usernameSelector);
     const {
         items,
         isAuthenticated,
@@ -54,7 +57,7 @@ const ToDoForm = (props: Props) => {
             <Row className="justify-content-md-center">
                 <Col sm={8}>
                     <div className="mb-5">
-                        <h1>Hey, {props.username ?? "mysterious user"}!</h1>
+                        <h1>Hey, {username ?? "mysterious user"}!</h1>
                         <small>
                             <em>What do you need to get done today?</em>
                         </small>

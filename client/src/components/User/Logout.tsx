@@ -1,8 +1,10 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
+import { updateAuthenticated, updateUsername } from "../../app/user-slice";
 
 import styles from "./Logout.module.scss";
 
@@ -16,6 +18,8 @@ interface Props extends RouteComponentProps {
 
 const Logout = (props: Props) => {
     // TODO: Remove token from local storage if going down that route
+
+    const dispatch = useDispatch();
 
     const redirectToLogin = () => {
         const { history } = props;
@@ -37,6 +41,9 @@ const Logout = (props: Props) => {
         newAppState.items = unsavedItems;
 
         props.handleAppStateUpdate(newAppState, "updateUserState");
+
+        dispatch(updateAuthenticated(false));
+        dispatch(updateUsername(null));
 
         redirectToLogin();
     };

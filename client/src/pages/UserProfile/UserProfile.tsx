@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
@@ -8,6 +9,11 @@ import PasswordUpdate from "../../components/User/PasswordUpdate";
 
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
+import {
+    usernameSelector,
+    updateUsername,
+    updateAuthenticated,
+} from "../../app/user-slice";
 
 import styles from "./UserProfile.module.scss";
 
@@ -20,6 +26,9 @@ interface Props extends RouteComponentProps {
 }
 
 const UserProfile = (props: Props) => {
+    const username = useSelector(usernameSelector);
+    const dispatch = useDispatch();
+
     const redirectToHome = () => {
         const { history } = props;
         if (history) {
@@ -68,6 +77,9 @@ const UserProfile = (props: Props) => {
 
                     props.handleAppStateUpdate(newAppState, "updateUserState");
 
+                    dispatch(updateAuthenticated(false));
+                    dispatch(updateUsername(null));
+
                     console.log("User deleted", deletedUser);
                     redirectToHome();
                 });
@@ -80,10 +92,7 @@ const UserProfile = (props: Props) => {
     return (
         <div className={styles.gridMain}>
             <Container className="text-center">
-                <h1>
-                    Hey,{" "}
-                    {props.applicationState.username ?? "how did you get here?"}
-                </h1>
+                <h1>Hey, {username ?? "how did you get here?"}</h1>
                 <p>
                     <em>
                         {props.applicationState.items.length
