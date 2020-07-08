@@ -9,6 +9,7 @@ import ToDoCreate from "./ToDoCreate";
 
 import { Item } from "../../types/to-do.types";
 import { usernameSelector } from "../../app/user-slice";
+import { itemsSelector } from '../../app/item-slice'
 
 type Props = {
     items?: Item[];
@@ -21,8 +22,9 @@ type Props = {
 
 const ToDoForm = (props: Props) => {
     const username = useSelector(usernameSelector);
+    const items = useSelector(itemsSelector)
     const {
-        items,
+        // items,
         isAuthenticated,
         handleCreateOnClick,
         handleDeleteOnClick,
@@ -49,6 +51,7 @@ const ToDoForm = (props: Props) => {
             );
         });
     } else {
+        console.log(items)
         toDoItems = <div>There are no items</div>;
     }
 
