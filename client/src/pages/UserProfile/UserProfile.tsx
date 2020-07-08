@@ -14,6 +14,8 @@ import {
     updateUsername,
     updateAuthenticated,
     isAuthenticatedSelector,
+    tokenSelector,
+    updateToken,
 } from "../../app/user-slice";
 
 import styles from "./UserProfile.module.scss";
@@ -28,6 +30,7 @@ interface Props extends RouteComponentProps {
 
 const UserProfile = (props: Props) => {
     const username = useSelector(usernameSelector);
+    const token = useSelector(tokenSelector);
     const isAuthenticated = useSelector(isAuthenticatedSelector);
     const dispatch = useDispatch();
 
@@ -42,11 +45,11 @@ const UserProfile = (props: Props) => {
         event: React.MouseEvent<HTMLButtonElement>
     ): Promise<void> => {
         // const { isAuthenticated, user } = props.applicationState;
-        const { user } = props.applicationState;
-        const token = props.applicationState.user?.token as string;
+        // const { user } = props.applicationState;
+        // const token = props.applicationState.user?.token as string;
 
         // TODO: If this fails, say so through the UI
-        if (isAuthenticated && user) {
+        if (isAuthenticated && token !== null) {
             const randomInts = Array.from(new Array(5)).map(() =>
                 Math.floor(Math.random() * 10)
             );
@@ -82,6 +85,7 @@ const UserProfile = (props: Props) => {
 
                     dispatch(updateAuthenticated(false));
                     dispatch(updateUsername(null));
+                    dispatch(updateToken(null));
 
                     console.log("User deleted", deletedUser);
                     redirectToHome();
@@ -103,7 +107,7 @@ const UserProfile = (props: Props) => {
                             : "There's nothing on your to do list? Go add something!"}
                     </em>
                 </p>
-                {props.applicationState.user?.token && (
+                {token !== null && (
                     <>
                         <Alert>
                             <Alert.Heading>Update Password</Alert.Heading>
@@ -111,9 +115,7 @@ const UserProfile = (props: Props) => {
                                 If you'd like to update your password, please
                                 use the input below
                             </p>
-                            <PasswordUpdate
-                                token={props.applicationState.user.token}
-                            />
+                            <PasswordUpdate token={token} />
                         </Alert>
                         <Alert variant="danger">
                             <Alert.Heading>Delete Account</Alert.Heading>

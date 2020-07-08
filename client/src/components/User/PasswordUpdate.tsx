@@ -23,7 +23,7 @@ import {
 } from "../../constants/alert-settings";
 
 type Props = {
-    token: string | UserToken | undefined;
+    token: string;
 };
 
 const PasswordUpdate = (props: Props) => {
@@ -42,6 +42,7 @@ const PasswordUpdate = (props: Props) => {
         // we want to prevent form redirection when submitted
         event.preventDefault();
 
+        // this should never happen, but just in case
         if (!props.token) {
             setAlerts(signInError);
             return;

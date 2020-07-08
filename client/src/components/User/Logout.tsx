@@ -4,7 +4,11 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
-import { updateAuthenticated, updateUsername } from "../../app/user-slice";
+import {
+    updateAuthenticated,
+    updateUsername,
+    updateToken,
+} from "../../app/user-slice";
 
 import styles from "./Logout.module.scss";
 
@@ -44,6 +48,7 @@ const Logout = (props: Props) => {
 
         dispatch(updateAuthenticated(false));
         dispatch(updateUsername(null));
+        dispatch(updateToken(null));
 
         redirectToLogin();
     };

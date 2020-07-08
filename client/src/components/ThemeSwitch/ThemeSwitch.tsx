@@ -7,6 +7,7 @@ import {
     isAuthenticatedSelector,
     themeSelector,
     updateTheme,
+    tokenSelector,
 } from "../../app/user-slice";
 
 import { AvailableThemes } from "../../types/theme.types";
@@ -25,6 +26,7 @@ type Props = {
 
 const ThemeSwitch = (props: Props) => {
     const theme = useSelector(themeSelector);
+    const token = useSelector(tokenSelector);
     const isAuthenticated = useSelector(isAuthenticatedSelector);
     const dispatch = useDispatch();
 
@@ -47,8 +49,8 @@ const ThemeSwitch = (props: Props) => {
         const newTheme: AvailableThemes =
             currentTheme !== "light" ? "light" : "dark";
 
-        if (isAuthenticated) {
-            const token = props.applicationState.user?.token as string;
+        if (isAuthenticated && token !== null) {
+            // const token = props.applicationState.user?.token as string;
             const payload = {
                 theme: newTheme,
             };

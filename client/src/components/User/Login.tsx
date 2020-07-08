@@ -16,6 +16,7 @@ import {
     updateAuthenticated,
     updateTheme,
     updateUsername,
+    updateToken,
 } from "../../app/user-slice";
 
 import styles from "./Login.module.scss";
@@ -92,6 +93,7 @@ const LoginRedux = (props: Props) => {
             dispatch(updateTheme(content.theme));
             dispatch(updateAuthenticated(true));
             dispatch(updateUsername(content.username));
+            dispatch(updateToken(content.token));
 
             redirectToHome();
         }
