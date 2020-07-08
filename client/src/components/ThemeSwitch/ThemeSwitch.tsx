@@ -85,20 +85,20 @@ const ThemeSwitch = (props: Props) => {
                 size={"3x"}
             />
             <FontAwesomeIcon icon={faSun} className={styles.sun} size={"3x"} />
-            <div
+            {/* <div
                 className={`
                 ${styles.toggle}
                 ${theme === "light" ? styles.light : styles.dark}
                 ${theme === "light" ? styles.moveLight : ""}
                 `}
-            ></div>
-            {/* <div
+            ></div> */}
+            <div
                 className={`
                 ${styles.toggle}
                 ${initialTheme === "light" ? styles.light : styles.dark}
-                ${currentTheme === "light" ? styles.moveLight : ""}
+                ${theme === "light" ? styles.moveLight : ""}
                 `}
-            ></div> */}
+            ></div>
         </button>
     );
 };
