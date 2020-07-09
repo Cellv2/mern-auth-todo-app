@@ -6,7 +6,8 @@ import ToDoForm from "./ToDos/ToDoForm";
 import { Item } from "../types/to-do.types";
 import { ApplicationState } from "../types/application-state.types";
 import { UpdateStateActions } from "../types/state-action.types";
-import { addItems, itemsSelector } from "../app/item-slice";
+import { tokenSelector, isAuthenticatedSelector } from "../app/user-slice";
+import { addItems, deleteItem, itemsSelector } from "../app/item-slice";
 
 import styles from "./Main.module.scss";
 
@@ -20,6 +21,7 @@ type Props = {
         actionToTake: UpdateStateActions
     ) => void;
 };
+
 type State = {
     items?: Item[];
 };
@@ -32,10 +34,16 @@ const testItems: Item[] = [
 
 // TODO: Probably just make this a functional component now
 const Main = (props: Props) => {
+    const token = useSelector(tokenSelector);
+    const isAuthenticated = useSelector(isAuthenticatedSelector);
     const dispatch = useDispatch();
 
     const [stateItems, setStateItems] = useState<Item[] | undefined>(testItems);
-    const { isAuthenticated, user, items } = props.applicationState;
+    const {
+        //  isAuthenticated,
+        user,
+        items,
+    } = props.applicationState;
     const unsavedItemsExist: boolean =
         isAuthenticated &&
         user !== null &&
@@ -52,9 +60,9 @@ const Main = (props: Props) => {
 
     const handleGetAllUserTodos = async (): Promise<void> => {
         const { isAuthenticated, user } = props.applicationState;
-        if (isAuthenticated && user !== null) {
+        if (isAuthenticated && token !== null) {
             console.log("we're authed");
-            const token = user.token as string;
+            // const token = user.token as string;
 
             const fetchUserTodos = await fetch(`/api/user/todos`, {
                 method: "GET",
@@ -111,8 +119,8 @@ const Main = (props: Props) => {
             { isComplete: false, text: inText, timestamp: Date.now() },
         ];
 
-        if (isAuthenticated && user !== null) {
-            const token = user.token as string;
+        if (isAuthenticated && token !== null) {
+            // const token = user.token as string;
 
             const response = await fetch(`/api/user/todos`, {
                 method: "POST",
@@ -147,12 +155,12 @@ const Main = (props: Props) => {
         index: number
     ): Promise<void> => {
         const { handleAppStateUpdate, applicationState } = props;
-        const { isAuthenticated, user } = applicationState;
+        // const { isAuthenticated, user } = applicationState;
         console.log("handleItemUpdate - clicky");
 
         try {
-            if (isAuthenticated && user && item._id) {
-                const token = user.token as string;
+            if (isAuthenticated && token !== null && item._id) {
+                // const token = user.token as string;
 
                 const updateRequest = await fetch(
                     `/api/user/todos/${item._id}`,
@@ -181,8 +189,8 @@ const Main = (props: Props) => {
     const handleDeleteOnClick = async (index: number): Promise<void> => {
         const { handleAppStateUpdate, applicationState } = props;
         const {
-            isAuthenticated,
-            user,
+            // isAuthenticated,
+            // user,
             items: appStateItems,
         } = applicationState;
 
@@ -191,8 +199,8 @@ const Main = (props: Props) => {
         let newState = applicationState;
 
         try {
-            if (isAuthenticated && user !== null && currentItem._id) {
-                const token = user.token as string;
+            if (isAuthenticated && token !== null && currentItem._id) {
+                // const token = user.token as string;
 
                 const deleteRequest = await fetch(
                     `/api/users/todos/${currentItem._id}`,
@@ -228,10 +236,10 @@ const Main = (props: Props) => {
     ): Promise<Item[] | undefined> => {
         console.log("handle item create clicked");
         const { applicationState } = props;
-        const { isAuthenticated, user } = applicationState;
+        // const { isAuthenticated, user } = applicationState;
         try {
-            if (isAuthenticated && user !== null) {
-                const token = user.token as string;
+            if (isAuthenticated && token !== null) {
+                // const token = user.token as string;
 
                 const saveRequest = await fetch(`/api/user/todos`, {
                     method: "POST",
