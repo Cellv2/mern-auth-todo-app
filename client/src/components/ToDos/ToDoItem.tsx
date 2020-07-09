@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
@@ -15,6 +15,7 @@ import styles from "./ToDoItem.module.scss";
 
 import { Item } from "../../types/to-do.types";
 import { isAuthenticatedSelector } from "../../app/user-slice";
+import { deleteItem } from "../../app/item-slice";
 
 type Props = {
     item: Item;
@@ -26,6 +27,8 @@ type Props = {
 
 const ToDoItem = (props: Props) => {
     const isAuthenticated = useSelector(isAuthenticatedSelector);
+    const dispatch = useDispatch();
+
     const {
         item,
         index,
@@ -162,7 +165,8 @@ const ToDoItem = (props: Props) => {
                     </Button>
                     <Button
                         variant="outline-secondary"
-                        onClick={() => handleDeleteOnClick(index)}
+                        // onClick={() => handleDeleteOnClick(index)}
+                        onClick={() => dispatch(deleteItem(item))}
                         className={styles.actionButtons}
                     >
                         <FontAwesomeIcon

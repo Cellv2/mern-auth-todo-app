@@ -43,10 +43,20 @@ export const itemSlice = createSlice({
                 }
             }
         },
+        deleteItem: (state, action: PayloadAction<Item>) => {
+            const item = action.payload;
+            // it must be an unsaved item if there is no _id
+            if (!("_id" in item)) {
+                console.log("yoooo");
+                state.dirtyItems = state.dirtyItems.filter(
+                    (dirtyItem) => dirtyItem.timestamp !== item.timestamp
+                );
+            }
+        },
     },
 });
 
-export const { addItems } = itemSlice.actions;
+export const { addItems, deleteItem } = itemSlice.actions;
 
 // includes both items saved into the DB and those not saved to the DB
 export const itemsSelector = (state: RootState) => [

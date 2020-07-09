@@ -220,6 +220,7 @@ const Main = (props: Props) => {
             // in case there is no DB call, we still update state here
             newState.items.splice(index, 1);
             handleAppStateUpdate(newState, "updateItemsState");
+            // dispatch(deleteItem(currentItem));
         } catch (err) {
             console.error(err);
         }
