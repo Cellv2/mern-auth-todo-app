@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "./store";
 
 import { Item } from "../types/to-do.types";
-import { deleteItemFromDatabase } from "../api/item.api";
+import { addItemsToDatabase, deleteItemFromDatabase } from "../api/item.api";
 
 export interface ItemState {
     pristineItems: Item[];
@@ -46,6 +46,33 @@ export const itemSlice = createSlice({
                 }
             }
         },
+        addItemsSuccess: (state, action: PayloadAction<Item[] | Item>) => {
+            if (Array.isArray(action.payload)) {
+                const items = action.payload;
+
+                const pristine = items.filter((item) => item._id !== undefined);
+                const pristineConcat = [...state.pristineItems, ...pristine];
+                state.pristineItems = filterDuplicateItemsById(pristineConcat);
+
+                const dirty = items.filter((item) => item._id === undefined);
+                const dirtyConcat = [...state.dirtyItems, ...dirty];
+                state.dirtyItems = filterDuplicateItemsByTimestamp(dirtyConcat);
+            } else {
+                const item = action.payload;
+                if (item._id !== undefined) {
+                    const pristine = [...state.pristineItems, item];
+                    state.pristineItems = filterDuplicateItemsById(pristine);
+                } else {
+                    const dirty = [...state.dirtyItems, item];
+                    state.dirtyItems = filterDuplicateItemsByTimestamp(dirty);
+                }
+            }
+
+            state.error = null;
+        },
+        addItemsFailed: (state, action: PayloadAction<string>) => {
+            state.error = action.payload;
+        },
         /** INTERNAL - use deleteItemAsync instead */
         deleteItemSuccess: (state, action: PayloadAction<Item>) => {
             const item = action.payload;
@@ -69,8 +96,35 @@ export const itemSlice = createSlice({
     },
 });
 
-// used internally for async actions
-const { deleteItemSuccess, deleteItemFailed } = itemSlice.actions;
+// not exported because they are used internally for async actions
+const {
+    addItemsSuccess,
+    addItemsFailed,
+    deleteItemSuccess,
+    deleteItemFailed,
+} = itemSlice.actions;
+
+/**
+ * @param {Item[]} items Array of items to add to DB / state
+ */
+export const addItemsAsync = (items: Item[] | Item): AppThunk => async (
+    dispatch,
+    getState
+) => {
+    const userIsAuthenticated = getState().user.isAuthenticated;
+    const userToken = getState().user.token;
+    if (userIsAuthenticated && userToken !== null) {
+        try {
+            const response = await addItemsToDatabase(items, userToken);
+            console.log("ASYNC RESPONSE", response);
+            dispatch(addItems(response));
+        } catch (err) {
+            dispatch(addItemsFailed(err));
+        }
+    } else {
+        dispatch(addItemsSuccess(items));
+    }
+};
 
 export const deleteItemAsync = (item: Item): AppThunk => async (
     dispatch,

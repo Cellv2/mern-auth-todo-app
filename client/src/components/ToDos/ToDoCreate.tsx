@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+
+import { addItemsAsync } from "../../app/item-slice";
+import { Item } from "../../types/to-do.types";
 
 import styles from "./ToDoCreate.module.scss";
 
@@ -12,6 +16,8 @@ type Props = {
 };
 
 const ToDoCreate = (props: Props) => {
+    const dispatch = useDispatch();
+
     const { handleCreateOnClick } = props;
     const [inputValue, setInputValue] = useState<string>("");
 
@@ -19,7 +25,13 @@ const ToDoCreate = (props: Props) => {
         event: React.KeyboardEvent<HTMLInputElement>
     ): void => {
         if (event.key === "Enter" && inputValue !== "") {
-            handleCreateOnClick(inputValue);
+            const newItem: Item = {
+                isComplete: false,
+                text: inputValue,
+                timestamp: Date.now(),
+            };
+            // handleCreateOnClick(inputValue);
+            dispatch(addItemsAsync(newItem));
             setInputValue("");
         }
     };
@@ -27,7 +39,13 @@ const ToDoCreate = (props: Props) => {
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>): void => {
         // TODO: Set up hook into a global error state manager so errors can be shown elsewhere?
         if (inputValue !== "") {
-            handleCreateOnClick(inputValue);
+            const newItem: Item = {
+                isComplete: false,
+                text: inputValue,
+                timestamp: Date.now(),
+            };
+            // handleCreateOnClick(inputValue);
+            dispatch(addItemsAsync(newItem));
             setInputValue("");
         } else {
             console.log("Woah there, you don't have anything in the input!");
