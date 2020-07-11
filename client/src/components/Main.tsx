@@ -7,7 +7,7 @@ import { Item } from "../types/to-do.types";
 import { ApplicationState } from "../types/application-state.types";
 import { UpdateStateActions } from "../types/state-action.types";
 import { tokenSelector, isAuthenticatedSelector } from "../app/user-slice";
-import { addItems, itemsSelector } from "../app/item-slice";
+import { addItems, itemsSelector, getItemsAsync } from "../app/item-slice";
 
 import styles from "./Main.module.scss";
 
@@ -59,46 +59,47 @@ const Main = (props: Props) => {
     }, []);
 
     const handleGetAllUserTodos = async (): Promise<void> => {
-        const { isAuthenticated, user } = props.applicationState;
-        if (isAuthenticated && token !== null) {
-            console.log("we're authed");
-            // const token = user.token as string;
+        // const { isAuthenticated, user } = props.applicationState;
+        // if (isAuthenticated && token !== null) {
+        //     console.log("we're authed");
+        //     // const token = user.token as string;
 
-            const fetchUserTodos = await fetch(`/api/user/todos`, {
-                method: "GET",
-                headers: {
-                    Authorization: token,
-                },
-            });
-            const userTodos: Item[] = await fetchUserTodos.json();
+        //     const fetchUserTodos = await fetch(`/api/user/todos`, {
+        //         method: "GET",
+        //         headers: {
+        //             Authorization: token,
+        //         },
+        //     });
+        //     const userTodos: Item[] = await fetchUserTodos.json();
 
-            if (userTodos.length) {
-                const todoToItems: Item[] = userTodos.map((todo) => {
-                    const item: Item = {
-                        _id: todo._id,
-                        userid: todo.userid,
-                        isComplete: todo.isComplete,
-                        text: todo.text,
-                        timestamp: todo.timestamp,
-                    };
+        //     if (userTodos.length) {
+        //         const todoToItems: Item[] = userTodos.map((todo) => {
+        //             const item: Item = {
+        //                 _id: todo._id,
+        //                 userid: todo.userid,
+        //                 isComplete: todo.isComplete,
+        //                 text: todo.text,
+        //                 timestamp: todo.timestamp,
+        //             };
 
-                    return item;
-                });
+        //             return item;
+        //         });
 
-                // no need to merge with current state EXECPT if the items have no ID (they are not committed to the DB)
-                const unsavedItems = props.applicationState.items.filter(
-                    (item) => !("_id" in item)
-                );
-                const newItems = [...unsavedItems, ...todoToItems];
+        //         // no need to merge with current state EXECPT if the items have no ID (they are not committed to the DB)
+        //         const unsavedItems = props.applicationState.items.filter(
+        //             (item) => !("_id" in item)
+        //         );
+        //         const newItems = [...unsavedItems, ...todoToItems];
 
-                let newState = props.applicationState;
-                newState.items = newItems;
+        //         let newState = props.applicationState;
+        //         newState.items = newItems;
 
-                props.handleAppStateUpdate(newState, "updateItemsState");
+        //         // props.handleAppStateUpdate(newState, "updateItemsState");
 
-                dispatch(addItems(newItems));
-            }
-        }
+        //         // dispatch(addItems(newItems));
+        //     }
+        // }
+        dispatch(getItemsAsync())
 
         return;
     };
@@ -142,7 +143,7 @@ const Main = (props: Props) => {
         }
 
         props.handleAppStateUpdate(newState, "updateItemsState");
-        dispatch(addItems(newState.items));
+        // dispatch(addItems(newState.items));
     };
 
     /**

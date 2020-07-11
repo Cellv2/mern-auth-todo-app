@@ -1,5 +1,17 @@
 import { Item } from "../types/to-do.types";
 
+export const getItemsFromDatabase = async (token: string) => {
+    const getRequest = await fetch(`/api/user/todos`, {
+        method: "GET",
+        headers: {
+            Authorization: token,
+        },
+    });
+    const dbItems: Item[] = await getRequest.json();
+
+    return dbItems;
+};
+
 /**
  * Add items to DB through API
  * @param {Item[] | Item} items Items to add to the database

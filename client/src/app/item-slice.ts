@@ -2,7 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "./store";
 
 import { Item } from "../types/to-do.types";
-import { addItemsToDatabase, deleteItemFromDatabase } from "../api/item.api";
+import {
+    getItemsFromDatabase,
+    addItemsToDatabase,
+    deleteItemFromDatabase,
+} from "../api/item.api";
 
 export interface ItemState {
     pristineItems: Item[];
@@ -45,6 +49,14 @@ export const itemSlice = createSlice({
                     );
                 }
             }
+        },
+        getItemsSuccess: (state, action: PayloadAction<Item[]>) => {
+            // as these items come from the DB, they must have _id attached (are pristine items)
+            state.pristineItems = action.payload;
+            state.error = null;
+        },
+        getItemsFailure: (state, action: PayloadAction<string>) => {
+            state.error = action.payload;
         },
         addItemsSuccess: (state, action: PayloadAction<Item[] | Item>) => {
             if (Array.isArray(action.payload)) {
@@ -98,11 +110,26 @@ export const itemSlice = createSlice({
 
 // not exported because they are used internally for async actions
 const {
+    getItemsSuccess,
+    getItemsFailure,
     addItemsSuccess,
     addItemsFailed,
     deleteItemSuccess,
     deleteItemFailed,
 } = itemSlice.actions;
+
+export const getItemsAsync = (): AppThunk => async (dispatch, getState) => {
+    const userIsAuthenticated = getState().user.isAuthenticated;
+    const userToken = getState().user.token;
+    if (userIsAuthenticated && userToken !== null) {
+        try {
+            const items = await getItemsFromDatabase(userToken);
+            dispatch(getItemsSuccess(items));
+        } catch (err) {
+            dispatch(getItemsFailure(err));
+        }
+    }
+};
 
 /**
  * @param {Item[]} items Array of items to add to DB / state
