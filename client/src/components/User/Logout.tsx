@@ -2,11 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
-import {
-    updateAuthenticated,
-    updateUsername,
-    updateToken,
-} from "../../app/user-slice";
+import { logoutUser } from "../../app/user-slice";
 
 import styles from "./Logout.module.scss";
 
@@ -25,9 +21,7 @@ const Logout = (props: Props) => {
     };
 
     const handleOnClick = () => {
-        dispatch(updateAuthenticated(false));
-        dispatch(updateUsername(null));
-        dispatch(updateToken(null));
+        dispatch(logoutUser);
 
         // TODO: remove user items on logout or delete
 

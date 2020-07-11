@@ -33,6 +33,11 @@ export const userSlice = createSlice({
         updateToken: (state, action: PayloadAction<string | null>) => {
             state.token = action.payload;
         },
+        logoutUser: (state) => {
+            state.isAuthenticated = false;
+            state.token = null;
+            state.username = null;
+        },
         loginUserSuccess: (state, action: PayloadAction<User>) => {
             state.isAuthenticated = true;
             state.theme = action.payload.theme;
@@ -65,6 +70,7 @@ export const {
     updateTheme,
     updateUsername,
     updateToken,
+    logoutUser,
 } = userSlice.actions;
 
 export const themeSelector = (state: RootState) => state.user.theme;
