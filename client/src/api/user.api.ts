@@ -1,9 +1,6 @@
 import { User } from "../types/user.types";
 
-export const loginUser = async (
-    email: string,
-    password: string
-): Promise<User> => {
+export const loginUser = async (email: string, password: string) => {
     const body = {
         email,
         password,
@@ -15,6 +12,5 @@ export const loginUser = async (
         body: JSON.stringify(body),
     });
 
-    const requestedUser = request.json();
-    return requestedUser;
+    return request;
 };

@@ -49,7 +49,12 @@ export const loginUserAsync = (
     password: string
 ): AppThunk => async (dispatch) => {
     try {
-        const user = await loginUser(email, password);
+        const loginRequest = await loginUser(email, password);
+        if (!loginRequest.ok) {
+            throw new Error("Login failed");
+        }
+
+        const user: User = await loginRequest.json();
         dispatch(loginUserSuccess(user));
     } catch (err) {
         dispatch(loginUserFailed(err));

@@ -38,35 +38,38 @@ const Login = (props: Props) => {
     ): Promise<void> => {
         event.preventDefault();
 
-        const body = {
-            email: email,
-            password: password,
-        };
+        // const body = {
+        //     email: email,
+        //     password: password,
+        // };
 
-        const request = await fetch(`/api/users/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json;charset=utf-8" },
-            body: JSON.stringify(body),
-        });
+        // const request = await fetch(`/api/users/login`, {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json;charset=utf-8" },
+        //     body: JSON.stringify(body),
+        // });
 
-        if (!(await request.ok)) {
-            const errors = await request.json();
-            console.log(errors);
-            setErrors(errors);
-        } else {
-            const content = await request.json();
+        // if (!(await request.ok)) {
+        //     const errors = await request.json();
+        //     console.log(errors);
+        //     setErrors(errors);
+        // } else {
+        //     const content = await request.json();
 
-            // TODO: Also save token into local storage on login ?
-            console.log(jwtDecode(content.token));
+        //     // TODO: Also save token into local storage on login ?
+        //     console.log(jwtDecode(content.token));
 
-            console.log(content);
-            setErrors({});
+        //     console.log(content);
+        //     setErrors({});
 
-            // must wait for this to finish before redirecting else items will not load when first hitting the home page
-            await dispatch(loginUserAsync(email, password));
+        //     // must wait for this to finish before redirecting else items will not load when first hitting the home page
+        //     await dispatch(loginUserAsync(email, password));
 
-            redirectToHome();
-        }
+        //     redirectToHome();
+        // }
+
+        dispatch(loginUserAsync(email, password));
+        // TODO: figure out how to redirect to home if success
 
         return;
     };
