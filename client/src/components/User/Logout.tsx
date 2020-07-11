@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import { logoutUser } from "../../app/user-slice";
+import { removeItemsOnLogout } from "../../app/item-slice";
 
 import styles from "./Logout.module.scss";
 
@@ -21,9 +22,8 @@ const Logout = (props: Props) => {
     };
 
     const handleOnClick = () => {
-        dispatch(logoutUser);
-
-        // TODO: remove user items on logout or delete
+        dispatch(logoutUser());
+        dispatch(removeItemsOnLogout());
 
         redirectToLogin();
     };

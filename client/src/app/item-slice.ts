@@ -103,8 +103,13 @@ export const itemSlice = createSlice({
         updateItemFailed: (state, action: PayloadAction<string>) => {
             state.error = action.payload;
         },
+        removeItemsOnLogout: (state) => {
+            state.pristineItems = [];
+        },
     },
 });
+
+export const { removeItemsOnLogout } = itemSlice.actions;
 
 // not exported because they are used internally for async actions
 const {
