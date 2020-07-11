@@ -2,15 +2,18 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "./store";
 
 import { Item } from "../types/to-do.types";
+import { deleteItemFromDatabase } from "../api/item.api";
 
 export interface ItemState {
     pristineItems: Item[];
     dirtyItems: Item[];
+    error: string | null;
 }
 
 export const initialState: ItemState = {
     pristineItems: [],
     dirtyItems: [],
+    error: null,
 };
 
 export const itemSlice = createSlice({
@@ -43,20 +46,51 @@ export const itemSlice = createSlice({
                 }
             }
         },
-        deleteItem: (state, action: PayloadAction<Item>) => {
+        /** INTERNAL - use deleteItemAsync instead */
+        deleteItemSuccess: (state, action: PayloadAction<Item>) => {
             const item = action.payload;
-            // it must be an unsaved item if there is no _id
-            if (!("_id" in item)) {
-                console.log("yoooo");
+            // it must be an saved item if _id is present
+            if (item._id !== undefined) {
+                state.pristineItems = state.pristineItems.filter(
+                    (pristineItem) => pristineItem._id !== item._id
+                );
+            } else {
                 state.dirtyItems = state.dirtyItems.filter(
                     (dirtyItem) => dirtyItem.timestamp !== item.timestamp
                 );
             }
+
+            state.error = null;
+        },
+        /** INTERNAL - use deleteItemAsync instead */
+        deleteItemFailed: (state, action: PayloadAction<string>) => {
+            state.error = action.payload;
         },
     },
 });
 
-export const { addItems, deleteItem } = itemSlice.actions;
+// used internally for async actions
+const { deleteItemSuccess, deleteItemFailed } = itemSlice.actions;
+
+export const deleteItemAsync = (item: Item): AppThunk => async (
+    dispatch,
+    getState
+) => {
+    const userIsAuthenticated = getState().user.isAuthenticated;
+    const userToken = getState().user.token;
+    if (userIsAuthenticated && userToken !== null) {
+        try {
+            await deleteItemFromDatabase(item, userToken);
+            dispatch(deleteItemSuccess(item));
+        } catch (err) {
+            dispatch(deleteItemFailed(err));
+        }
+    } else {
+        dispatch(deleteItemSuccess(item));
+    }
+};
+
+export const { addItems } = itemSlice.actions;
 
 // includes both items saved into the DB and those not saved to the DB
 export const itemsSelector = (state: RootState) => [
@@ -64,11 +98,11 @@ export const itemsSelector = (state: RootState) => [
     ...state.items.dirtyItems,
 ];
 
-// only inclused items which are saved into the database (have _id on the item object)
+// only includes items which are saved into the database (have _id on the item object)
 export const pristineItemsSelector = (state: RootState) =>
     state.items.pristineItems;
 
-// only inclused items which are saved not saved into the database (do not have _id on the item object)
+// only includes items which are saved not saved into the database (do not have _id on the item object)
 export const dirtyItemsSelector = (state: RootState) => state.items.dirtyItems;
 
 const filterDuplicateItemsById = (items: Item[]) => {

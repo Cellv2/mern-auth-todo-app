@@ -14,8 +14,8 @@ import {
 import styles from "./ToDoItem.module.scss";
 
 import { Item } from "../../types/to-do.types";
-import { isAuthenticatedSelector } from "../../app/user-slice";
-import { deleteItem } from "../../app/item-slice";
+import { isAuthenticatedSelector, tokenSelector } from "../../app/user-slice";
+import { deleteItemAsync } from "../../app/item-slice";
 
 type Props = {
     item: Item;
@@ -166,7 +166,7 @@ const ToDoItem = (props: Props) => {
                     <Button
                         variant="outline-secondary"
                         // onClick={() => handleDeleteOnClick(index)}
-                        onClick={() => dispatch(deleteItem(item))}
+                        onClick={() => dispatch(deleteItemAsync(item))}
                         className={styles.actionButtons}
                     >
                         <FontAwesomeIcon
