@@ -57,3 +57,24 @@ export const deleteItemFromDatabase = async (item: Item, token: string) => {
 
     return response;
 };
+
+/**
+ * Updates item in the DB
+ * @param {Item} item Entire item to update in the DB
+ * @param {string} token The current user token
+ * @return {Item} The updated item from the database
+ */
+export const updateItemInDatabase = async (item: Item, token: string) => {
+    const updateRequest = await fetch(`/api/user/todos/${item._id}`, {
+        method: "PUT",
+        headers: {
+            Authorization: token,
+            "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify(item),
+    });
+
+    const updatedItem: Item = await updateRequest.json();
+
+    return updatedItem;
+};

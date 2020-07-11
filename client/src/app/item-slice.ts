@@ -6,6 +6,7 @@ import {
     getItemsFromDatabase,
     addItemsToDatabase,
     deleteItemFromDatabase,
+    updateItemInDatabase,
 } from "../api/item.api";
 
 export interface ItemState {
@@ -29,7 +30,7 @@ export const itemSlice = createSlice({
             state.pristineItems = action.payload;
             state.error = null;
         },
-        getItemsFailure: (state, action: PayloadAction<string>) => {
+        getItemsFailed: (state, action: PayloadAction<string>) => {
             state.error = action.payload;
         },
         addItemsSuccess: (state, action: PayloadAction<Item[] | Item>) => {
@@ -79,17 +80,42 @@ export const itemSlice = createSlice({
         deleteItemFailed: (state, action: PayloadAction<string>) => {
             state.error = action.payload;
         },
+        updateItemSuccess: (state, action: PayloadAction<Item>) => {
+            const item = action.payload;
+            if (item._id !== undefined) {
+                const index = state.pristineItems.findIndex(
+                    (pristine) => pristine._id === item._id
+                );
+
+                if (index !== -1) {
+                    state.pristineItems[index] = item;
+                }
+            } else {
+                const index = state.dirtyItems.findIndex(
+                    (dirty) => dirty.timestamp === item.timestamp
+                );
+
+                if (index !== -1) {
+                    state.dirtyItems[index] = item;
+                }
+            }
+        },
+        updateItemFailed: (state, action: PayloadAction<string>) => {
+            state.error = action.payload;
+        },
     },
 });
 
 // not exported because they are used internally for async actions
 const {
     getItemsSuccess,
-    getItemsFailure,
+    getItemsFailed,
     addItemsSuccess,
     addItemsFailed,
     deleteItemSuccess,
     deleteItemFailed,
+    updateItemSuccess,
+    updateItemFailed,
 } = itemSlice.actions;
 
 export const getItemsAsync = (): AppThunk => async (dispatch, getState) => {
@@ -100,7 +126,7 @@ export const getItemsAsync = (): AppThunk => async (dispatch, getState) => {
             const items = await getItemsFromDatabase(userToken);
             dispatch(getItemsSuccess(items));
         } catch (err) {
-            dispatch(getItemsFailure(err));
+            dispatch(getItemsFailed(err));
         }
     }
 };
@@ -142,6 +168,24 @@ export const deleteItemAsync = (item: Item): AppThunk => async (
         }
     } else {
         dispatch(deleteItemSuccess(item));
+    }
+};
+
+export const updateItemAsync = (item: Item): AppThunk => async (
+    dispatch,
+    getState
+) => {
+    const userIsAuthenticated = getState().user.isAuthenticated;
+    const userToken = getState().user.token;
+    if (userIsAuthenticated && userToken !== null && item._id !== undefined) {
+        try {
+            const response = await updateItemInDatabase(item, userToken);
+            dispatch(updateItemSuccess(response));
+        } catch (err) {
+            dispatch(updateItemFailed(err));
+        }
+    } else {
+        dispatch(updateItemSuccess(item));
     }
 };
 

@@ -15,7 +15,7 @@ import styles from "./ToDoItem.module.scss";
 
 import { Item } from "../../types/to-do.types";
 import { isAuthenticatedSelector, tokenSelector } from "../../app/user-slice";
-import { deleteItemAsync } from "../../app/item-slice";
+import { deleteItemAsync, updateItemAsync } from "../../app/item-slice";
 
 type Props = {
     item: Item;
@@ -79,7 +79,9 @@ const ToDoItem = (props: Props) => {
         }
 
         if (isEditing) {
-            updateItem();
+            const updated: Item = { ...props.item, text: inputValue };
+            dispatch(updateItemAsync(updated));
+            // updateItem();
         }
 
         setIsEditing(!isEditing);
@@ -89,7 +91,10 @@ const ToDoItem = (props: Props) => {
         event: React.KeyboardEvent<HTMLTextAreaElement>
     ): void => {
         if (isEditing && event.key === "Enter" && inputValue !== "") {
-            updateItem();
+            const updated: Item = { ...props.item, text: inputValue };
+            console.log(updated);
+            dispatch(updateItemAsync(updated));
+            // updateItem();
             setIsEditing(false);
         }
 
