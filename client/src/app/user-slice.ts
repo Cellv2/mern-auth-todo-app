@@ -3,20 +3,18 @@ import { RootState, AppThunk } from "./store";
 import { AvailableThemes } from "../types/theme.types";
 import { User } from "../types/user.types";
 
-export interface UserState {
-    isAuthenticated: boolean;
-    theme: AvailableThemes;
-    username: string | null;
-    user: User | null;
-    token: string | null;
+import { loginUser } from "../api/user.api";
+
+export interface UserState extends User {
+    error: string | null;
 }
 
 export const initialState: UserState = {
     isAuthenticated: false,
     theme: "dark",
     username: null,
-    user: null,
     token: null,
+    error: null,
 };
 
 export const userSlice = createSlice({
@@ -35,8 +33,32 @@ export const userSlice = createSlice({
         updateToken: (state, action: PayloadAction<string | null>) => {
             state.token = action.payload;
         },
+        loginUserSuccess: (state, action: PayloadAction<User>) => {
+            state.isAuthenticated = true;
+            state.theme = action.payload.theme;
+            state.token = action.payload.token;
+            state.username = action.payload.username;
+            state.error = null;
+        },
+        loginUserFailed: (state, action: PayloadAction<string>) => {
+            state.error = action.payload;
+        },
     },
 });
+
+const { loginUserSuccess, loginUserFailed } = userSlice.actions;
+
+export const loginUserAsync = (
+    email: string,
+    password: string
+): AppThunk => async (dispatch) => {
+    try {
+        const user = await loginUser(email, password);
+        dispatch(loginUserSuccess(user));
+    } catch (err) {
+        dispatch(loginUserFailed(err));
+    }
+};
 
 export const {
     updateAuthenticated,

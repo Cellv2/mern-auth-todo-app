@@ -17,6 +17,7 @@ import {
     updateTheme,
     updateUsername,
     updateToken,
+    loginUserAsync,
 } from "../../app/user-slice";
 
 import styles from "./Login.module.scss";
@@ -83,17 +84,20 @@ const LoginRedux = (props: Props) => {
             console.log(content);
             setErrors({});
 
-            let newAppState = props.applicationState;
-            newAppState.user = content;
-            newAppState.isAuthenticated = true;
-            newAppState.theme = content.theme;
-            newAppState.username = content.username;
+            // let newAppState = props.applicationState;
+            // newAppState.user = content;
+            // newAppState.isAuthenticated = true;
+            // newAppState.theme = content.theme;
+            // newAppState.username = content.username;
 
-            props.handleAppStateUpdate(newAppState, "updateUserState");
-            dispatch(updateTheme(content.theme));
-            dispatch(updateAuthenticated(true));
-            dispatch(updateUsername(content.username));
-            dispatch(updateToken(content.token));
+            // props.handleAppStateUpdate(newAppState, "updateUserState");
+            // dispatch(updateTheme(content.theme));
+            // dispatch(updateAuthenticated(true));
+            // dispatch(updateUsername(content.username));
+            // dispatch(updateToken(content.token));
+
+            // must wait for this to finish before redirecting else items will not load when first hitting the home page
+            await dispatch(loginUserAsync(email, password));
 
             redirectToHome();
         }
