@@ -1,16 +1,15 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import jwtDecode from "jwt-decode";
 
 import Alerts from "../Alerts/Alerts";
 
-import { loginUserAsync } from "../../app/user-slice";
+import { loginUserAsync, isAuthenticatedSelector } from "../../app/user-slice";
 
 import styles from "./Login.module.scss";
 
@@ -21,10 +20,19 @@ type Errors = {
 };
 
 const Login = (props: Props) => {
+    const isAuthenticated = useSelector(isAuthenticatedSelector);
+
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [errors, setErrors] = useState<Errors>({});
     const dispatch = useDispatch();
+
+    // this is used as a 'redirect' of kinds because I can't figure out the whole async thunk statuses
+    useEffect(() => {
+        if (isAuthenticated) {
+            redirectToHome();
+        }
+    }, [isAuthenticated]);
 
     const redirectToHome = () => {
         const { history } = props;
@@ -33,45 +41,10 @@ const Login = (props: Props) => {
         }
     };
 
-    const handleOnSubmit = async (
-        event: React.FormEvent<HTMLFormElement>
-    ): Promise<void> => {
+    const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
 
-        // const body = {
-        //     email: email,
-        //     password: password,
-        // };
-
-        // const request = await fetch(`/api/users/login`, {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json;charset=utf-8" },
-        //     body: JSON.stringify(body),
-        // });
-
-        // if (!(await request.ok)) {
-        //     const errors = await request.json();
-        //     console.log(errors);
-        //     setErrors(errors);
-        // } else {
-        //     const content = await request.json();
-
-        //     // TODO: Also save token into local storage on login ?
-        //     console.log(jwtDecode(content.token));
-
-        //     console.log(content);
-        //     setErrors({});
-
-        //     // must wait for this to finish before redirecting else items will not load when first hitting the home page
-        //     await dispatch(loginUserAsync(email, password));
-
-        //     redirectToHome();
-        // }
-
         dispatch(loginUserAsync(email, password));
-        // TODO: figure out how to redirect to home if success
-
-        return;
     };
 
     const handleInputOnChange = (
