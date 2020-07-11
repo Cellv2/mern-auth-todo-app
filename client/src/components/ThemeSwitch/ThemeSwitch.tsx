@@ -16,13 +16,7 @@ import { UpdateStateActions } from "../../types/state-action.types";
 
 import styles from "./ThemeSwitch.module.scss";
 
-type Props = {
-    applicationState: ApplicationState;
-    handleAppStateUpdate: (
-        newState: ApplicationState,
-        actionToTake: UpdateStateActions
-    ) => void;
-};
+type Props = {};
 
 const ThemeSwitch = (props: Props) => {
     const theme = useSelector(themeSelector);
@@ -49,29 +43,29 @@ const ThemeSwitch = (props: Props) => {
         const newTheme: AvailableThemes =
             currentTheme !== "light" ? "light" : "dark";
 
-        if (isAuthenticated && token !== null) {
-            // const token = props.applicationState.user?.token as string;
-            const payload = {
-                theme: newTheme,
-            };
+        // if (isAuthenticated && token !== null) {
+        //     // const token = props.applicationState.user?.token as string;
+        //     const payload = {
+        //         theme: newTheme,
+        //     };
 
-            const request = await fetch(`/api/user/profile`, {
-                method: "PATCH",
-                headers: {
-                    Authorization: token,
-                    "Content-Type": "application/json;charset=utf-8",
-                },
-                body: JSON.stringify(payload),
-            });
+        //     const request = await fetch(`/api/user/profile`, {
+        //         method: "PATCH",
+        //         headers: {
+        //             Authorization: token,
+        //             "Content-Type": "application/json;charset=utf-8",
+        //         },
+        //         body: JSON.stringify(payload),
+        //     });
 
-            const response = await request.json();
-            console.log(response);
-        }
+        //     const response = await request.json();
+        //     console.log(response);
+        // }
 
-        let newState = props.applicationState;
-        newState.theme = newTheme;
+        // let newState = props.applicationState;
+        // newState.theme = newTheme;
 
-        props.handleAppStateUpdate(newState, "updateThemeState");
+        // props.handleAppStateUpdate(newState, "updateThemeState");
         dispatch(updateTheme(newTheme));
 
         return;

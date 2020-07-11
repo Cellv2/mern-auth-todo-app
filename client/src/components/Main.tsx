@@ -18,13 +18,7 @@ import styles from "./Main.module.scss";
 //TODO: Remove
 import Counter from "../app/Counter";
 
-type Props = {
-    applicationState: ApplicationState;
-    handleAppStateUpdate: (
-        newState: ApplicationState,
-        actionToTake: UpdateStateActions
-    ) => void;
-};
+type Props = {};
 
 type State = {
     items?: Item[];
@@ -44,11 +38,11 @@ const Main = (props: Props) => {
     const dispatch = useDispatch();
 
     const [stateItems, setStateItems] = useState<Item[] | undefined>(testItems);
-    const {
-        //  isAuthenticated,
-        user,
-        items,
-    } = props.applicationState;
+    // const {
+    //     //  isAuthenticated,
+    //     user,
+    //     items,
+    // } = props.applicationState;
 
     // const unsavedItemsExist: boolean =
     //     isAuthenticated &&
@@ -113,43 +107,43 @@ const Main = (props: Props) => {
 
     // TODO: Fix this function so it calls handleItemCreation
     const handleCreateOnClick = async (inText: string): Promise<void> => {
-        const {
-            isAuthenticated,
-            user,
-            items: appStateItems,
-        } = props.applicationState;
+        // const {
+        //     isAuthenticated,
+        //     user,
+        //     items: appStateItems,
+        // } = props.applicationState;
 
-        // this is used futher down so we don't need to repeat the state update depending on whether user is authed
-        let newState = props.applicationState;
+        // // this is used futher down so we don't need to repeat the state update depending on whether user is authed
+        // let newState = props.applicationState;
 
-        // this is an array as the API expects an array input
-        const newItem: Item[] = [
-            { isComplete: false, text: inText, timestamp: Date.now() },
-        ];
+        // // this is an array as the API expects an array input
+        // const newItem: Item[] = [
+        //     { isComplete: false, text: inText, timestamp: Date.now() },
+        // ];
 
-        if (isAuthenticated && token !== null) {
-            // const token = user.token as string;
+        // if (isAuthenticated && token !== null) {
+        //     // const token = user.token as string;
 
-            const response = await fetch(`/api/user/todos`, {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    Authorization: token,
-                    "Content-Type": "application/json;charset=utf-8",
-                },
-                body: JSON.stringify(newItem),
-            });
+        //     const response = await fetch(`/api/user/todos`, {
+        //         method: "POST",
+        //         headers: {
+        //             Accept: "application/json",
+        //             Authorization: token,
+        //             "Content-Type": "application/json;charset=utf-8",
+        //         },
+        //         body: JSON.stringify(newItem),
+        //     });
 
-            // the API returns an array of Item objects
-            const createdItem: Item[] = await response.json();
-            const newItems = [...appStateItems, ...createdItem];
-            newState.items = newItems;
-        } else {
-            const newItems = [...appStateItems, ...newItem];
-            newState.items = newItems;
-        }
+        //     // the API returns an array of Item objects
+        //     const createdItem: Item[] = await response.json();
+        //     const newItems = [...appStateItems, ...createdItem];
+        //     newState.items = newItems;
+        // } else {
+        //     const newItems = [...appStateItems, ...newItem];
+        //     newState.items = newItems;
+        // }
 
-        props.handleAppStateUpdate(newState, "updateItemsState");
+        // props.handleAppStateUpdate(newState, "updateItemsState");
         // dispatch(addItems(newState.items));
     };
 
@@ -162,112 +156,112 @@ const Main = (props: Props) => {
         item: Item,
         index: number
     ): Promise<void> => {
-        const { handleAppStateUpdate, applicationState } = props;
-        // const { isAuthenticated, user } = applicationState;
-        console.log("handleItemUpdate - clicky");
+        // const { handleAppStateUpdate, applicationState } = props;
+        // // const { isAuthenticated, user } = applicationState;
+        // console.log("handleItemUpdate - clicky");
 
-        try {
-            if (isAuthenticated && token !== null && item._id) {
-                // const token = user.token as string;
+        // try {
+        //     if (isAuthenticated && token !== null && item._id) {
+        //         // const token = user.token as string;
 
-                const updateRequest = await fetch(
-                    `/api/user/todos/${item._id}`,
-                    {
-                        method: "PUT",
-                        headers: {
-                            Authorization: token,
-                            "Content-Type": "application/json;charset=utf-8",
-                        },
-                        body: JSON.stringify(item),
-                    }
-                );
+        //         const updateRequest = await fetch(
+        //             `/api/user/todos/${item._id}`,
+        //             {
+        //                 method: "PUT",
+        //                 headers: {
+        //                     Authorization: token,
+        //                     "Content-Type": "application/json;charset=utf-8",
+        //                 },
+        //                 body: JSON.stringify(item),
+        //             }
+        //         );
 
-                await updateRequest;
-            }
+        //         await updateRequest;
+        //     }
 
-            let newState = applicationState;
-            newState.items[index] = item;
+        //     let newState = applicationState;
+        //     newState.items[index] = item;
 
-            handleAppStateUpdate(newState, "updateItemsState");
-        } catch (err) {
-            console.error(err);
-        }
+        //     handleAppStateUpdate(newState, "updateItemsState");
+        // } catch (err) {
+        //     console.error(err);
+        // }
     };
 
     const handleDeleteOnClick = async (index: number): Promise<void> => {
-        const { handleAppStateUpdate, applicationState } = props;
-        const {
-            // isAuthenticated,
-            // user,
-            items: appStateItems,
-        } = applicationState;
+        // const { handleAppStateUpdate, applicationState } = props;
+        // const {
+        //     // isAuthenticated,
+        //     // user,
+        //     items: appStateItems,
+        // } = applicationState;
 
-        const currentItem = appStateItems[index];
+        // const currentItem = appStateItems[index];
 
-        let newState = applicationState;
+        // let newState = applicationState;
 
-        try {
-            if (isAuthenticated && token !== null && currentItem._id) {
-                // const token = user.token as string;
+        // try {
+        //     if (isAuthenticated && token !== null && currentItem._id) {
+        //         // const token = user.token as string;
 
-                const deleteRequest = await fetch(
-                    `/api/users/todos/${currentItem._id}`,
-                    {
-                        method: "DELETE",
-                        headers: {
-                            Authorization: token,
-                            "Content-Type": "application/json;charset=utf-8",
-                        },
-                        body: JSON.stringify(currentItem),
-                    }
-                );
+        //         const deleteRequest = await fetch(
+        //             `/api/users/todos/${currentItem._id}`,
+        //             {
+        //                 method: "DELETE",
+        //                 headers: {
+        //                     Authorization: token,
+        //                     "Content-Type": "application/json;charset=utf-8",
+        //                 },
+        //                 body: JSON.stringify(currentItem),
+        //             }
+        //         );
 
-                await deleteRequest;
-            }
+        //         await deleteRequest;
+        //     }
 
-            // in case there is no DB call, we still update state here
-            newState.items.splice(index, 1);
-            handleAppStateUpdate(newState, "updateItemsState");
-            // dispatch(deleteItem(currentItem));
-        } catch (err) {
-            console.error(err);
-        }
+        //     // in case there is no DB call, we still update state here
+        //     newState.items.splice(index, 1);
+        //     handleAppStateUpdate(newState, "updateItemsState");
+        //     // dispatch(deleteItem(currentItem));
+        // } catch (err) {
+        //     console.error(err);
+        // }
 
-        return;
+        // return;
     };
 
     /**
      * Sends request to save an array items into the database
      * @param {Item[]} items An array of items
      */
-    const handleItemCreation = async (
-        items: Item[]
-    ): Promise<Item[] | undefined> => {
-        console.log("handle item create clicked");
-        const { applicationState } = props;
-        // const { isAuthenticated, user } = applicationState;
-        try {
-            if (isAuthenticated && token !== null) {
-                // const token = user.token as string;
+    // const handleItemCreation = async (
+    //     items: Item[]
+    // ): Promise<Item[] | undefined> => {
+    //     console.log("handle item create clicked");
+    //     const { applicationState } = props;
+    //     // const { isAuthenticated, user } = applicationState;
+    //     try {
+    //         if (isAuthenticated && token !== null) {
+    //             // const token = user.token as string;
 
-                const saveRequest = await fetch(`/api/user/todos`, {
-                    method: "POST",
-                    headers: {
-                        Authorization: token,
-                        "Content-Type": "application/json;charset=utf-8",
-                    },
-                    body: JSON.stringify(items),
-                });
+    //             const saveRequest = await fetch(`/api/user/todos`, {
+    //                 method: "POST",
+    //                 headers: {
+    //                     Authorization: token,
+    //                     "Content-Type": "application/json;charset=utf-8",
+    //                 },
+    //                 body: JSON.stringify(items),
+    //             });
 
-                // TODO: Update the now saved items with their IDs in local state
-                const saveResponse = await saveRequest.json();
-                console.log(saveResponse);
-                return saveResponse;
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    };
+    //             // TODO: Update the now saved items with their IDs in local state
+    //             const saveResponse = await saveRequest.json();
+    //             console.log(saveResponse);
+    //             return saveResponse;
+    //         }
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    // };
 
     const handleSaveUnsavedItems = async (): Promise<void> => {
         // const { items } = props.applicationState;
@@ -322,13 +316,13 @@ const Main = (props: Props) => {
             {/* <Counter /> */}
             <main className={styles.mainContent}>
                 <ToDoForm
-                    items={props.applicationState.items}
+                    // items={props.applicationState.items}
                     // items={stateItems}
-                    isAuthenticated={props.applicationState.isAuthenticated}
-                    handleCreateOnClick={handleCreateOnClick}
-                    handleDeleteOnClick={handleDeleteOnClick}
-                    handleItemUpdate={handleItemUpdate}
-                    username={props.applicationState.username}
+                    // isAuthenticated={props.applicationState.isAuthenticated}
+                    // handleCreateOnClick={handleCreateOnClick}
+                    // handleDeleteOnClick={handleDeleteOnClick}
+                    // handleItemUpdate={handleItemUpdate}
+                    // username={props.applicationState.username}
                 />
             </main>
             {unsavedItemsExist && (

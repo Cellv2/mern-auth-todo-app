@@ -22,13 +22,7 @@ import {
 
 import styles from "./Login.module.scss";
 
-interface Props extends RouteComponentProps {
-    applicationState: ApplicationState;
-    handleAppStateUpdate: (
-        newState: ApplicationState,
-        actionToTake: UpdateStateActions
-    ) => void;
-}
+interface Props extends RouteComponentProps {}
 
 type State = {
     email: string;

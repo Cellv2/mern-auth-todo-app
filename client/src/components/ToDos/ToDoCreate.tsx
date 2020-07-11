@@ -11,14 +11,12 @@ import { Item } from "../../types/to-do.types";
 
 import styles from "./ToDoCreate.module.scss";
 
-type Props = {
-    handleCreateOnClick: (inText: string) => void;
-};
+type Props = {};
 
 const ToDoCreate = (props: Props) => {
     const dispatch = useDispatch();
 
-    const { handleCreateOnClick } = props;
+    // const { handleCreateOnClick } = props;
     const [inputValue, setInputValue] = useState<string>("");
 
     const handleKeyDown = (

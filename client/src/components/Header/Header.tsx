@@ -15,14 +15,7 @@ import { themeSelector } from "../../app/user-slice";
 
 import styles from "./Header.module.scss";
 
-type Props = {
-    applicationState: ApplicationState;
-    isAuthenticated: boolean;
-    handleAppStateUpdate: (
-        newState: ApplicationState,
-        actionToTake: UpdateStateActions
-    ) => void;
-};
+type Props = {};
 
 const Header = (props: Props) => {
     const themeRedux = useSelector(themeSelector);
@@ -41,12 +34,9 @@ const Header = (props: Props) => {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <NavLinks />
                     <Nav.Item>
-                        <ThemeSwitch
-                            applicationState={props.applicationState}
-                            handleAppStateUpdate={props.handleAppStateUpdate}
-                        />
+                        <ThemeSwitch />
                     </Nav.Item>
-                    <NavProfile isAuthenticated={props.isAuthenticated} />
+                    <NavProfile />
                 </Navbar.Collapse>
             </Navbar>
         </Container>

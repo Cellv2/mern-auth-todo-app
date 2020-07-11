@@ -9,26 +9,26 @@ import ToDoCreate from "./ToDoCreate";
 
 import { Item } from "../../types/to-do.types";
 import { usernameSelector } from "../../app/user-slice";
-import { itemsSelector } from '../../app/item-slice'
+import { itemsSelector } from "../../app/item-slice";
 
 type Props = {
-    items?: Item[];
-    isAuthenticated: boolean;
-    handleCreateOnClick: (inText: string) => void;
-    handleDeleteOnClick: (index: number) => void;
-    handleItemUpdate: (item: Item, index: number) => void;
-    username: string | null;
+    // items?: Item[];
+    // isAuthenticated: boolean;
+    // handleCreateOnClick: (inText: string) => void;
+    // handleDeleteOnClick: (index: number) => void;
+    // handleItemUpdate: (item: Item, index: number) => void;
+    // username: string | null;
 };
 
 const ToDoForm = (props: Props) => {
     const username = useSelector(usernameSelector);
-    const items = useSelector(itemsSelector)
+    const items = useSelector(itemsSelector);
     const {
         // items,
-        isAuthenticated,
-        handleCreateOnClick,
-        handleDeleteOnClick,
-        handleItemUpdate,
+        // isAuthenticated,
+        // handleCreateOnClick,
+        // handleDeleteOnClick,
+        // handleItemUpdate,
     } = props;
 
     let toDoItems: JSX.Element | JSX.Element[];
@@ -42,16 +42,16 @@ const ToDoForm = (props: Props) => {
             return (
                 <ToDoItem
                     key={index}
-                    index={index}
                     item={item}
-                    isAuthenticated={isAuthenticated}
-                    handleDeleteOnClick={handleDeleteOnClick}
-                    handleItemUpdate={handleItemUpdate}
+                    index={index}
+                    // isAuthenticated={isAuthenticated}
+                    // handleDeleteOnClick={handleDeleteOnClick}
+                    // handleItemUpdate={handleItemUpdate}
                 />
             );
         });
     } else {
-        console.log(items)
+        console.log(items);
         toDoItems = <div>There are no items</div>;
     }
 
@@ -65,7 +65,7 @@ const ToDoForm = (props: Props) => {
                             <em>What do you need to get done today?</em>
                         </small>
                     </div>
-                    <ToDoCreate handleCreateOnClick={handleCreateOnClick} />
+                    <ToDoCreate />
                     {toDoItems}
                 </Col>
             </Row>

@@ -17,18 +17,14 @@ import {
     tokenSelector,
     updateToken,
 } from "../../app/user-slice";
+import { itemsSelector } from "../../app/item-slice";
 
 import styles from "./UserProfile.module.scss";
 
-interface Props extends RouteComponentProps {
-    applicationState: ApplicationState;
-    handleAppStateUpdate: (
-        newState: ApplicationState,
-        actionToTake: UpdateStateActions
-    ) => void;
-}
+interface Props extends RouteComponentProps {}
 
 const UserProfile = (props: Props) => {
+    const items = useSelector(itemsSelector);
     const username = useSelector(usernameSelector);
     const token = useSelector(tokenSelector);
     const isAuthenticated = useSelector(isAuthenticatedSelector);
@@ -68,24 +64,26 @@ const UserProfile = (props: Props) => {
                 });
 
                 await request.json().then((deletedUser) => {
-                    const { items } = props.applicationState;
+                    // const { items } = props.applicationState;
 
-                    // "_id" should only exist if it came from the DB in the first place, so we filter these out
-                    const unsavedItems = items.filter(
-                        (item) => !("_id" in item)
-                    );
+                    // // "_id" should only exist if it came from the DB in the first place, so we filter these out
+                    // const unsavedItems = items.filter(
+                    //     (item) => !("_id" in item)
+                    // );
 
-                    let newAppState = props.applicationState;
-                    newAppState.isAuthenticated = false;
-                    newAppState.user = null;
-                    newAppState.username = null;
-                    newAppState.items = unsavedItems;
+                    // let newAppState = props.applicationState;
+                    // newAppState.isAuthenticated = false;
+                    // newAppState.user = null;
+                    // newAppState.username = null;
+                    // newAppState.items = unsavedItems;
 
-                    props.handleAppStateUpdate(newAppState, "updateUserState");
+                    // props.handleAppStateUpdate(newAppState, "updateUserState");
 
                     dispatch(updateAuthenticated(false));
                     dispatch(updateUsername(null));
                     dispatch(updateToken(null));
+
+                    // TODO: make sure that we remove items from state too
 
                     console.log("User deleted", deletedUser);
                     redirectToHome();
@@ -102,8 +100,8 @@ const UserProfile = (props: Props) => {
                 <h1>Hey, {username ?? "how did you get here?"}</h1>
                 <p>
                     <em>
-                        {props.applicationState.items.length
-                            ? `You have ${props.applicationState.items.length} items on your to do list - get on with it!`
+                        {items.length
+                            ? `You have ${items.length} items on your to do list - get on with it!`
                             : "There's nothing on your to do list? Go add something!"}
                     </em>
                 </p>

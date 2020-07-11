@@ -20,9 +20,8 @@ import { deleteItemAsync, updateItemAsync } from "../../app/item-slice";
 type Props = {
     item: Item;
     index: number;
-    isAuthenticated: boolean;
-    handleDeleteOnClick: (index: number) => void;
-    handleItemUpdate: (item: Item, index: number) => void;
+    // handleDeleteOnClick: (index: number) => void;
+    // handleItemUpdate: (item: Item, index: number) => void;
 };
 
 const ToDoItem = (props: Props) => {
@@ -33,8 +32,8 @@ const ToDoItem = (props: Props) => {
         item,
         index,
         // isAuthenticated,
-        handleDeleteOnClick,
-        handleItemUpdate,
+        // handleDeleteOnClick,
+        // handleItemUpdate,
     } = props;
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -105,11 +104,10 @@ const ToDoItem = (props: Props) => {
     };
 
     const updateItem = (): void => {
-        let updatedItem = props.item;
-        updatedItem.text = inputValue;
-        updatedItem.isComplete = isComplete;
-
-        handleItemUpdate(updatedItem, index);
+        // let updatedItem = props.item;
+        // updatedItem.text = inputValue;
+        // updatedItem.isComplete = isComplete;
+        // handleItemUpdate(updatedItem, index);
     };
 
     return (

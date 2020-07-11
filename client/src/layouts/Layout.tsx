@@ -9,23 +9,13 @@ import { UpdateStateActions } from "../types/state-action.types";
 import styles from "./Layout.module.scss";
 
 type Props = {
-    applicationState: ApplicationState;
-    isAuthenticated: boolean;
-    handleAppStateUpdate: (
-        newState: ApplicationState,
-        actionToTake: UpdateStateActions
-    ) => void;
     children: React.ReactNode;
 };
 
 const Layout = (props: Props) => {
     return (
         <div className={styles.grid}>
-            <Header
-                applicationState={props.applicationState}
-                isAuthenticated={props.isAuthenticated}
-                handleAppStateUpdate={props.handleAppStateUpdate}
-            />
+            <Header />
             {props.children}
             <Footer />
         </div>

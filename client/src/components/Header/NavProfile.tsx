@@ -6,9 +6,7 @@ import Nav from "react-bootstrap/Nav";
 
 import { isAuthenticatedSelector } from "../../app/user-slice";
 
-interface Props extends RouteComponentProps {
-    isAuthenticated: boolean;
-}
+interface Props extends RouteComponentProps {}
 
 const NavProfile = (props: Props) => {
     const isAuthenticated = useSelector(isAuthenticatedSelector);

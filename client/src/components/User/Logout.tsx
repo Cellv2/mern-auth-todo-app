@@ -12,13 +12,7 @@ import {
 
 import styles from "./Logout.module.scss";
 
-interface Props extends RouteComponentProps {
-    applicationState: ApplicationState;
-    handleAppStateUpdate: (
-        newState: ApplicationState,
-        actionToTake: UpdateStateActions
-    ) => void;
-}
+interface Props extends RouteComponentProps {}
 
 const Logout = (props: Props) => {
     // TODO: Remove token from local storage if going down that route
@@ -33,22 +27,24 @@ const Logout = (props: Props) => {
     };
 
     const handleOnClick = () => {
-        const { items } = props.applicationState;
+        // const { items } = props.applicationState;
 
-        // "_id" should only exist if it came from the DB in the first place, so we filter these out
-        const unsavedItems = items.filter((item) => !("_id" in item));
+        // // "_id" should only exist if it came from the DB in the first place, so we filter these out
+        // const unsavedItems = items.filter((item) => !("_id" in item));
 
-        let newAppState = props.applicationState;
-        newAppState.isAuthenticated = false;
-        newAppState.user = null;
-        newAppState.username = null;
-        newAppState.items = unsavedItems;
+        // let newAppState = props.applicationState;
+        // newAppState.isAuthenticated = false;
+        // newAppState.user = null;
+        // newAppState.username = null;
+        // newAppState.items = unsavedItems;
 
-        props.handleAppStateUpdate(newAppState, "updateUserState");
+        // props.handleAppStateUpdate(newAppState, "updateUserState");
 
         dispatch(updateAuthenticated(false));
         dispatch(updateUsername(null));
         dispatch(updateToken(null));
+
+        // TODO: remove user items on logout or delete
 
         redirectToLogin();
     };
