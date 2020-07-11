@@ -21,17 +21,8 @@ export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        updateAuthenticated: (state, action: PayloadAction<boolean>) => {
-            state.isAuthenticated = action.payload;
-        },
         updateTheme: (state, action: PayloadAction<AvailableThemes>) => {
             state.theme = action.payload;
-        },
-        updateUsername: (state, action: PayloadAction<string | null>) => {
-            state.username = action.payload;
-        },
-        updateToken: (state, action: PayloadAction<string | null>) => {
-            state.token = action.payload;
         },
         logoutUser: (state) => {
             state.isAuthenticated = false;
@@ -65,13 +56,7 @@ export const loginUserAsync = (
     }
 };
 
-export const {
-    updateAuthenticated,
-    updateTheme,
-    updateUsername,
-    updateToken,
-    logoutUser,
-} = userSlice.actions;
+export const { updateTheme, logoutUser } = userSlice.actions;
 
 export const themeSelector = (state: RootState) => state.user.theme;
 export const isAuthenticatedSelector = (state: RootState) =>

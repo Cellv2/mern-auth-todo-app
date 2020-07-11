@@ -9,11 +9,9 @@ import PasswordUpdate from "../../components/User/PasswordUpdate";
 
 import {
     usernameSelector,
-    updateUsername,
-    updateAuthenticated,
     isAuthenticatedSelector,
     tokenSelector,
-    updateToken,
+    logoutUser,
 } from "../../app/user-slice";
 import { itemsSelector } from "../../app/item-slice";
 
@@ -73,9 +71,10 @@ const UserProfile = (props: Props) => {
 
                     // props.handleAppStateUpdate(newAppState, "updateUserState");
 
-                    dispatch(updateAuthenticated(false));
-                    dispatch(updateUsername(null));
-                    dispatch(updateToken(null));
+                    // dispatch(updateAuthenticated(false));
+                    // dispatch(updateUsername(null));
+                    // dispatch(updateToken(null));
+                    dispatch(logoutUser());
 
                     // TODO: make sure that we remove items from state too
 
