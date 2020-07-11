@@ -7,7 +7,11 @@ import { Item } from "../types/to-do.types";
 import { ApplicationState } from "../types/application-state.types";
 import { UpdateStateActions } from "../types/state-action.types";
 import { tokenSelector, isAuthenticatedSelector } from "../app/user-slice";
-import { itemsSelector, getItemsAsync } from "../app/item-slice";
+import {
+    getItemsAsync,
+    dirtyItemsSelector,
+    addDirtyItemsToDatabaseAsync,
+} from "../app/item-slice";
 
 import styles from "./Main.module.scss";
 
@@ -36,6 +40,7 @@ const testItems: Item[] = [
 const Main = (props: Props) => {
     const token = useSelector(tokenSelector);
     const isAuthenticated = useSelector(isAuthenticatedSelector);
+    const dirtyItems = useSelector(dirtyItemsSelector);
     const dispatch = useDispatch();
 
     const [stateItems, setStateItems] = useState<Item[] | undefined>(testItems);
@@ -44,10 +49,12 @@ const Main = (props: Props) => {
         user,
         items,
     } = props.applicationState;
-    const unsavedItemsExist: boolean =
-        isAuthenticated &&
-        user !== null &&
-        !items.every((item) => "_id" in item);
+
+    // const unsavedItemsExist: boolean =
+    //     isAuthenticated &&
+    //     user !== null &&
+    //     !items.every((item) => "_id" in item);
+    const unsavedItemsExist: boolean = dirtyItems.length > 0;
 
     useEffect(() => {
         // useEffect doesn't like async functions, so we wrap it and call the wrapper
@@ -99,7 +106,7 @@ const Main = (props: Props) => {
         //         // dispatch(addItems(newItems));
         //     }
         // }
-        dispatch(getItemsAsync())
+        dispatch(getItemsAsync());
 
         return;
     };
@@ -263,48 +270,50 @@ const Main = (props: Props) => {
     };
 
     const handleSaveUnsavedItems = async (): Promise<void> => {
-        const { items } = props.applicationState;
+        // const { items } = props.applicationState;
 
-        // we cannot both filter items AND keep the index of where that item was in state
-        // we create a type which keeps the index which the item is in, then filter it down to only the items we need to save
-        // we then use this later on to overwrite the specific state item based
-        // we do this to avoid additional database calls (i.e. loading all items again)
-        type ItemsWithStateIndex = {
-            index: number;
-            item: Item;
-        };
-        const itemsToSaveWithIndex: ItemsWithStateIndex[] = items
-            .map((item, index) => {
-                const itemToSave: ItemsWithStateIndex = {
-                    index: index,
-                    item: item,
-                };
+        // // we cannot both filter items AND keep the index of where that item was in state
+        // // we create a type which keeps the index which the item is in, then filter it down to only the items we need to save
+        // // we then use this later on to overwrite the specific state item based
+        // // we do this to avoid additional database calls (i.e. loading all items again)
+        // type ItemsWithStateIndex = {
+        //     index: number;
+        //     item: Item;
+        // };
+        // const itemsToSaveWithIndex: ItemsWithStateIndex[] = items
+        //     .map((item, index) => {
+        //         const itemToSave: ItemsWithStateIndex = {
+        //             index: index,
+        //             item: item,
+        //         };
 
-                return itemToSave;
-            })
-            .filter((item) => !("_id" in item.item));
+        //         return itemToSave;
+        //     })
+        //     .filter((item) => !("_id" in item.item));
 
-        const itemsToSave: Item[] = itemsToSaveWithIndex.map(
-            (item) => item.item
-        );
+        // const itemsToSave: Item[] = itemsToSaveWithIndex.map(
+        //     (item) => item.item
+        // );
 
-        try {
-            let stateItemsToSave = items;
+        // try {
+        //     let stateItemsToSave = items;
 
-            const createdItems = await handleItemCreation(itemsToSave);
-            createdItems?.forEach((item, index) => {
-                stateItemsToSave[index] = item;
-            });
+        //     const createdItems = await handleItemCreation(itemsToSave);
+        //     createdItems?.forEach((item, index) => {
+        //         stateItemsToSave[index] = item;
+        //     });
 
-            //TODO: Is this needed?
-            // this.setState((prevState: State) => ({
-            //     ...prevState,
-            //     items: stateItemsToSave,
-            // }));
-            setStateItems(stateItemsToSave);
-        } catch (err) {
-            console.error(err);
-        }
+        //     //TODO: Is this needed?
+        //     // this.setState((prevState: State) => ({
+        //     //     ...prevState,
+        //     //     items: stateItemsToSave,
+        //     // }));
+        //     setStateItems(stateItemsToSave);
+        // } catch (err) {
+        //     console.error(err);
+        // }
+
+        dispatch(addDirtyItemsToDatabaseAsync(dirtyItems));
     };
 
     return (

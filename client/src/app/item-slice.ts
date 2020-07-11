@@ -189,6 +189,23 @@ export const updateItemAsync = (item: Item): AppThunk => async (
     }
 };
 
+export const addDirtyItemsToDatabaseAsync = (items: Item[]): AppThunk => async (
+    dispatch,
+    getState
+) => {
+    const userIsAuthenticated = getState().user.isAuthenticated;
+    const userToken = getState().user.token;
+    if (userIsAuthenticated && userToken !== null) {
+        try {
+            const itemsToSave = await addItemsToDatabase(items, userToken);
+            dispatch(addItemsSuccess(itemsToSave));
+            items.forEach((item) => dispatch(deleteItemSuccess(item)));
+        } catch (err) {
+            dispatch(updateItemFailed(err));
+        }
+    }
+};
+
 // includes both items saved into the DB and those not saved to the DB
 export const itemsSelector = (state: RootState) => [
     ...state.items.pristineItems,
