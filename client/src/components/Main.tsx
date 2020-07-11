@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import ToDoForm from "./ToDos/ToDoForm";
 
+import { isAuthenticatedSelector, tokenSelector } from "../app/user-slice";
 import {
     getItemsAsync,
     dirtyItemsSelector,
@@ -14,10 +15,13 @@ import styles from "./Main.module.scss";
 type Props = {};
 
 const Main = (props: Props) => {
+    const isAuthenticated = useSelector(isAuthenticatedSelector);
+    const token = useSelector(tokenSelector);
     const dirtyItems = useSelector(dirtyItemsSelector);
     const dispatch = useDispatch();
 
-    const unsavedItemsExist: boolean = dirtyItems.length > 0;
+    let unsavedItemsExist: boolean =
+        dirtyItems.length > 0 && isAuthenticated && token !== null;
 
     useEffect(() => {
         // useEffect doesn't like async functions, so we wrap it and call the wrapper
@@ -32,8 +36,8 @@ const Main = (props: Props) => {
         dispatch(getItemsAsync());
     };
 
-    const handleSaveUnsavedItems = async (): Promise<void> => {
-        await dispatch(addDirtyItemsToDatabaseAsync(dirtyItems));
+    const handleSaveUnsavedItems = () => {
+        dispatch(addDirtyItemsToDatabaseAsync(dirtyItems));
     };
 
     return (
