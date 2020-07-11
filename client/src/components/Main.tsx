@@ -7,7 +7,7 @@ import { Item } from "../types/to-do.types";
 import { ApplicationState } from "../types/application-state.types";
 import { UpdateStateActions } from "../types/state-action.types";
 import { tokenSelector, isAuthenticatedSelector } from "../app/user-slice";
-import { addItems, itemsSelector, getItemsAsync } from "../app/item-slice";
+import { itemsSelector, getItemsAsync } from "../app/item-slice";
 
 import styles from "./Main.module.scss";
 

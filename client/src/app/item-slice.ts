@@ -24,32 +24,6 @@ export const itemSlice = createSlice({
     name: "items",
     initialState,
     reducers: {
-        addItems: (state, action: PayloadAction<Item[] | Item>) => {
-            console.log("addItems payload: ", action.payload);
-            if (Array.isArray(action.payload)) {
-                const itemArr = action.payload;
-                const pristine = itemArr.filter((item) => "_id" in item);
-                const pristineConcat = [...state.pristineItems, ...pristine];
-                state.pristineItems = filterDuplicateItemsById(pristineConcat);
-
-                const dirty = itemArr.filter((item) => !("_id" in item));
-                const dirtyConcat = [...state.dirtyItems, ...dirty];
-                state.dirtyItems = filterDuplicateItemsByTimestamp(dirtyConcat);
-            } else {
-                const item = action.payload;
-                if (item._id !== undefined) {
-                    const pristineConcat = [...state.pristineItems, item];
-                    state.pristineItems = filterDuplicateItemsById(
-                        pristineConcat
-                    );
-                } else {
-                    const dirtyConcat = [...state.dirtyItems, item];
-                    state.dirtyItems = filterDuplicateItemsByTimestamp(
-                        dirtyConcat
-                    );
-                }
-            }
-        },
         getItemsSuccess: (state, action: PayloadAction<Item[]>) => {
             // as these items come from the DB, they must have _id attached (are pristine items)
             state.pristineItems = action.payload;
@@ -144,7 +118,7 @@ export const addItemsAsync = (items: Item[] | Item): AppThunk => async (
         try {
             const response = await addItemsToDatabase(items, userToken);
             console.log("ASYNC RESPONSE", response);
-            dispatch(addItems(response));
+            dispatch(addItemsSuccess(response));
         } catch (err) {
             dispatch(addItemsFailed(err));
         }
@@ -159,7 +133,7 @@ export const deleteItemAsync = (item: Item): AppThunk => async (
 ) => {
     const userIsAuthenticated = getState().user.isAuthenticated;
     const userToken = getState().user.token;
-    if (userIsAuthenticated && userToken !== null) {
+    if (userIsAuthenticated && userToken !== null && item._id !== undefined) {
         try {
             await deleteItemFromDatabase(item, userToken);
             dispatch(deleteItemSuccess(item));
@@ -170,8 +144,6 @@ export const deleteItemAsync = (item: Item): AppThunk => async (
         dispatch(deleteItemSuccess(item));
     }
 };
-
-export const { addItems } = itemSlice.actions;
 
 // includes both items saved into the DB and those not saved to the DB
 export const itemsSelector = (state: RootState) => [
