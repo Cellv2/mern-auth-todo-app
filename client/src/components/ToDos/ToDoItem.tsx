@@ -14,27 +14,19 @@ import {
 import styles from "./ToDoItem.module.scss";
 
 import { Item } from "../../types/to-do.types";
-import { isAuthenticatedSelector, tokenSelector } from "../../app/user-slice";
+import { isAuthenticatedSelector } from "../../app/user-slice";
 import { deleteItemAsync, updateItemAsync } from "../../app/item-slice";
 
 type Props = {
     item: Item;
     index: number;
-    // handleDeleteOnClick: (index: number) => void;
-    // handleItemUpdate: (item: Item, index: number) => void;
 };
 
 const ToDoItem = (props: Props) => {
     const isAuthenticated = useSelector(isAuthenticatedSelector);
     const dispatch = useDispatch();
 
-    const {
-        item,
-        index,
-        // isAuthenticated,
-        // handleDeleteOnClick,
-        // handleItemUpdate,
-    } = props;
+    const { item, index } = props;
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>(props.item.text);
@@ -53,6 +45,8 @@ const ToDoItem = (props: Props) => {
         // ! CRITICAL
         //TODO: Get item updates in redux state, this breaks because Main was made into a funcitonal component (#56)
         // updateItem();
+        const updated: Item = { ...props.item, isComplete: isComplete };
+        dispatch(updateItemAsync(updated));
     }, [isComplete]);
 
     useEffect(() => {
@@ -80,7 +74,6 @@ const ToDoItem = (props: Props) => {
         if (isEditing) {
             const updated: Item = { ...props.item, text: inputValue };
             dispatch(updateItemAsync(updated));
-            // updateItem();
         }
 
         setIsEditing(!isEditing);
@@ -91,9 +84,7 @@ const ToDoItem = (props: Props) => {
     ): void => {
         if (isEditing && event.key === "Enter" && inputValue !== "") {
             const updated: Item = { ...props.item, text: inputValue };
-            console.log(updated);
             dispatch(updateItemAsync(updated));
-            // updateItem();
             setIsEditing(false);
         }
 
@@ -101,13 +92,6 @@ const ToDoItem = (props: Props) => {
             setInputValue(inputSnapshot);
             setIsEditing(false);
         }
-    };
-
-    const updateItem = (): void => {
-        // let updatedItem = props.item;
-        // updatedItem.text = inputValue;
-        // updatedItem.isComplete = isComplete;
-        // handleItemUpdate(updatedItem, index);
     };
 
     return (
@@ -168,7 +152,6 @@ const ToDoItem = (props: Props) => {
                     </Button>
                     <Button
                         variant="outline-secondary"
-                        // onClick={() => handleDeleteOnClick(index)}
                         onClick={() => dispatch(deleteItemAsync(item))}
                         className={styles.actionButtons}
                     >
