@@ -7,8 +7,6 @@ import Button from "react-bootstrap/Button";
 
 import PasswordUpdate from "../../components/User/PasswordUpdate";
 
-import { ApplicationState } from "../../types/application-state.types";
-import { UpdateStateActions } from "../../types/state-action.types";
 import {
     usernameSelector,
     updateUsername,
@@ -40,10 +38,6 @@ const UserProfile = (props: Props) => {
     const handleDeleteUser = async (
         event: React.MouseEvent<HTMLButtonElement>
     ): Promise<void> => {
-        // const { isAuthenticated, user } = props.applicationState;
-        // const { user } = props.applicationState;
-        // const token = props.applicationState.user?.token as string;
-
         // TODO: If this fails, say so through the UI
         if (isAuthenticated && token !== null) {
             const randomInts = Array.from(new Array(5)).map(() =>

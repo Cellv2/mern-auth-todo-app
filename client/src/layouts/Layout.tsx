@@ -3,9 +3,6 @@ import React from "react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 
-import { ApplicationState } from "../types/application-state.types";
-import { UpdateStateActions } from "../types/state-action.types";
-
 import styles from "./Layout.module.scss";
 
 type Props = {

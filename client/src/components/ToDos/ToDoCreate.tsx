@@ -16,7 +16,6 @@ type Props = {};
 const ToDoCreate = (props: Props) => {
     const dispatch = useDispatch();
 
-    // const { handleCreateOnClick } = props;
     const [inputValue, setInputValue] = useState<string>("");
 
     const handleKeyDown = (
@@ -28,7 +27,7 @@ const ToDoCreate = (props: Props) => {
                 text: inputValue,
                 timestamp: Date.now(),
             };
-            // handleCreateOnClick(inputValue);
+
             dispatch(addItemsAsync(newItem));
             setInputValue("");
         }
@@ -42,7 +41,7 @@ const ToDoCreate = (props: Props) => {
                 text: inputValue,
                 timestamp: Date.now(),
             };
-            // handleCreateOnClick(inputValue);
+
             dispatch(addItemsAsync(newItem));
             setInputValue("");
         } else {

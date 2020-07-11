@@ -42,9 +42,6 @@ const ToDoItem = (props: Props) => {
 
     // we have to ensure the update is done after the state is updated (hook update is async)
     useEffect(() => {
-        // ! CRITICAL
-        //TODO: Get item updates in redux state, this breaks because Main was made into a funcitonal component (#56)
-        // updateItem();
         const updated: Item = { ...props.item, isComplete: isComplete };
         dispatch(updateItemAsync(updated));
     }, [isComplete]);

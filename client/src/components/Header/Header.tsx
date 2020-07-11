@@ -9,8 +9,6 @@ import ThemeSwitch from "../ThemeSwitch/ThemeSwitch";
 import NavProfile from "./NavProfile";
 import NavLinks from "./NavLinks";
 
-import { ApplicationState } from "../../types/application-state.types";
-import { UpdateStateActions } from "../../types/state-action.types";
 import { themeSelector } from "../../app/user-slice";
 
 import styles from "./Header.module.scss";
@@ -18,12 +16,12 @@ import styles from "./Header.module.scss";
 type Props = {};
 
 const Header = (props: Props) => {
-    const themeRedux = useSelector(themeSelector);
+    const theme = useSelector(themeSelector);
 
     return (
         <Container fluid className={styles.gridHeader}>
             <Navbar
-                variant={themeRedux === "dark" ? "dark" : "light"}
+                variant={theme === "dark" ? "dark" : "light"}
                 collapseOnSelect
                 expand="sm"
             >

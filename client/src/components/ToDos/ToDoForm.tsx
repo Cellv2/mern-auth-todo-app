@@ -11,25 +11,11 @@ import { Item } from "../../types/to-do.types";
 import { usernameSelector } from "../../app/user-slice";
 import { itemsSelector } from "../../app/item-slice";
 
-type Props = {
-    // items?: Item[];
-    // isAuthenticated: boolean;
-    // handleCreateOnClick: (inText: string) => void;
-    // handleDeleteOnClick: (index: number) => void;
-    // handleItemUpdate: (item: Item, index: number) => void;
-    // username: string | null;
-};
+type Props = {};
 
 const ToDoForm = (props: Props) => {
     const username = useSelector(usernameSelector);
     const items = useSelector(itemsSelector);
-    const {
-        // items,
-        // isAuthenticated,
-        // handleCreateOnClick,
-        // handleDeleteOnClick,
-        // handleItemUpdate,
-    } = props;
 
     let toDoItems: JSX.Element | JSX.Element[];
     if (items && items.length > 0) {
@@ -39,19 +25,9 @@ const ToDoForm = (props: Props) => {
         );
 
         toDoItems = timestampSortedItems.map((item: Item, index: number) => {
-            return (
-                <ToDoItem
-                    key={index}
-                    item={item}
-                    index={index}
-                    // isAuthenticated={isAuthenticated}
-                    // handleDeleteOnClick={handleDeleteOnClick}
-                    // handleItemUpdate={handleItemUpdate}
-                />
-            );
+            return <ToDoItem key={index} item={item} index={index} />;
         });
     } else {
-        console.log(items);
         toDoItems = <div>There are no items</div>;
     }
 

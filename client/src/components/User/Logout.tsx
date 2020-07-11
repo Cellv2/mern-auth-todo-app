@@ -2,8 +2,6 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
-import { ApplicationState } from "../../types/application-state.types";
-import { UpdateStateActions } from "../../types/state-action.types";
 import {
     updateAuthenticated,
     updateUsername,
@@ -27,19 +25,6 @@ const Logout = (props: Props) => {
     };
 
     const handleOnClick = () => {
-        // const { items } = props.applicationState;
-
-        // // "_id" should only exist if it came from the DB in the first place, so we filter these out
-        // const unsavedItems = items.filter((item) => !("_id" in item));
-
-        // let newAppState = props.applicationState;
-        // newAppState.isAuthenticated = false;
-        // newAppState.user = null;
-        // newAppState.username = null;
-        // newAppState.items = unsavedItems;
-
-        // props.handleAppStateUpdate(newAppState, "updateUserState");
-
         dispatch(updateAuthenticated(false));
         dispatch(updateUsername(null));
         dispatch(updateToken(null));
