@@ -1,5 +1,7 @@
 import { AvailableThemes } from "./theme.types";
 
+export type UserPartial = Partial<User>;
+
 export interface User {
     isAuthenticated: boolean;
     theme: AvailableThemes;

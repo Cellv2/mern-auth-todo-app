@@ -8,6 +8,7 @@ import {
     themeSelector,
     updateTheme,
     tokenSelector,
+    updateUserAsync,
 } from "../../app/user-slice";
 
 import { AvailableThemes } from "../../types/theme.types";
@@ -15,6 +16,7 @@ import { ApplicationState } from "../../types/application-state.types";
 import { UpdateStateActions } from "../../types/state-action.types";
 
 import styles from "./ThemeSwitch.module.scss";
+import { UserPartial } from "../../types/user.types";
 
 type Props = {};
 
@@ -66,7 +68,8 @@ const ThemeSwitch = (props: Props) => {
         // newState.theme = newTheme;
 
         // props.handleAppStateUpdate(newState, "updateThemeState");
-        dispatch(updateTheme(newTheme));
+        const update: UserPartial = { theme: newTheme };
+        dispatch(updateUserAsync(update));
 
         return;
     };

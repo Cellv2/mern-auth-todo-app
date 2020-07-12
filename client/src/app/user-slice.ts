@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "./store";
 import { AvailableThemes } from "../types/theme.types";
-import { User } from "../types/user.types";
+import { User, UserPartial } from "../types/user.types";
 
-import { loginUser } from "../api/user.api";
+import { loginUser, patchUser } from "../api/user.api";
 
 export interface UserState extends User {
     error: string | null;
@@ -39,10 +39,27 @@ export const userSlice = createSlice({
         loginUserFailed: (state, action: PayloadAction<string>) => {
             state.error = action.payload;
         },
+        patchUserSuccess: (state, action: PayloadAction<UserPartial>) => {
+            for (const property in action.payload) {
+                // for in loops do not inter type correctly at the time of coding this
+                //@ts-expect-error
+                state[property] = action.payload[property as keyof User];
+            }
+
+            state.error = null;
+        },
+        patchUserFailed: (state, action: PayloadAction<string>) => {
+            state.error = action.payload;
+        },
     },
 });
 
-const { loginUserSuccess, loginUserFailed } = userSlice.actions;
+const {
+    loginUserSuccess,
+    loginUserFailed,
+    patchUserSuccess,
+    patchUserFailed,
+} = userSlice.actions;
 
 export const loginUserAsync = (
     email: string,
@@ -53,11 +70,33 @@ export const loginUserAsync = (
         if (!loginRequest.ok) {
             throw new Error("Login failed");
         }
-
         const user: User = await loginRequest.json();
+
         dispatch(loginUserSuccess(user));
     } catch (err) {
         dispatch(loginUserFailed(err));
+    }
+};
+
+export const updateUserAsync = (update: UserPartial): AppThunk => async (
+    dispatch,
+    getState
+) => {
+    const { isAuthenticated, token } = getState().user;
+    if (isAuthenticated && token) {
+        try {
+            const patchRequest = await patchUser(update, token);
+            if (!patchRequest.ok) {
+                throw new Error("Update failed");
+            }
+            const patchedUser: User = await patchRequest.json();
+
+            dispatch(patchUserSuccess(patchedUser));
+        } catch (err) {
+            dispatch(patchUserFailed(err));
+        }
+    } else {
+        dispatch(patchUserSuccess(update));
     }
 };
 
