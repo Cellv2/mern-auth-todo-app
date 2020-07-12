@@ -16,7 +16,6 @@ const ThemeSwitch = (props: Props) => {
     const theme = useSelector(themeSelector);
     const dispatch = useDispatch();
 
-    // const { isAuthenticated, theme } = props.applicationState;
     const [initialTheme, setInitialTheme] = useState<AvailableThemes>(theme);
 
     useEffect(() => {
@@ -24,14 +23,10 @@ const ThemeSwitch = (props: Props) => {
     }, []);
 
     const handleThemeSwitch = async (): Promise<void> => {
-        const currentTheme = theme;
-        const newTheme: AvailableThemes =
-            currentTheme !== "light" ? "light" : "dark";
+        const newTheme: AvailableThemes = theme !== "light" ? "light" : "dark";
 
         const update: UserPartial = { theme: newTheme };
         dispatch(updateUserAsync(update));
-
-        return;
     };
 
     return (
