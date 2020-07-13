@@ -11,6 +11,7 @@ import {
 } from "../app/item-slice";
 
 import styles from "./Main.module.scss";
+import Container from "react-bootstrap/Container";
 
 type Props = {};
 
@@ -41,19 +42,23 @@ const Main = (props: Props) => {
     };
 
     return (
-        <div className={styles.gridMain}>
-            <main className={styles.mainContent}>
-                <ToDoForm />
+        <Container fluid className={`${styles.gridMain} p-0`}>
+            <main className="h-100 d-flex flex-column justify-content-between">
+                <div className="mt-5">
+                    <ToDoForm />
+                </div>
+                <div className="my-2">
+                    {!unsavedItemsExist && (
+                        <p>
+                            You have items that are not in the database{" "}
+                            <button onClick={handleSaveUnsavedItems}>
+                                Click to save
+                            </button>
+                        </p>
+                    )}
+                </div>
             </main>
-            {unsavedItemsExist && (
-                <p>
-                    You have items that are not in the database{" "}
-                    <button onClick={handleSaveUnsavedItems}>
-                        Click to save
-                    </button>
-                </p>
-            )}
-        </div>
+        </Container>
     );
 };
 
