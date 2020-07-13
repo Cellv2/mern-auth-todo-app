@@ -11,6 +11,8 @@ import { Item } from "../../types/to-do.types";
 import { usernameSelector } from "../../app/user-slice";
 import { itemsSelector } from "../../app/item-slice";
 
+import styles from "./ToDoForn.module.scss";
+
 type Props = {};
 
 const ToDoForm = (props: Props) => {
@@ -32,7 +34,7 @@ const ToDoForm = (props: Props) => {
     }
 
     return (
-        <Container fluid>
+        <Container fluid className={styles.formFont}>
             <Row className="justify-content-md-center">
                 <Col sm={8}>
                     <div className="mb-5">
