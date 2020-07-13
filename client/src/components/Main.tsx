@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Container from "react-bootstrap/Container";
 
 import ToDoForm from "./ToDos/ToDoForm";
 
@@ -11,7 +12,8 @@ import {
 } from "../app/item-slice";
 
 import styles from "./Main.module.scss";
-import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 
 type Props = {};
 
@@ -48,13 +50,18 @@ const Main = (props: Props) => {
                     <ToDoForm />
                 </div>
                 <div className="my-2">
-                    {!unsavedItemsExist && (
-                        <p>
-                            You have items that are not in the database{" "}
-                            <button onClick={handleSaveUnsavedItems}>
-                                Click to save
-                            </button>
-                        </p>
+                    {unsavedItemsExist && (
+                        <Alert variant="info">
+                            <Alert.Heading as={"h5"}>
+                                You have items that are not in the database{" "}
+                            </Alert.Heading>
+                            <Button
+                                variant="outline-info"
+                                onClick={handleSaveUnsavedItems}
+                            >
+                                Click here to save!
+                            </Button>
+                        </Alert>
                     )}
                 </div>
             </main>
