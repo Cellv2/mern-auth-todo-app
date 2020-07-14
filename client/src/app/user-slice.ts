@@ -3,10 +3,10 @@ import { RootState, AppThunk } from "./store";
 import { AvailableThemes } from "../types/theme.types";
 import { User, UserPartial } from "../types/user.types";
 
-import { loginUser, patchUser } from "../api/user.api";
+import { loginUser, patchUser, ApiResponse, ApiError } from "../api/user.api";
 
 export interface UserState extends User {
-    error: string | null;
+    error: string[] | null;
 }
 
 export const initialState: UserState = {
@@ -36,7 +36,7 @@ export const userSlice = createSlice({
             state.username = action.payload.username;
             state.error = null;
         },
-        loginUserFailed: (state, action: PayloadAction<string>) => {
+        loginUserFailed: (state, action: PayloadAction<string[]>) => {
             state.error = action.payload;
         },
         patchUserSuccess: (state, action: PayloadAction<UserPartial>) => {
@@ -48,7 +48,7 @@ export const userSlice = createSlice({
 
             state.error = null;
         },
-        patchUserFailed: (state, action: PayloadAction<string>) => {
+        patchUserFailed: (state, action: PayloadAction<string[]>) => {
             state.error = action.payload;
         },
     },
@@ -67,11 +67,13 @@ export const loginUserAsync = (
 ): AppThunk => async (dispatch) => {
     try {
         const loginRequest = await loginUser(email, password);
-        if (!loginRequest.ok) {
-            throw new Error("Login failed");
+        if (loginRequest.result === "failure") {
+            const errors = loginRequest as ApiResponse<ApiError>;
+            dispatch(loginUserFailed(errors.response.message));
+            return;
         }
-        const user: User = await loginRequest.json();
 
+        const user = loginRequest.response as User;
         dispatch(loginUserSuccess(user));
     } catch (err) {
         dispatch(loginUserFailed(err));

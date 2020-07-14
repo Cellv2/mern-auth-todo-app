@@ -1,5 +1,15 @@
 import { UserPartial, User } from "../types/user.types";
 
+export type ApiResult = "success" | "failure";
+export type ApiError = {
+    errorcode: number;
+    message: string[];
+};
+export type ApiResponse<T> = {
+    result: ApiResult;
+    response: T | ApiError;
+};
+
 export const loginUser = async (email: string, password: string) => {
     const body = {
         email,
@@ -12,7 +22,24 @@ export const loginUser = async (email: string, password: string) => {
         body: JSON.stringify(body),
     });
 
-    return request;
+    if (!request.ok) {
+        const errorResponse = await request.json();
+        const errors: ApiResponse<ApiError> = {
+            result: "failure",
+            response: {
+                errorcode: request.status,
+                message: Object.values(errorResponse) as string[],
+            },
+        };
+        return errors;
+    }
+
+    const response: ApiResponse<User> = {
+        result: "success",
+        response: await request.json(),
+    };
+
+    return response;
 };
 
 export const patchUser = async (update: UserPartial, token: string) => {
@@ -84,5 +111,17 @@ export const createUser = async (
         body: JSON.stringify(newUser),
     });
 
-    return request;
+    if (!request.ok) {
+        const errors: ApiResponse<ApiError> = await request.json();
+
+        return errors;
+    }
+
+    const response = await request.json();
+    const apiResponse: ApiResponse<User> = {
+        result: "success",
+        response: response,
+    };
+
+    return apiResponse;
 };
