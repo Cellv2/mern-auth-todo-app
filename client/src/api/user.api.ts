@@ -1,5 +1,6 @@
 import { UserPartial, User } from "../types/user.types";
 import { ApiError, ApiResponse } from "../types/api.types";
+import { handleResponseErrors } from "../utils/api.utils";
 
 export const loginUser = async (email: string, password: string) => {
     const body = {
@@ -14,15 +15,7 @@ export const loginUser = async (email: string, password: string) => {
     });
 
     if (!request.ok) {
-        const errorResponse = await request.json();
-        const errors: ApiResponse<ApiError> = {
-            result: "failure",
-            response: {
-                errorcode: request.status,
-                message: Object.values(errorResponse) as string[],
-            },
-        };
-        return errors;
+        return handleResponseErrors(request);
     }
 
     const response: ApiResponse<User> = {
@@ -45,7 +38,16 @@ export const patchUser = async (update: UserPartial, token: string) => {
         body: JSON.stringify(payload),
     });
 
-    return request;
+    if (!request.ok) {
+        return handleResponseErrors(request);
+    }
+
+    const response: ApiResponse<User> = {
+        result: "success",
+        response: await request.json(),
+    };
+
+    return response;
 };
 
 //TODO:

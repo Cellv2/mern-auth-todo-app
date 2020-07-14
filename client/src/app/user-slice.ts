@@ -89,11 +89,13 @@ export const updateUserAsync = (update: UserPartial): AppThunk => async (
     if (isAuthenticated && token) {
         try {
             const patchRequest = await patchUser(update, token);
-            if (!patchRequest.ok) {
-                throw new Error("Update failed");
+            if (patchRequest.result === "failure") {
+                const errors = patchRequest as ApiResponse<ApiError>;
+                dispatch(loginUserFailed(errors.response.message));
+                return;
             }
-            const patchedUser: User = await patchRequest.json();
 
+            const patchedUser = patchRequest.response as User;
             dispatch(patchUserSuccess(patchedUser));
         } catch (err) {
             dispatch(patchUserFailed(err));
