@@ -3,7 +3,8 @@ import { RootState, AppThunk } from "./store";
 import { AvailableThemes } from "../types/theme.types";
 import { User, UserPartial } from "../types/user.types";
 
-import { loginUser, patchUser, ApiResponse, ApiError } from "../api/user.api";
+import { loginUser, patchUser } from "../api/user.api";
+import { ApiError, ApiResponse } from "../types/api.types";
 
 export interface UserState extends User {
     error: string[] | null;

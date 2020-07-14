@@ -1,14 +1,5 @@
 import { UserPartial, User } from "../types/user.types";
-
-export type ApiResult = "success" | "failure";
-export type ApiError = {
-    errorcode: number;
-    message: string[];
-};
-export type ApiResponse<T> = {
-    result: ApiResult;
-    response: T | ApiError;
-};
+import { ApiError, ApiResponse } from "../types/api.types";
 
 export const loginUser = async (email: string, password: string) => {
     const body = {
