@@ -44,7 +44,7 @@ const Login = (props: Props) => {
     const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
 
-        dispatch(loginUserAsync(email, password));
+        dispatch(loginUserAsync({ email, password }));
     };
 
     const handleInputOnChange = (

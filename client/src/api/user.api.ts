@@ -4,19 +4,17 @@ import {
     ApiResponse,
     UserPasswordUpdatePayload,
     UserCreationPayload,
+    UserLoginPayload,
 } from "../types/api.types";
 import { handleResponseErrors } from "../utils/api.utils";
 
-export const loginUser = async (email: string, password: string) => {
-    const body = {
-        email,
-        password,
-    };
+export const loginUser = async (login: UserLoginPayload) => {
+    const payload = login;
 
     const request = await fetch(`/api/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json;charset=utf-8" },
-        body: JSON.stringify(body),
+        body: JSON.stringify(payload),
     });
 
     if (!request.ok) {

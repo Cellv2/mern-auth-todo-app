@@ -4,7 +4,7 @@ import { AvailableThemes } from "../types/theme.types";
 import { User, UserPartial } from "../types/user.types";
 
 import { loginUser, patchUser } from "../api/user.api";
-import { ApiError, ApiResponse } from "../types/api.types";
+import { ApiError, ApiResponse, UserLoginPayload } from "../types/api.types";
 
 export interface UserState extends User {
     error: string[] | null;
@@ -63,11 +63,10 @@ const {
 } = userSlice.actions;
 
 export const loginUserAsync = (
-    email: string,
-    password: string
+    credentials: UserLoginPayload
 ): AppThunk => async (dispatch) => {
     try {
-        const loginRequest = await loginUser(email, password);
+        const loginRequest = await loginUser(credentials);
         if (loginRequest.result === "failure") {
             const errors = loginRequest as ApiResponse<ApiError>;
             dispatch(loginUserFailed(errors.response.message));

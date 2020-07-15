@@ -8,17 +8,20 @@ export type ApiResponse<T> = {
     response: T | ApiError;
 };
 
-type UserPasswordPayload = {
+export type UserPasswordUpdatePayload = {
     passwordOne: string;
     passwordTwo: string;
-};
-
-export type UserPasswordUpdatePayload = UserPasswordPayload & {
     token: string;
 };
 
-export type UserCreationPayload = UserPasswordPayload & {
+export type UserCreationPayload = {
     email: string;
+    passwordOne: string;
+    passwordTwo: string;
     username: string;
 };
 
+export type UserLoginPayload = {
+    email: string;
+    password: string;
+};
