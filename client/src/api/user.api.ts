@@ -1,5 +1,10 @@
 import { UserPartial, User } from "../types/user.types";
-import { ApiError, ApiResponse } from "../types/api.types";
+import {
+    ApiError,
+    ApiResponse,
+    UserPasswordUpdatePayload,
+    UserCreationPayload,
+} from "../types/api.types";
 import { handleResponseErrors } from "../utils/api.utils";
 
 export const loginUser = async (email: string, password: string) => {
@@ -66,12 +71,13 @@ export const deleteUser = async (token: string) => {
     return request;
 };
 
-export const updateUserPassword = async (
-    pwOne: string,
-    pwTwo: string,
-    token: string
-) => {
-    const passwordUpdate = { passwordOne: pwOne, passwordTwo: pwTwo };
+export const updateUserPassword = async (update: UserPasswordUpdatePayload) => {
+    const { passwordOne, passwordTwo, token } = update;
+
+    const payload = {
+        passwordOne: passwordOne,
+        passwordTwo: passwordTwo,
+    };
 
     const request = await fetch(`/api/user/password/updatePassword`, {
         method: "PUT",
@@ -79,29 +85,19 @@ export const updateUserPassword = async (
             Authorization: token,
             "Content-Type": "application/json;charset=utf-8",
         },
-        body: JSON.stringify(passwordUpdate),
+        body: JSON.stringify(payload),
     });
 
     return request;
 };
 
-export const createUser = async (
-    username: string,
-    email: string,
-    pwOne: string,
-    pwTwo: string
-) => {
-    const newUser = {
-        username: username,
-        email: email,
-        passwordOne: pwOne,
-        passwordTwo: pwTwo,
-    };
+export const createUser = async (newUser: UserCreationPayload) => {
+    const payload = newUser;
 
     const request = await fetch("/api/users/addUser", {
         method: "POST",
         headers: { "Content-Type": "application/json;charset=utf-8" },
-        body: JSON.stringify(newUser),
+        body: JSON.stringify(payload),
     });
 
     if (!request.ok) {
