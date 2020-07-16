@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "./store";
 import { AvailableThemes } from "../types/theme.types";
 import { User, UserPartial } from "../types/user.types";
@@ -58,6 +58,7 @@ export const userSlice = createSlice({
             state.error = action.payload;
         },
         updatePasswordSuccess: (state) => {
+            console.log("SLICE - STATE SETING");
             state.error = null;
         },
         updatePasswordFailed: (state, action: PayloadAction<string[]>) => {
@@ -93,6 +94,51 @@ export const loginUserAsync = (
     }
 };
 
+// https://redux-toolkit.js.org/usage/usage-with-typescript#createasyncthunk
+const updateUserAsyncTestTestTest = createAsyncThunk<
+    User,
+    UserPartial,
+    { state: RootState }
+    // ,{ state: RootState }
+    // ,{state: { state: RootState}}
+    // ,{state: {rootState: RootState}
+    // >("users/updatePasswordStatus", async (update: UserPartial, { getState }) => {
+>("users/updatePasswordStatus", async (update: UserPartial, thunkApi) => {
+    // thunkApi.getState() as RootState
+    // const x = thunkApi.getState().user
+    // const {isAuthenticated} = thunkApi.getState().rootState.user
+    // const {isAuthenticated, token} = thunkApi.getState().user;
+
+    // const state =  thunk.getState() as RootState
+    // const {isAuthenticated, token} = state.user
+
+    // const { user } = getState() as RootState;
+    // const { isAuthenticated, token } = user;
+
+    // const { user } = thunkApi.getState() as RootState;
+    // const { isAuthenticated, token } = user;
+
+    const { isAuthenticated, token } = thunkApi.getState().user;
+
+    if (isAuthenticated && token) {
+    }
+    const response = await fetch(`/api/user/profile`, {
+        method: "PATCH",
+        headers: {
+            Authorization: token,
+            "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify(update),
+    });
+
+    if (!response.ok) {
+        // add known error types
+        // return thunkApi.rejectWithValue(await response.json());
+    }
+
+    return (await response.json()) as User;
+});
+
 export const updateUserAsync = (update: UserPartial): AppThunk => async (
     dispatch,
     getState
@@ -103,7 +149,7 @@ export const updateUserAsync = (update: UserPartial): AppThunk => async (
             const patchRequest = await patchUser(update, token);
             if (patchRequest.result === "failure") {
                 const errors = patchRequest as ApiResponse<ApiError>;
-                dispatch(loginUserFailed(errors.response.message));
+                dispatch(patchUserFailed(errors.response.message));
                 return;
             }
 
@@ -127,6 +173,7 @@ export const updatePasswordAsync = (
             if (updateRequest?.result === "failure") {
                 dispatch(updatePasswordFailed(updateRequest.response.message));
             }
+            console.log("PW ASYNC - BEFORE DISPATCH");
             dispatch(updatePasswordSuccess());
         } catch (err) {
             dispatch(updatePasswordFailed(err));

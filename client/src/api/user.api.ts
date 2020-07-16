@@ -84,6 +84,8 @@ export const updateUserPassword = async (
         body: JSON.stringify(payload),
     });
 
+    console.log("API - DATA RETURNED");
+
     if (!request.ok) {
         return handleResponseErrors(request);
     }

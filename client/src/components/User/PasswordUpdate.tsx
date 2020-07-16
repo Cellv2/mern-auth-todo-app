@@ -101,7 +101,9 @@ const PasswordUpdate = (props: Props) => {
         //     return;
         // }
 
+        console.log("COMPONENT - BEFORE DISPATCH")
         dispatch(updatePasswordAsync({ passwordOne, passwordTwo }));
+        console.log("COMPONENT - AFTER DISPATCH")
     };
 
     return (
