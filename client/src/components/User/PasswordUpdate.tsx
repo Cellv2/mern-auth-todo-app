@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -9,8 +10,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 import Alerts from "../Alerts/Alerts";
+import { updatePasswordAsync } from "../../app/user-slice";
 
-import { UserToken } from "../../types/application-state.types";
 import { AlertSettings } from "../../types/alerts.types";
 import {
     signInError,
@@ -27,9 +28,10 @@ type Props = {
 };
 
 const PasswordUpdate = (props: Props) => {
-    const [pwOne, setPwOne] = useState<string>("");
+    const dispatch = useDispatch();
+    const [passwordOne, setPasswordOne] = useState<string>("");
     const [showPwOne, setShowPwOne] = useState<boolean>(false);
-    const [pwTwo, setPwTwo] = useState<string>("");
+    const [passwordTwo, setPasswordTwo] = useState<string>("");
     const [showPwTwo, setShowPwTwo] = useState<boolean>(false);
     const [alerts, setAlerts] = useState<AlertSettings>({
         heading: "Alert!",
@@ -48,53 +50,58 @@ const PasswordUpdate = (props: Props) => {
             return;
         }
 
-        if (pwOne === "" || pwTwo === "") {
+        if (passwordOne === "" || passwordTwo === "") {
             setAlerts(pwIsEmpty);
             return;
         }
 
-        if (pwOne !== pwTwo) {
+        if (passwordOne !== passwordTwo) {
             setAlerts(pwsNotMatching);
             return;
         }
 
-        try {
-            const token = props.token as string;
-            const passwordUpdate = { passwordOne: pwOne, passwordTwo: pwTwo };
+        // try {
+        //     const token = props.token as string;
+        //     const passwordUpdate = {
+        //         passwordOne: passwordOne,
+        //         passwordTwo: passwordTwo,
+        //     };
 
-            const request = await fetch(`/api/user/password/updatePassword`, {
-                method: "PUT",
-                headers: {
-                    Authorization: token,
-                    "Content-Type": "application/json;charset=utf-8",
-                },
-                body: JSON.stringify(passwordUpdate),
-            });
+        //     const request = await fetch(`/api/user/password/updatePassword`, {
+        //         method: "PUT",
+        //         headers: {
+        //             Authorization: token,
+        //             "Content-Type": "application/json;charset=utf-8",
+        //         },
+        //         body: JSON.stringify(passwordUpdate),
+        //     });
 
-            const response = await request;
-            if (!response.ok) {
-                if (response.status === 500) {
-                    setAlerts(server500);
-                }
+        //     const response = await request;
+        //     if (!response.ok) {
+        //         if (response.status === 500) {
+        //             setAlerts(server500);
+        //         }
 
-                if (response.status === 422) {
-                    setAlerts(pwsNotMatching);
-                }
+        //         if (response.status === 422) {
+        //             setAlerts(pwsNotMatching);
+        //         }
 
-                if (response.status === 401 || response.status === 403) {
-                    setAlerts(serverAuthError);
-                }
+        //         if (response.status === 401 || response.status === 403) {
+        //             setAlerts(serverAuthError);
+        //         }
 
-                return;
-            }
+        //         return;
+        //     }
 
-            setAlerts(serverPasswordUpdated);
-            setPwOne("");
-            setPwTwo("");
-        } catch (error) {
-            setAlerts(serverUnknownError);
-            return;
-        }
+        //     setAlerts(serverPasswordUpdated);
+        //     setPasswordOne("");
+        //     setPasswordTwo("");
+        // } catch (error) {
+        //     setAlerts(serverUnknownError);
+        //     return;
+        // }
+
+        dispatch(updatePasswordAsync({ passwordOne, passwordTwo }));
     };
 
     return (
@@ -124,8 +131,8 @@ const PasswordUpdate = (props: Props) => {
                                 type={showPwOne ? "text" : "password"}
                                 placeholder="New Password"
                                 name="newPasswordOne"
-                                value={pwOne}
-                                onChange={(e) => setPwOne(e.target.value)}
+                                value={passwordOne}
+                                onChange={(e) => setPasswordOne(e.target.value)}
                             />
                             <InputGroup.Append>
                                 <Button
@@ -149,8 +156,8 @@ const PasswordUpdate = (props: Props) => {
                                 type={showPwTwo ? "text" : "password"}
                                 placeholder="Confirm Password"
                                 name="newPasswordOne"
-                                value={pwTwo}
-                                onChange={(e) => setPwTwo(e.target.value)}
+                                value={passwordTwo}
+                                onChange={(e) => setPasswordTwo(e.target.value)}
                             />
                             <InputGroup.Append>
                                 <Button

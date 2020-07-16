@@ -3,8 +3,13 @@ import { RootState, AppThunk } from "./store";
 import { AvailableThemes } from "../types/theme.types";
 import { User, UserPartial } from "../types/user.types";
 
-import { loginUser, patchUser } from "../api/user.api";
-import { ApiError, ApiResponse, UserLoginPayload } from "../types/api.types";
+import { loginUser, patchUser, updateUserPassword } from "../api/user.api";
+import {
+    ApiError,
+    ApiResponse,
+    UserLoginPayload,
+    UserPasswordUpdatePayload,
+} from "../types/api.types";
 
 export interface UserState extends User {
     error: string[] | null;
@@ -52,6 +57,12 @@ export const userSlice = createSlice({
         patchUserFailed: (state, action: PayloadAction<string[]>) => {
             state.error = action.payload;
         },
+        updatePasswordSuccess: (state) => {
+            state.error = null;
+        },
+        updatePasswordFailed: (state, action: PayloadAction<string[]>) => {
+            state.error = action.payload;
+        },
     },
 });
 
@@ -60,6 +71,8 @@ const {
     loginUserFailed,
     patchUserSuccess,
     patchUserFailed,
+    updatePasswordSuccess,
+    updatePasswordFailed,
 } = userSlice.actions;
 
 export const loginUserAsync = (
@@ -101,6 +114,23 @@ export const updateUserAsync = (update: UserPartial): AppThunk => async (
         }
     } else {
         dispatch(patchUserSuccess(update));
+    }
+};
+
+export const updatePasswordAsync = (
+    update: UserPasswordUpdatePayload
+): AppThunk => async (dispatch, getState) => {
+    const { isAuthenticated, token } = getState().user;
+    if (isAuthenticated && token) {
+        try {
+            const updateRequest = await updateUserPassword(update, token);
+            if (updateRequest?.result === "failure") {
+                dispatch(updatePasswordFailed(updateRequest.response.message));
+            }
+            dispatch(updatePasswordSuccess());
+        } catch (err) {
+            dispatch(updatePasswordFailed(err));
+        }
     }
 };
 

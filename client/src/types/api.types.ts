@@ -11,7 +11,6 @@ export type ApiResponse<T> = {
 export type UserPasswordUpdatePayload = {
     passwordOne: string;
     passwordTwo: string;
-    token: string;
 };
 
 export type UserCreationPayload = {

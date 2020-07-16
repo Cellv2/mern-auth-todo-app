@@ -69,13 +69,11 @@ export const deleteUser = async (token: string) => {
     return request;
 };
 
-export const updateUserPassword = async (update: UserPasswordUpdatePayload) => {
-    const { passwordOne, passwordTwo, token } = update;
-
-    const payload = {
-        passwordOne: passwordOne,
-        passwordTwo: passwordTwo,
-    };
+export const updateUserPassword = async (
+    update: UserPasswordUpdatePayload,
+    token: string
+) => {
+    const payload = update;
 
     const request = await fetch(`/api/user/password/updatePassword`, {
         method: "PUT",
@@ -86,7 +84,12 @@ export const updateUserPassword = async (update: UserPasswordUpdatePayload) => {
         body: JSON.stringify(payload),
     });
 
-    return request;
+    if (!request.ok) {
+        return handleResponseErrors(request);
+    }
+
+    // API response is a 204, so nothing is actually returned if successful
+    return;
 };
 
 export const createUser = async (newUser: UserCreationPayload) => {
