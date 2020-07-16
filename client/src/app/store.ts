@@ -1,4 +1,5 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 
 import counterSliceReducer from "./counterSlice";
 import userSliceReducer from "./user-slice";
@@ -19,3 +20,4 @@ export type AppThunk<ReturnType = void> = ThunkAction<
     unknown,
     Action<string>
 >;
+export type AppDispatch = typeof store.dispatch;

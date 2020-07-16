@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState, AppThunk } from "./store";
+import { RootState, AppThunk, AppDispatch } from "./store";
 import { AvailableThemes } from "../types/theme.types";
 import { User, UserPartial } from "../types/user.types";
 
@@ -95,48 +95,33 @@ export const loginUserAsync = (
 };
 
 // https://redux-toolkit.js.org/usage/usage-with-typescript#createasyncthunk
-const updateUserAsyncTestTestTest = createAsyncThunk<
+// https://redux-toolkit.js.org/usage/usage-with-typescript#correct-typings-for-the-dispatch-type
+export const updateUserAsyncTestTestTest = createAsyncThunk<
     User,
     UserPartial,
-    { state: RootState }
-    // ,{ state: RootState }
-    // ,{state: { state: RootState}}
-    // ,{state: {rootState: RootState}
-    // >("users/updatePasswordStatus", async (update: UserPartial, { getState }) => {
+    { dispatch: AppDispatch; state: RootState }
 >("users/updatePasswordStatus", async (update: UserPartial, thunkApi) => {
-    // thunkApi.getState() as RootState
-    // const x = thunkApi.getState().user
-    // const {isAuthenticated} = thunkApi.getState().rootState.user
-    // const {isAuthenticated, token} = thunkApi.getState().user;
-
-    // const state =  thunk.getState() as RootState
-    // const {isAuthenticated, token} = state.user
-
-    // const { user } = getState() as RootState;
-    // const { isAuthenticated, token } = user;
-
-    // const { user } = thunkApi.getState() as RootState;
-    // const { isAuthenticated, token } = user;
-
     const { isAuthenticated, token } = thunkApi.getState().user;
 
     if (isAuthenticated && token) {
-    }
-    const response = await fetch(`/api/user/profile`, {
-        method: "PATCH",
-        headers: {
-            Authorization: token,
-            "Content-Type": "application/json;charset=utf-8",
-        },
-        body: JSON.stringify(update),
-    });
+        const response = await fetch(`/api/user/profile`, {
+            method: "PATCH",
+            headers: {
+                Authorization: token,
+                "Content-Type": "application/json;charset=utf-8",
+            },
+            body: JSON.stringify(update),
+        });
 
-    if (!response.ok) {
-        // add known error types
-        // return thunkApi.rejectWithValue(await response.json());
+        if (!response.ok) {
+            // add known error types
+            // return thunkApi.rejectWithValue(await response.json());
+        }
+
+        return (await response.json()) as User;
     }
 
-    return (await response.json()) as User;
+    return thunkApi.rejectWithValue("User not signed in");
 });
 
 export const updateUserAsync = (update: UserPartial): AppThunk => async (

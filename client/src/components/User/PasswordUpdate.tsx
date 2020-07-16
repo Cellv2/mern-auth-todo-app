@@ -10,8 +10,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 import Alerts from "../Alerts/Alerts";
-import { updatePasswordAsync } from "../../app/user-slice";
 
+import {
+    updatePasswordAsync,
+    updateUserAsyncTestTestTest,
+} from "../../app/user-slice";
 import { AlertSettings } from "../../types/alerts.types";
 import {
     signInError,
@@ -101,9 +104,14 @@ const PasswordUpdate = (props: Props) => {
         //     return;
         // }
 
-        console.log("COMPONENT - BEFORE DISPATCH")
+        console.log("COMPONENT - BEFORE DISPATCH");
         dispatch(updatePasswordAsync({ passwordOne, passwordTwo }));
-        console.log("COMPONENT - AFTER DISPATCH")
+        console.log("COMPONENT - AFTER DISPATCH");
+
+
+        // look at this against https://redux-toolkit.js.org/usage/usage-with-typescript#createasyncthunk
+        const resultAction = await dispatch(updateUserAsyncTestTestTest);
+        dispatch(updateUserAsyncTestTestTest({isAuthenticated: false}))
     };
 
     return (
