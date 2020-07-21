@@ -13,7 +13,8 @@ import Alerts from "../Alerts/Alerts";
 
 import {
     updatePasswordAsync,
-    updateUserAsyncTestTestTest,
+    // updateUserAsyncTestTestTest,
+    genericTest,
 } from "../../app/user-slice";
 import { AlertSettings } from "../../types/alerts.types";
 import {
@@ -25,6 +26,7 @@ import {
     serverAuthError,
     serverUnknownError,
 } from "../../constants/alert-settings";
+import { useAppDispatch } from "../../app/store";
 
 type Props = {
     token: string;
@@ -32,6 +34,7 @@ type Props = {
 
 const PasswordUpdate = (props: Props) => {
     const dispatch = useDispatch();
+    const appDispatch = useAppDispatch();
     const [passwordOne, setPasswordOne] = useState<string>("");
     const [showPwOne, setShowPwOne] = useState<boolean>(false);
     const [passwordTwo, setPasswordTwo] = useState<string>("");
@@ -105,13 +108,26 @@ const PasswordUpdate = (props: Props) => {
         // }
 
         console.log("COMPONENT - BEFORE DISPATCH");
-        dispatch(updatePasswordAsync({ passwordOne, passwordTwo }));
-        console.log("COMPONENT - AFTER DISPATCH");
-
+        // dispatch(updatePasswordAsync({ passwordOne, passwordTwo }));
+        appDispatch(genericTest("My test string")).then((bool) => {
+            if (bool) {
+                console.log("COMPONENT - AFTER DISPATCH");
+            } else {
+                console.log("NOPE");
+            }
+        });
 
         // look at this against https://redux-toolkit.js.org/usage/usage-with-typescript#createasyncthunk
-        const resultAction = await dispatch(updateUserAsyncTestTestTest);
-        dispatch(updateUserAsyncTestTestTest({isAuthenticated: false}))
+        // const resultAction = await dispatch(updateUserAsyncTestTestTest);
+        // dispatch(updateUserAsyncTestTestTest({isAuthenticated: false}))
+
+        // const x = await dispatch(updateUserAsyncTestTestTest({username: "6"}))
+    };
+
+    const updatePw = async () => {
+        // const resultAction = await dispatch(updateUserAsyncTestTestTest({theme: "dark"}))
+        // if (updateUserAsyncTestTestTest.fulfilled.match(resultAction)) {
+        // }
     };
 
     return (

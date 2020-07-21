@@ -20,4 +20,13 @@ export type AppThunk<ReturnType = void> = ThunkAction<
     unknown,
     Action<string>
 >;
+
+export type AppThunkPromise<T> = ThunkAction<
+    Promise<T>,
+    RootState,
+    unknown,
+    Action<string>
+>;
+
 export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
