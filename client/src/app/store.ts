@@ -21,6 +21,8 @@ export type AppThunk<ReturnType = void> = ThunkAction<
     Action<string>
 >;
 
+// used in case we want to return specific data to the component in an async manner
+// e.g. a Promise<boolean> is returned. A user signs in. Only if the sign in was successful, you redirect
 export type AppThunkPromise<T> = ThunkAction<
     Promise<T>,
     RootState,
