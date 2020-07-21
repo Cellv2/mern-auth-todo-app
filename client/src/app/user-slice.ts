@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState, AppThunk, AppDispatch, AppThunkPromise } from "./store";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState, AppThunk, AppThunkPromise } from "./store";
 import { AvailableThemes } from "../types/theme.types";
 import { User, UserPartial } from "../types/user.types";
 
@@ -65,29 +65,6 @@ export const userSlice = createSlice({
             state.error = action.payload;
         },
     },
-    extraReducers: (builder) => {
-        // builder.addCase(
-        //     updateUserAsyncTestTestTest.fulfilled,
-        //     (state, action) => {
-        //         for (const property in action.payload) {
-        //             // for in loops do not inter type correctly at the time of coding this
-        //             //@ts-expect-error
-        //             state[property] = action.payload[property as keyof User];
-        //         }
-        //         state.error = null;
-        //     }
-        // );
-        // builder.addCase(
-        //     updateUserAsyncTestTestTest.rejected,
-        //     (state, action) => {
-        //         if (action.payload) {
-        //             state.error = action.payload;
-        //         } else {
-        //             state.error = [String(action.error)];
-        //         }
-        //     }
-        // );
-    },
 });
 
 const {
@@ -117,37 +94,6 @@ export const loginUserAsync = (
     }
 };
 
-// https://redux-toolkit.js.org/usage/usage-with-typescript#createasyncthunk
-// https://redux-toolkit.js.org/usage/usage-with-typescript#correct-typings-for-the-dispatch-type
-// https://www.reddit.com/r/typescript/comments/fo5uvd/redux_toolkit_v130_final_new_createasyncthunk_and/fqm3jiy/
-// export const updateUserAsyncTestTestTest = createAsyncThunk<
-//     User,
-//     UserPartial,
-//     { dispatch: AppDispatch; state: RootState; rejectValue: string[] }
-// >("users/updatePasswordStatus", async (update: UserPartial, thunkApi) => {
-//     const { isAuthenticated, token } = thunkApi.getState().user;
-
-//     if (isAuthenticated && token) {
-//         const response = await fetch(`/api/user/profile`, {
-//             method: "PATCH",
-//             headers: {
-//                 Authorization: token,
-//                 "Content-Type": "application/json;charset=utf-8",
-//             },
-//             body: JSON.stringify(update),
-//         });
-
-//         if (!response.ok) {
-//             // add known error types
-//             // return thunkApi.rejectWithValue(await response.json());
-//         }
-
-//         return (await response.json()) as User;
-//     }
-
-//     return thunkApi.rejectWithValue(["User not signed in"]);
-// });
-
 export const genericTest = (name: string): AppThunkPromise<boolean> => async (
     dispatch,
     getState
@@ -155,7 +101,7 @@ export const genericTest = (name: string): AppThunkPromise<boolean> => async (
     console.log("SLICE - BEFORE DISPATCH");
     // https://jsonplaceholder.typicode.com/users/1
     console.log("The name passed in through params is: " + name);
-    const user = await fetch("https://jsonplaceholder.typicode.com/users/1");
+    const user = await fetch("https://jsonplaceholder.typicode.com/usersf/1");
     const userInfo: User = await user.json();
     const username = userInfo.username;
     console.log("The API username is: " + username);
@@ -166,7 +112,6 @@ export const genericTest = (name: string): AppThunkPromise<boolean> => async (
         return false;
     }
     return true;
-    // return userInfo
 };
 
 export const updateUserAsync = (update: UserPartial): AppThunk => async (
