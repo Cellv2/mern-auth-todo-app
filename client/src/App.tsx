@@ -46,7 +46,7 @@ const App = () => {
                             <Register />
                         </Route>
                         <Route path="/login">
-                            <Login />
+                            {isAuthenticated ? <Redirect to="/" /> : <Login />}
                         </Route>
                         <Route path="/logout">
                             <Logout />
