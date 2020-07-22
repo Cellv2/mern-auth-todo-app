@@ -10,6 +10,7 @@ import Button from "react-bootstrap/Button";
 import Alerts from "../Alerts/Alerts";
 
 import { loginUserAsync, isAuthenticatedSelector } from "../../app/user-slice";
+import { useAppDispatch } from "../../app/store";
 
 import styles from "./Login.module.scss";
 
@@ -20,19 +21,11 @@ type Errors = {
 };
 
 const Login = (props: Props) => {
-    const isAuthenticated = useSelector(isAuthenticatedSelector);
+    const appDispatch = useAppDispatch();
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [errors, setErrors] = useState<Errors>({});
-    const dispatch = useDispatch();
-
-    // this is used as a 'redirect' of kinds because I can't figure out the whole async thunk statuses
-    useEffect(() => {
-        if (isAuthenticated) {
-            redirectToHome();
-        }
-    }, [isAuthenticated]);
 
     const redirectToHome = () => {
         const { history } = props;
@@ -44,7 +37,12 @@ const Login = (props: Props) => {
     const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
 
-        dispatch(loginUserAsync({ email, password }));
+        const loginPayload = { email, password };
+        appDispatch(loginUserAsync(loginPayload)).then((bool) => {
+            if (bool) {
+                redirectToHome();
+            }
+        });
     };
 
     const handleInputOnChange = (

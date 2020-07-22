@@ -78,19 +78,21 @@ const {
 
 export const loginUserAsync = (
     credentials: UserLoginPayload
-): AppThunk => async (dispatch) => {
+): AppThunkPromise<boolean> => async (dispatch) => {
     try {
         const loginRequest = await loginUser(credentials);
         if (loginRequest.result === "failure") {
             const errors = loginRequest as ApiResponse<ApiError>;
             dispatch(loginUserFailed(errors.response.message));
-            return;
+            return false;
         }
 
         const user = loginRequest.response as User;
         dispatch(loginUserSuccess(user));
+        return true;
     } catch (err) {
         dispatch(loginUserFailed(err));
+        return false;
     }
 };
 
