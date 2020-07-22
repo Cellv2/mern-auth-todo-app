@@ -102,12 +102,12 @@ const PasswordUpdate = (props: Props) => {
         //     return;
         // }
 
-        console.log("COMPONENT - BEFORE DISPATCH");
-        appDispatch(genericTest("My test string")).then((bool) => {
+        const updatePayload = { passwordOne, passwordTwo };
+        appDispatch(updatePasswordAsync(updatePayload)).then((bool) => {
             if (bool) {
-                console.log("COMPONENT - AFTER DISPATCH");
+                console.log("PASSWORD UPDATED");
             } else {
-                console.log("NOPE");
+                console.error("PASSWORD UPDATE FAILED");
             }
         });
     };
