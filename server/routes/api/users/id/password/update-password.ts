@@ -48,7 +48,10 @@ const updatePassword = (req: Request, res: Response): void => {
 
             if (pwOne !== pwTwo) {
                 console.error("Passwords do not match");
-                res.sendStatus(422);
+                res.statusCode = 422;
+                res.json("Passwords do not match");
+
+                // res.sendStatus(422);
                 return;
             }
 
