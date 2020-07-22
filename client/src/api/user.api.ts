@@ -91,7 +91,12 @@ export const updateUserPassword = async (
     }
 
     // API response is a 204, so nothing is actually returned if successful
-    return;
+    const response: ApiResponse<any> = {
+        result: "success",
+        response: "204 - No API response",
+    };
+
+    return response;
 };
 
 export const createUser = async (newUser: UserCreationPayload) => {

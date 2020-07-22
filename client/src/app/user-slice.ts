@@ -12,7 +12,7 @@ import {
 } from "../types/api.types";
 
 export interface UserState extends User {
-    error: string[] | null;
+    error: string | null;
 }
 
 export const initialState: UserState = {
@@ -42,7 +42,7 @@ export const userSlice = createSlice({
             state.username = action.payload.username;
             state.error = null;
         },
-        loginUserFailed: (state, action: PayloadAction<string[]>) => {
+        loginUserFailed: (state, action: PayloadAction<string>) => {
             state.error = action.payload;
         },
         patchUserSuccess: (state, action: PayloadAction<UserPartial>) => {
@@ -54,14 +54,14 @@ export const userSlice = createSlice({
 
             state.error = null;
         },
-        patchUserFailed: (state, action: PayloadAction<string[]>) => {
+        patchUserFailed: (state, action: PayloadAction<string>) => {
             state.error = action.payload;
         },
         updatePasswordSuccess: (state) => {
             console.log("SLICE - STATE SETING");
             state.error = null;
         },
-        updatePasswordFailed: (state, action: PayloadAction<string[]>) => {
+        updatePasswordFailed: (state, action: PayloadAction<string>) => {
             state.error = action.payload;
         },
     },
@@ -142,20 +142,26 @@ export const updateUserAsync = (update: UserPartial): AppThunk => async (
 
 export const updatePasswordAsync = (
     update: UserPasswordUpdatePayload
-): AppThunk => async (dispatch, getState) => {
+): AppThunkPromise<boolean> => async (dispatch, getState) => {
     const { isAuthenticated, token } = getState().user;
     if (isAuthenticated && token) {
         try {
             const updateRequest = await updateUserPassword(update, token);
             if (updateRequest?.result === "failure") {
-                dispatch(updatePasswordFailed(updateRequest.response.message));
+                const errors = updateRequest as ApiResponse<ApiError>;
+                dispatch(updatePasswordFailed(errors.response.message));
+                return false;
             }
             console.log("PW ASYNC - BEFORE DISPATCH");
             dispatch(updatePasswordSuccess());
+            return true;
         } catch (err) {
             dispatch(updatePasswordFailed(err));
+            return false;
         }
     }
+
+    return false;
 };
 
 export const { updateTheme, logoutUser } = userSlice.actions;

@@ -1,7 +1,7 @@
 export type ApiResult = "success" | "failure";
 export type ApiError = {
     errorcode: number;
-    message: string[];
+    message: string;
 };
 export type ApiResponse<T> = {
     result: ApiResult;
