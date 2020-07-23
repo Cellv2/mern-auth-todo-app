@@ -11,7 +11,6 @@ import {
     usernameSelector,
     isAuthenticatedSelector,
     tokenSelector,
-    logoutUser,
     deleteUserAsync,
 } from "../../app/user-slice";
 import { itemsSelector } from "../../app/item-slice";
@@ -26,7 +25,6 @@ const UserProfile = (props: Props) => {
     const username = useSelector(usernameSelector);
     const token = useSelector(tokenSelector);
     const isAuthenticated = useSelector(isAuthenticatedSelector);
-    const dispatch = useDispatch();
     const appDispatch = useAppDispatch();
 
     const redirectToHome = () => {
@@ -40,23 +38,27 @@ const UserProfile = (props: Props) => {
         event: React.MouseEvent<HTMLButtonElement>
     ): Promise<void> => {
         // TODO: If this fails, say so through the UI
-        if (isAuthenticated && token !== null) {
-            const randomInts = Array.from(new Array(5)).map(() =>
-                Math.floor(Math.random() * 10)
-            );
-            const randomString = randomInts.join("-");
+        if (!isAuthenticated || !token) {
+            return;
+        }
 
-            const input = prompt(
-                `Please enter ${randomString} to confirm account deletion`
-            );
+        const randomInts = Array.from(new Array(5)).map(() =>
+            Math.floor(Math.random() * 10)
+        );
+        const randomString = randomInts.join("-");
 
-            if (input === randomString) {
-                appDispatch(deleteUserAsync()).then((bool) => {
-                    if (bool) {
-                        redirectToHome();
-                    }
-                });
-            }
+        const input = prompt(
+            `Please enter ${randomString} to confirm account deletion`
+        );
+
+        if (input === randomString) {
+            appDispatch(deleteUserAsync()).then((bool) => {
+                if (bool) {
+                    redirectToHome();
+                }
+            });
+        } else {
+            // TODO: Show that the numbers are wrong through the UI
         }
     };
 
