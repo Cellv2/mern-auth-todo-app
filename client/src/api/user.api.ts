@@ -66,7 +66,16 @@ export const deleteUser = async (token: string) => {
         },
     });
 
-    return request;
+    if (!request.ok) {
+        return handleResponseErrors(request);
+    }
+
+    const deletedUser: ApiResponse<User> = {
+        result: "success",
+        response: await request.json(),
+    };
+
+    return deletedUser;
 };
 
 export const updateUserPassword = async (
