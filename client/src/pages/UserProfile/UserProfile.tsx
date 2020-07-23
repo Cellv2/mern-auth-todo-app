@@ -12,8 +12,10 @@ import {
     isAuthenticatedSelector,
     tokenSelector,
     logoutUser,
+    deleteUserAsync,
 } from "../../app/user-slice";
 import { itemsSelector } from "../../app/item-slice";
+import { useAppDispatch } from "../../app/store";
 
 import styles from "./UserProfile.module.scss";
 
@@ -25,6 +27,7 @@ const UserProfile = (props: Props) => {
     const token = useSelector(tokenSelector);
     const isAuthenticated = useSelector(isAuthenticatedSelector);
     const dispatch = useDispatch();
+    const appDispatch = useAppDispatch();
 
     const redirectToHome = () => {
         const { history } = props;
@@ -48,41 +51,11 @@ const UserProfile = (props: Props) => {
             );
 
             if (input === randomString) {
-                const request = await fetch(`/api/user/deleteUser`, {
-                    method: "DELETE",
-                    headers: {
-                        Authorization: token,
-                    },
+                appDispatch(deleteUserAsync()).then((bool) => {
+                    if (bool) {
+                        redirectToHome();
+                    }
                 });
-
-                await request.json().then((deletedUser) => {
-                    // const { items } = props.applicationState;
-
-                    // // "_id" should only exist if it came from the DB in the first place, so we filter these out
-                    // const unsavedItems = items.filter(
-                    //     (item) => !("_id" in item)
-                    // );
-
-                    // let newAppState = props.applicationState;
-                    // newAppState.isAuthenticated = false;
-                    // newAppState.user = null;
-                    // newAppState.username = null;
-                    // newAppState.items = unsavedItems;
-
-                    // props.handleAppStateUpdate(newAppState, "updateUserState");
-
-                    // dispatch(updateAuthenticated(false));
-                    // dispatch(updateUsername(null));
-                    // dispatch(updateToken(null));
-                    dispatch(logoutUser());
-
-                    // TODO: make sure that we remove items from state too
-
-                    console.log("User deleted", deletedUser);
-                    redirectToHome();
-                });
-
-                return;
             }
         }
     };
