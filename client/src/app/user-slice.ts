@@ -3,7 +3,12 @@ import { RootState, AppThunk, AppThunkPromise } from "./store";
 import { AvailableThemes } from "../types/theme.types";
 import { User, UserPartial } from "../types/user.types";
 
-import { loginUser, patchUser, updateUserPassword } from "../api/user.api";
+import {
+    loginUser,
+    patchUser,
+    updateUserPassword,
+    deleteUser,
+} from "../api/user.api";
 import {
     ApiError,
     ApiResponse,
@@ -30,6 +35,12 @@ export const userSlice = createSlice({
         updateTheme: (state, action: PayloadAction<AvailableThemes>) => {
             state.theme = action.payload;
         },
+        deleteUserSuccess: (state) => {
+            state.error = null;
+        },
+        deleteUserFailed: (state, action: PayloadAction<string>) => {
+            state.error = action.payload;
+        },
         logoutUser: (state) => {
             state.isAuthenticated = false;
             state.token = null;
@@ -47,7 +58,7 @@ export const userSlice = createSlice({
         },
         patchUserSuccess: (state, action: PayloadAction<UserPartial>) => {
             for (const property in action.payload) {
-                // for in loops do not inter type correctly at the time of coding this
+                // for in loops do not infer type correctly at the time of coding this
                 //@ts-expect-error
                 state[property] = action.payload[property as keyof User];
             }
@@ -68,6 +79,8 @@ export const userSlice = createSlice({
 });
 
 const {
+    deleteUserSuccess,
+    deleteUserFailed,
     loginUserSuccess,
     loginUserFailed,
     patchUserSuccess,
@@ -75,6 +88,33 @@ const {
     updatePasswordSuccess,
     updatePasswordFailed,
 } = userSlice.actions;
+
+export const deleteUserAsync = (): AppThunkPromise<boolean> => async (
+    dispatch,
+    getState
+) => {
+    const { isAuthenticated, token } = getState().user;
+    if (!isAuthenticated || !token) {
+        dispatch(deleteUserFailed("You are not signed in"));
+        return false;
+    }
+
+    try {
+        const deleteRequest = await deleteUser(token);
+        if (deleteRequest.result === "failure") {
+            const errors = deleteRequest as ApiResponse<ApiError>;
+            dispatch(deleteUserFailed(errors.response.message));
+            return false;
+        }
+
+        dispatch(deleteUserSuccess());
+        dispatch(logoutUser());
+        return true;
+    } catch (err) {
+        dispatch(deleteUserFailed(err));
+        return false;
+    }
+};
 
 export const loginUserAsync = (
     credentials: UserLoginPayload
