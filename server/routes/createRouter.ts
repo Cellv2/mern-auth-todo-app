@@ -11,7 +11,7 @@ import getTodos from "./api/users/todos/get-todos";
 import addTodo from "./api/users/todos/add-todo";
 import updateTodo from "./api/users/todos/id/update-todo";
 import deleteTodo from "./api/users/todos/id/delete-todo";
-import { myLogger } from "../middleware/is-authorised.middleware";
+import { isAuthorisedMiddleware } from "../middleware/is-authorised.middleware";
 
 const router: Router = express.Router();
 
@@ -45,7 +45,7 @@ router.use("/api", updatePassword);
 router.use(
     "/api",
     passport.authenticate("jwt", { session: false }),
-    myLogger,
+    isAuthorisedMiddleware,
     getTodos
 );
 router.use("/api", passport.authenticate("jwt", { session: false }), addTodo);
