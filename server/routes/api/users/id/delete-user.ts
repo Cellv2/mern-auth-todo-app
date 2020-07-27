@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 import UserCollection from "../../../../models/User/user-collection.model";
 import { secretOrKey } from "../../../../utils/secrets";
+import { UserToken } from "../../../../../client/src/types/user.types";
 
 const router: Router = express.Router();
 
@@ -27,8 +28,7 @@ const deleteUser = (req: Request, res: Response): void => {
 
             return;
         } else {
-            //@ts-expect-error
-            const userId = authorizedData.id;
+            const userId = (authorizedData as UserToken).id;
 
             UserCollection.findByIdAndDelete(userId, (err, deleted) => {
                 if (err) {
