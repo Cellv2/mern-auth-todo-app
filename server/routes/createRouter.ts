@@ -77,6 +77,7 @@ router.use(
 router.use(
     "/api",
     passport.authenticate("jwt", { session: false }),
+    isAuthorisedMiddleware,
     getProfile
 );
 router.use(
