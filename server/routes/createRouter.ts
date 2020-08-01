@@ -48,7 +48,12 @@ router.use(
     isAuthorisedMiddleware,
     getTodos
 );
-router.use("/api", passport.authenticate("jwt", { session: false }), addTodo);
+router.use(
+    "/api",
+    passport.authenticate("jwt", { session: false }),
+    isAuthorisedMiddleware,
+    addTodo
+);
 
 /**
  * /api/user/todos/:id
