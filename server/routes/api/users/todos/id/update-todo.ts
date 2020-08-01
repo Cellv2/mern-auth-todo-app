@@ -1,55 +1,37 @@
 import express, { Router, Request, Response } from "express";
-import jwt from "jsonwebtoken";
 
 import TodoCollection from "../../../../../models/Todo/todo-collection.model";
-import { secretOrKey } from "../../../../../utils/secrets";
+import { UserToken } from "../../../../../../client/src/types/user.types";
 
 const router: Router = express.Router();
 
 const updateTodo = (req: Request, res: Response) => {
-    if (!req.headers.authorization) {
-        res.sendStatus(401);
+    const { id } = res.locals.authorizedData as UserToken;
+
+    // ensure that the user actually matches the token
+    if (id !== req.body.userid) {
+        res.sendStatus(403);
 
         return;
-    }
+    } else {
+        const todoId: string = req.params.id;
+        const newData = req.body;
 
-    const token = req.headers.authorization.split(" ")[1];
-
-    jwt.verify(token, secretOrKey, (err, authorizedData) => {
-        if (err) {
-            res.sendStatus(500);
-
-            return;
-        }
-
-        // ensure that the user actually matches the token
-        //@ts-expect-error
-        if (!authorizedData || authorizedData.id !== req.body.userid) {
-            res.sendStatus(403);
-
-            return;
-        } else {
-            const todoId: string = req.params.id;
-            const newData = req.body;
-
-            TodoCollection.findByIdAndUpdate(
-                todoId,
-                newData,
-                { upsert: false, new: true },
-                (err, updated) => {
-                    if (err) {
-                        console.error(err);
-                        res.sendStatus(500);
-                    }
-
-                    res.statusCode = 200;
-                    res.json(updated);
+        TodoCollection.findByIdAndUpdate(
+            todoId,
+            newData,
+            { upsert: false, new: true },
+            (err, updated) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
                 }
-            );
-        }
-    });
 
-    return;
+                res.statusCode = 200;
+                res.json(updated);
+            }
+        );
+    }
 };
 
 router.put("/user/todos/:id", (req: Request, res: Response) => {
