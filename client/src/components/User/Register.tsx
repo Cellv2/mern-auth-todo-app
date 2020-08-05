@@ -37,6 +37,7 @@ const Register = (props: Props) => {
 
         const body = userInfo;
 
+        //TODO: move into user.slice / user.api
         const request = await fetch("/api/users/addUser", {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=utf-8" },

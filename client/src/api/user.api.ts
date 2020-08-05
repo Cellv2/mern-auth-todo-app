@@ -1,4 +1,4 @@
-import { UserPartial, User } from "../types/user.types";
+import { UserPartial, User, UserRegistration } from "../types/user.types";
 import {
     ApiError,
     ApiResponse,
@@ -7,6 +7,27 @@ import {
     UserLoginPayload,
 } from "../types/api.types";
 import { handleResponseErrors } from "../utils/api.utils";
+
+export const addUser = async (user: UserRegistration) => {
+    const payload = user;
+
+    const request = await fetch(`/api/users/addUser`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json;charset=utf-8" },
+        body: JSON.stringify(payload),
+    });
+
+    if (!request.ok) {
+        return handleResponseErrors(request);
+    }
+
+    const response: ApiResponse<User> = {
+        result: "success",
+        response: await request.json(),
+    };
+
+    return response;
+};
 
 export const loginUser = async (login: UserLoginPayload) => {
     const payload = login;
