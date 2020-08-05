@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 
 import Alerts from "../Alerts/Alerts";
 import { UserRegistration } from "../../types/user.types";
+import { RegistrationErrors } from "../../types/errors.types";
 
 import styles from "./Register.module.scss";
 
@@ -23,13 +24,6 @@ type State = {
         email?: string;
         password?: string;
     };
-};
-
-type RegistrationErrors = {
-    [key: string]: string;
-    // username?: string;
-    // email?: string;
-    // password?: string;
 };
 
 const RegisterFn = (props: Props) => {
