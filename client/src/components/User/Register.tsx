@@ -40,56 +40,11 @@ const Register = (props: Props) => {
         event.preventDefault();
 
         const payload = userInfo;
-
-        // //TODO: move into user.slice / user.api
-        // const request = await fetch("/api/users/addUser", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json;charset=utf-8" },
-        //     body: JSON.stringify(payload),
-        // });
-
-        // if (!(await request.ok)) {
-        //     const errors = await request.json();
-        //     console.log(errors);
-
-        //     setErrors(errors);
-        // } else {
-        //     const content = await request.json();
-        //     console.log(content);
-
-        //     setErrors({});
-
-        //     redirectToLogin();
-        // }
-
         appDispatch(addUserAsync(payload)).then((bool) => {
             if (bool) {
                 redirectToLogin();
             }
         });
-
-        // const body = userInfo;
-
-        // //TODO: move into user.slice / user.api
-        // const request = await fetch("/api/users/addUser", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json;charset=utf-8" },
-        //     body: JSON.stringify(body),
-        // });
-
-        // if (!(await request.ok)) {
-        //     const errors = await request.json();
-        //     console.log(errors);
-
-        //     setErrors(errors);
-        // } else {
-        //     const content = await request.json();
-        //     console.log(content);
-
-        //     setErrors({});
-
-        //     redirectToLogin();
-        // }
     };
 
     const handleInputOnChange = (

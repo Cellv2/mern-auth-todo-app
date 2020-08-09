@@ -14,10 +14,3 @@ export type UserToken = {
     iat: number;
     exp: number;
 };
-
-export type UserRegistration = {
-    username: string;
-    email: string;
-    passwordOne: string;
-    passwordTwo: string;
-};
