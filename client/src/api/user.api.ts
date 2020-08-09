@@ -1,4 +1,4 @@
-import { UserPartial, User, UserRegistration } from "../types/user.types";
+import { UserPartial, User } from "../types/user.types";
 import {
     ApiError,
     ApiResponse,
@@ -8,8 +8,8 @@ import {
 } from "../types/api.types";
 import { handleResponseErrors } from "../utils/api.utils";
 
-export const addUser = async (user: UserRegistration) => {
-    const payload = user;
+export const addUser = async (newUser: UserCreationPayload) => {
+    const payload = newUser;
 
     const request = await fetch(`/api/users/addUser`, {
         method: "POST",
@@ -74,11 +74,6 @@ export const patchUser = async (update: UserPartial, token: string) => {
     return response;
 };
 
-//TODO:
-// delete (UserProfile)
-// update PW (UserProfile)
-// create new user (Register)
-
 export const deleteUser = async (token: string) => {
     const request = await fetch(`/api/user/deleteUser`, {
         method: "DELETE",
@@ -127,28 +122,4 @@ export const updateUserPassword = async (
     };
 
     return response;
-};
-
-export const createUser = async (newUser: UserCreationPayload) => {
-    const payload = newUser;
-
-    const request = await fetch("/api/users/addUser", {
-        method: "POST",
-        headers: { "Content-Type": "application/json;charset=utf-8" },
-        body: JSON.stringify(payload),
-    });
-
-    if (!request.ok) {
-        const errors: ApiResponse<ApiError> = await request.json();
-
-        return errors;
-    }
-
-    const response = await request.json();
-    const apiResponse: ApiResponse<User> = {
-        result: "success",
-        response: response,
-    };
-
-    return apiResponse;
 };
