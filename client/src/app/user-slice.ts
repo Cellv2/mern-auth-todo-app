@@ -4,14 +4,17 @@ import { AvailableThemes } from "../types/theme.types";
 import { User, UserPartial } from "../types/user.types";
 
 import {
+    addUser,
     loginUser,
     patchUser,
     updateUserPassword,
     deleteUser,
 } from "../api/user.api";
+
 import {
     ApiError,
     ApiResponse,
+    UserCreationPayload,
     UserLoginPayload,
     UserPasswordUpdatePayload,
 } from "../types/api.types";
@@ -34,6 +37,12 @@ export const userSlice = createSlice({
     reducers: {
         updateTheme: (state, action: PayloadAction<AvailableThemes>) => {
             state.theme = action.payload;
+        },
+        addUserSuccess: (state) => {
+            state.error = null;
+        },
+        addUserFailed: (state, action: PayloadAction<string>) => {
+            state.error = action.payload;
         },
         deleteUserSuccess: (state) => {
             state.error = null;
@@ -79,6 +88,8 @@ export const userSlice = createSlice({
 });
 
 const {
+    addUserSuccess,
+    addUserFailed,
     deleteUserSuccess,
     deleteUserFailed,
     loginUserSuccess,
@@ -88,6 +99,25 @@ const {
     updatePasswordSuccess,
     updatePasswordFailed,
 } = userSlice.actions;
+
+export const addUserAsync = (
+    newUser: UserCreationPayload
+): AppThunkPromise<boolean> => async (dispatch, getState) => {
+    try {
+        const createRequest = await addUser(newUser);
+        if (createRequest.result === "failure") {
+            const errors = createRequest as ApiResponse<ApiError>;
+            dispatch(addUserFailed(errors.response.message));
+            return false;
+        }
+
+        dispatch(addUserSuccess());
+        return true;
+    } catch (err) {
+        dispatch(addUserFailed(err));
+        return false;
+    }
+};
 
 export const deleteUserAsync = (): AppThunkPromise<boolean> => async (
     dispatch,
