@@ -7,15 +7,19 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
 import Alerts from "../Alerts/Alerts";
-import { UserRegistration } from "../../types/user.types";
+import { UserCreationPayload } from "../../types/api.types";
 import { RegistrationErrors } from "../../types/errors.types";
+import { useAppDispatch } from "../../app/store";
+import { addUserAsync } from "../../app/user-slice";
 
 import styles from "./Register.module.scss";
 
 interface Props extends RouteComponentProps {}
 
 const Register = (props: Props) => {
-    const [userInfo, setUserInfo] = useState<UserRegistration>({
+    const appDispatch = useAppDispatch();
+
+    const [userInfo, setUserInfo] = useState<UserCreationPayload>({
         username: "",
         email: "",
         passwordOne: "",
@@ -35,28 +39,57 @@ const Register = (props: Props) => {
     ): Promise<void> => {
         event.preventDefault();
 
-        const body = userInfo;
+        const payload = userInfo;
 
-        //TODO: move into user.slice / user.api
-        const request = await fetch("/api/users/addUser", {
-            method: "POST",
-            headers: { "Content-Type": "application/json;charset=utf-8" },
-            body: JSON.stringify(body),
+        // //TODO: move into user.slice / user.api
+        // const request = await fetch("/api/users/addUser", {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json;charset=utf-8" },
+        //     body: JSON.stringify(payload),
+        // });
+
+        // if (!(await request.ok)) {
+        //     const errors = await request.json();
+        //     console.log(errors);
+
+        //     setErrors(errors);
+        // } else {
+        //     const content = await request.json();
+        //     console.log(content);
+
+        //     setErrors({});
+
+        //     redirectToLogin();
+        // }
+
+        appDispatch(addUserAsync(payload)).then((bool) => {
+            if (bool) {
+                redirectToLogin();
+            }
         });
 
-        if (!(await request.ok)) {
-            const errors = await request.json();
-            console.log(errors);
+        // const body = userInfo;
 
-            setErrors(errors);
-        } else {
-            const content = await request.json();
-            console.log(content);
+        // //TODO: move into user.slice / user.api
+        // const request = await fetch("/api/users/addUser", {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json;charset=utf-8" },
+        //     body: JSON.stringify(body),
+        // });
 
-            setErrors({});
+        // if (!(await request.ok)) {
+        //     const errors = await request.json();
+        //     console.log(errors);
 
-            redirectToLogin();
-        }
+        //     setErrors(errors);
+        // } else {
+        //     const content = await request.json();
+        //     console.log(content);
+
+        //     setErrors({});
+
+        //     redirectToLogin();
+        // }
     };
 
     const handleInputOnChange = (
