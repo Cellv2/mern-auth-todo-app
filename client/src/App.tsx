@@ -15,6 +15,7 @@ import Register from "./components/User/Register";
 import Login from "./components/User/Login";
 import Logout from "./components/User/Logout";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
+import Toasts from "./components/Notifications/Toasts";
 
 import { isAuthenticatedSelector, themeSelector } from "./app/user-slice";
 
@@ -58,6 +59,7 @@ const App = () => {
                             <PageNotFound />
                         </Route>
                     </Switch>
+                    <Toasts />
                 </Layout>
             </div>
         </Router>
