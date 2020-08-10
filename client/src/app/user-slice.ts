@@ -241,5 +241,6 @@ export const isAuthenticatedSelector = (state: RootState) =>
     state.user.isAuthenticated;
 export const usernameSelector = (state: RootState) => state.user.username;
 export const tokenSelector = (state: RootState) => state.user.token;
+export const userErrorSelector = (state: RootState) => state.user.error;
 
 export default userSlice.reducer;
