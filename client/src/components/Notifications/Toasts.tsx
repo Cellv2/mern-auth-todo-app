@@ -5,6 +5,8 @@ import Toast from "react-bootstrap/Toast";
 import { userErrorSelector } from "../../app/user-slice";
 import { itemErrorSelector } from "../../app/item-slice";
 
+import styles from "./Toasts.module.scss";
+
 type Props = {};
 
 const Toasts = (props: Props) => {
@@ -38,13 +40,7 @@ const Toasts = (props: Props) => {
     }, [itemError]);
 
     return (
-        <div
-            style={{
-                position: "absolute",
-                bottom: "2.5rem",
-                right: 0,
-            }}
-        >
+        <div className={styles.positioning}>
             <Toast
                 show={show}
                 onClose={() => setShow(false)}
