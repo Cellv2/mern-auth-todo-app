@@ -5,7 +5,7 @@ import Toast from "react-bootstrap/Toast";
 import { userErrorSelector } from "../../app/user-slice";
 import { itemErrorSelector } from "../../app/item-slice";
 
-import styles from "./Toasts.module.scss";
+import "./Toasts.scss"; //not a module because we need to override bootstrap styling
 
 type Props = {};
 
@@ -40,7 +40,7 @@ const Toasts = (props: Props) => {
     }, [itemError]);
 
     return (
-        <div className={styles.positioning}>
+        <div className="errorToast">
             <Toast
                 show={show}
                 onClose={() => setShow(false)}

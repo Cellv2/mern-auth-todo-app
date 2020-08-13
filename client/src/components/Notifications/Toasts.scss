@@ -1,0 +1,49 @@
+//not a module because we need to override bootstrap styling
+
+@mixin positioning {
+    position: absolute;
+    bottom: 2.5rem;
+    right: 1rem;
+}
+
+@mixin error {
+    background-color: #f8d7da;
+    color: #721c24;
+
+    & > .toast {
+        background-color: inherit;
+        border-color: #f5c6cb;
+        color: inherit;
+
+        & > .toast-header {
+            background-color: inherit;
+            color: inherit;
+        }
+    }
+}
+
+@mixin success {
+    background-color: #d4edda;
+    color: #155724;
+
+    & > .toast {
+        background-color: inherit;
+        border-color: #c3e6cb;
+        color: inherit;
+
+        & > .toast-header {
+            background-color: inherit;
+            color: inherit;
+        }
+    }
+}
+
+.errorToast {
+    @include positioning;
+    @include error;
+}
+
+.successToast {
+    @include positioning;
+    @include success;
+}
