@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "./store";
 
 import { Item } from "../types/to-do.types";
+import { Notification } from "../types/notification.types";
 import {
     getItemsFromDatabase,
     addItemsToDatabase,
@@ -12,13 +13,13 @@ import {
 export interface ItemState {
     pristineItems: Item[];
     dirtyItems: Item[];
-    error: string | null;
+    notification: Notification | null;
 }
 
 export const initialState: ItemState = {
     pristineItems: [],
     dirtyItems: [],
-    error: null,
+    notification: null,
 };
 
 export const itemSlice = createSlice({
@@ -28,10 +29,6 @@ export const itemSlice = createSlice({
         getItemsSuccess: (state, action: PayloadAction<Item[]>) => {
             // as these items come from the DB, they must have _id attached (are pristine items)
             state.pristineItems = action.payload;
-            state.error = null;
-        },
-        getItemsFailed: (state, action: PayloadAction<string>) => {
-            state.error = action.payload;
         },
         addItemsSuccess: (state, action: PayloadAction<Item[] | Item>) => {
             if (Array.isArray(action.payload)) {
@@ -55,10 +52,7 @@ export const itemSlice = createSlice({
                 }
             }
 
-            state.error = null;
-        },
-        addItemsFailed: (state, action: PayloadAction<string>) => {
-            state.error = action.payload;
+            // state.notification = null;
         },
         /** INTERNAL - use deleteItemAsync instead */
         deleteItemSuccess: (state, action: PayloadAction<Item>) => {
@@ -74,11 +68,7 @@ export const itemSlice = createSlice({
                 );
             }
 
-            state.error = null;
-        },
-        /** INTERNAL - use deleteItemAsync instead */
-        deleteItemFailed: (state, action: PayloadAction<string>) => {
-            state.error = action.payload;
+            // state.notification = null;
         },
         updateItemSuccess: (state, action: PayloadAction<Item>) => {
             const item = action.payload;
@@ -100,27 +90,25 @@ export const itemSlice = createSlice({
                 }
             }
         },
-        updateItemFailed: (state, action: PayloadAction<string>) => {
-            state.error = action.payload;
-        },
         removeItemsOnLogout: (state) => {
             state.pristineItems = [];
+        },
+        setItemNotification: (state, action: PayloadAction<Notification>) => {
+            console.log("TEST");
+            console.log(action.payload);
+            state.notification = action.payload;
         },
     },
 });
 
-export const { removeItemsOnLogout } = itemSlice.actions;
+export const { removeItemsOnLogout, setItemNotification } = itemSlice.actions;
 
 // not exported because they are used internally for async actions
 const {
     getItemsSuccess,
-    getItemsFailed,
     addItemsSuccess,
-    addItemsFailed,
     deleteItemSuccess,
-    deleteItemFailed,
     updateItemSuccess,
-    updateItemFailed,
 } = itemSlice.actions;
 
 export const getItemsAsync = (): AppThunk => async (dispatch, getState) => {
@@ -131,7 +119,7 @@ export const getItemsAsync = (): AppThunk => async (dispatch, getState) => {
             const items = await getItemsFromDatabase(userToken);
             dispatch(getItemsSuccess(items));
         } catch (err) {
-            dispatch(getItemsFailed(err));
+            dispatch(setItemNotification({ type: "Error", message: err }));
         }
     }
 };
@@ -151,7 +139,7 @@ export const addItemsAsync = (items: Item[] | Item): AppThunk => async (
             console.log("ASYNC RESPONSE", response);
             dispatch(addItemsSuccess(response));
         } catch (err) {
-            dispatch(addItemsFailed(err));
+            dispatch(setItemNotification({ type: "Error", message: err }));
         }
     } else {
         dispatch(addItemsSuccess(items));
@@ -169,7 +157,7 @@ export const deleteItemAsync = (item: Item): AppThunk => async (
             await deleteItemFromDatabase(item, userToken);
             dispatch(deleteItemSuccess(item));
         } catch (err) {
-            dispatch(deleteItemFailed(err));
+            dispatch(setItemNotification({ type: "Error", message: err }));
         }
     } else {
         dispatch(deleteItemSuccess(item));
@@ -187,7 +175,7 @@ export const updateItemAsync = (item: Item): AppThunk => async (
             const response = await updateItemInDatabase(item, userToken);
             dispatch(updateItemSuccess(response));
         } catch (err) {
-            dispatch(updateItemFailed(err));
+            dispatch(setItemNotification({ type: "Error", message: err }));
         }
     } else {
         dispatch(updateItemSuccess(item));
@@ -205,8 +193,14 @@ export const addDirtyItemsToDatabaseAsync = (items: Item[]): AppThunk => async (
             const itemsToSave = await addItemsToDatabase(items, userToken);
             dispatch(addItemsSuccess(itemsToSave));
             items.forEach((item) => dispatch(deleteItemSuccess(item)));
+            dispatch(
+                setItemNotification({
+                    type: "Success",
+                    message: "Items successfully added to database",
+                })
+            );
         } catch (err) {
-            dispatch(updateItemFailed(err));
+            dispatch(setItemNotification({ type: "Error", message: err }));
         }
     }
 };
@@ -223,6 +217,8 @@ export const pristineItemsSelector = (state: RootState) =>
 
 // only includes items which are saved not saved into the database (do not have _id on the item object)
 export const dirtyItemsSelector = (state: RootState) => state.items.dirtyItems;
+
+export const itemErrorSelector = (state: RootState) => state.items.notification;
 
 const filterDuplicateItemsById = (items: Item[]) => {
     const distinctItems = items.filter(

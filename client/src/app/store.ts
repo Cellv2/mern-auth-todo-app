@@ -4,12 +4,14 @@ import { useDispatch } from "react-redux";
 import counterSliceReducer from "./counterSlice";
 import userSliceReducer from "./user-slice";
 import itemSliceReducer from "./item-slice";
+import notificationSliceReducer from "./notification-slice";
 
 export const store = configureStore({
     reducer: {
         counter: counterSliceReducer,
         user: userSliceReducer,
         items: itemSliceReducer,
+        notifications: notificationSliceReducer,
     },
 });
 
