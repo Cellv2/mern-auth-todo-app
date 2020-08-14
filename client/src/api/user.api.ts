@@ -8,6 +8,27 @@ import {
 } from "../types/api.types";
 import { handleResponseErrors } from "../utils/api.utils";
 
+export const addUser = async (newUser: UserCreationPayload) => {
+    const payload = newUser;
+
+    const request = await fetch(`/api/users/addUser`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json;charset=utf-8" },
+        body: JSON.stringify(payload),
+    });
+
+    if (!request.ok) {
+        return handleResponseErrors(request);
+    }
+
+    const response: ApiResponse<User> = {
+        result: "success",
+        response: await request.json(),
+    };
+
+    return response;
+};
+
 export const loginUser = async (login: UserLoginPayload) => {
     const payload = login;
 
@@ -52,11 +73,6 @@ export const patchUser = async (update: UserPartial, token: string) => {
 
     return response;
 };
-
-//TODO:
-// delete (UserProfile)
-// update PW (UserProfile)
-// create new user (Register)
 
 export const deleteUser = async (token: string) => {
     const request = await fetch(`/api/user/deleteUser`, {
@@ -106,28 +122,4 @@ export const updateUserPassword = async (
     };
 
     return response;
-};
-
-export const createUser = async (newUser: UserCreationPayload) => {
-    const payload = newUser;
-
-    const request = await fetch("/api/users/addUser", {
-        method: "POST",
-        headers: { "Content-Type": "application/json;charset=utf-8" },
-        body: JSON.stringify(payload),
-    });
-
-    if (!request.ok) {
-        const errors: ApiResponse<ApiError> = await request.json();
-
-        return errors;
-    }
-
-    const response = await request.json();
-    const apiResponse: ApiResponse<User> = {
-        result: "success",
-        response: response,
-    };
-
-    return apiResponse;
 };
