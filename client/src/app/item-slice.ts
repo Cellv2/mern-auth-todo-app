@@ -218,8 +218,6 @@ export const pristineItemsSelector = (state: RootState) =>
 // only includes items which are saved not saved into the database (do not have _id on the item object)
 export const dirtyItemsSelector = (state: RootState) => state.items.dirtyItems;
 
-export const itemErrorSelector = (state: RootState) => state.items.notification;
-
 const filterDuplicateItemsById = (items: Item[]) => {
     const distinctItems = items.filter(
         (item, index, arr) =>

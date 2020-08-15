@@ -52,7 +52,6 @@ const validateMessage = (message: unknown) => {
 
 export const { setNotification } = notificationSlice.actions;
 
-export const notificationSelector = (state: RootState) => state.notifications;
 export const notificationMessageSelector = (state: RootState) =>
     state.notifications.message;
 export const notificationTypeSelector = (state: RootState) =>

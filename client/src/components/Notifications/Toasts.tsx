@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import Toast from "react-bootstrap/Toast";
 
 import {
-    notificationSelector,
     notificationMessageSelector,
     notificationTypeSelector,
 } from "../../app/notification-slice";
@@ -19,7 +18,6 @@ const cssMapping: { [key in NotificationTypes]: string } = {
 };
 
 const Toasts = (props: Props) => {
-    const notification = useSelector(notificationSelector);
     const notificationMessage = useSelector(notificationMessageSelector);
     const notificationType = useSelector(notificationTypeSelector);
 
@@ -40,17 +38,6 @@ const Toasts = (props: Props) => {
         setToastType(cssMapping[notificationType]);
         setShow(true);
     }, [notificationMessage, notificationType]);
-
-    // if (!notification || !notification.type || !notification.message) {
-    //     setShow(false);
-    //     return;
-    // }
-
-    // setHeader(notification.type);
-    // setMessage(notification.message);
-    // setToastType(cssMapping[notification.type]);
-    // setShow(true);
-    // }, [notification]);
 
     return (
         <div className={toastType ?? "defaultToast"}>
