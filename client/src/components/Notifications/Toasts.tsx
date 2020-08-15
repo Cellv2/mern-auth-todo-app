@@ -27,7 +27,6 @@ const Toasts = (props: Props) => {
     const [toastType, setToastType] = useState<string>();
 
     useEffect(() => {
-        // if (!notification || !notification.type || !notification.message) {
         if (!notificationMessage || !notificationType) {
             setShow(false);
             return;
