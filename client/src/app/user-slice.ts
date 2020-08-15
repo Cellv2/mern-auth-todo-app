@@ -21,7 +21,6 @@ import {
 import { Notification } from "../types/notification.types";
 
 export interface UserState extends User {
-    error: string | null;
     notification: Notification | null;
 }
 
@@ -30,7 +29,6 @@ export const initialState: UserState = {
     theme: "dark",
     username: null,
     token: null,
-    error: null,
     notification: null,
 };
 
@@ -274,6 +272,5 @@ export const isAuthenticatedSelector = (state: RootState) =>
     state.user.isAuthenticated;
 export const usernameSelector = (state: RootState) => state.user.username;
 export const tokenSelector = (state: RootState) => state.user.token;
-export const userErrorSelector = (state: RootState) => state.user.error;
 
 export default userSlice.reducer;
