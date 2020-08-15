@@ -17,10 +17,6 @@ export const notificationSlice = createSlice({
             state.type = action.payload.type;
             state.message = action.payload.message;
         },
-        clearNotification: (state) => {
-            state.type = null;
-            state.message = null;
-        },
     },
     extraReducers: (builder) =>
         builder.addCase(setItemNotification, (state, action) => {
@@ -29,7 +25,7 @@ export const notificationSlice = createSlice({
         }),
 });
 
-export const { clearNotification, setNotification } = notificationSlice.actions;
+export const { setNotification } = notificationSlice.actions;
 
 export const notificationSelector = (state: RootState) => state.notifications;
 
