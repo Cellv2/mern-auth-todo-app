@@ -38,6 +38,10 @@
     }
 }
 
+.defaultToast {
+    @include positioning;
+}
+
 .errorToast {
     @include positioning;
     @include error;
