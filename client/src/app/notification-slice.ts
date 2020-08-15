@@ -10,6 +10,7 @@ export const initialState: Notification = {
     message: null,
 };
 
+// TODO: Fix notification not showing if the same error is generated twice in a row
 export const notificationSlice = createSlice({
     name: "notifications",
     initialState,
@@ -52,5 +53,9 @@ const validateMessage = (message: unknown) => {
 export const { setNotification } = notificationSlice.actions;
 
 export const notificationSelector = (state: RootState) => state.notifications;
+export const notificationMessageSelector = (state: RootState) =>
+    state.notifications.message;
+export const notificationTypeSelector = (state: RootState) =>
+    state.notifications.type;
 
 export default notificationSlice.reducer;
