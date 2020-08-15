@@ -1,6 +1,6 @@
-export type NotificationTypes = "Success" | "Error" | null;
+export type NotificationTypes = "Success" | "Error";
 
 export interface Notification {
-    type: NotificationTypes;
+    type: NotificationTypes | null;
     message: string | null;
 }
