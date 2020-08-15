@@ -18,9 +18,11 @@ import {
     UserLoginPayload,
     UserPasswordUpdatePayload,
 } from "../types/api.types";
+import { Notification } from "../types/notification.types";
 
 export interface UserState extends User {
     error: string | null;
+    notification: Notification | null;
 }
 
 export const initialState: UserState = {
@@ -29,6 +31,7 @@ export const initialState: UserState = {
     username: null,
     token: null,
     error: null,
+    notification: null,
 };
 
 export const userSlice = createSlice({
@@ -39,31 +42,24 @@ export const userSlice = createSlice({
             state.theme = action.payload;
         },
         addUserSuccess: (state) => {
-            state.error = null;
+            // state.error = null;
         },
-        addUserFailed: (state, action: PayloadAction<string>) => {
-            state.error = action.payload;
-        },
+
         deleteUserSuccess: (state) => {
-            state.error = null;
+            // state.error = null;
         },
-        deleteUserFailed: (state, action: PayloadAction<string>) => {
-            state.error = action.payload;
-        },
+
         logoutUser: (state) => {
             state.isAuthenticated = false;
             state.token = null;
-            state.username = null;
+            // state.username = null;
         },
         loginUserSuccess: (state, action: PayloadAction<User>) => {
             state.isAuthenticated = true;
             state.theme = action.payload.theme;
             state.token = action.payload.token;
             state.username = action.payload.username;
-            state.error = null;
-        },
-        loginUserFailed: (state, action: PayloadAction<string>) => {
-            state.error = action.payload;
+            // state.error = null;
         },
         patchUserSuccess: (state, action: PayloadAction<UserPartial>) => {
             for (const property in action.payload) {
@@ -72,32 +68,30 @@ export const userSlice = createSlice({
                 state[property] = action.payload[property as keyof User];
             }
 
-            state.error = null;
-        },
-        patchUserFailed: (state, action: PayloadAction<string>) => {
-            state.error = action.payload;
+            // state.error = null;
         },
         updatePasswordSuccess: (state) => {
             console.log("SLICE - STATE SETING");
-            state.error = null;
+            // state.error = null;
         },
-        updatePasswordFailed: (state, action: PayloadAction<string>) => {
-            state.error = action.payload;
+        setUserNotification: (state, action: PayloadAction<Notification>) => {
+            state.notification = action.payload;
         },
     },
 });
 
+export const {
+    updateTheme,
+    logoutUser,
+    setUserNotification,
+} = userSlice.actions;
+
 const {
     addUserSuccess,
-    addUserFailed,
     deleteUserSuccess,
-    deleteUserFailed,
     loginUserSuccess,
-    loginUserFailed,
     patchUserSuccess,
-    patchUserFailed,
     updatePasswordSuccess,
-    updatePasswordFailed,
 } = userSlice.actions;
 
 export const addUserAsync = (
@@ -107,14 +101,21 @@ export const addUserAsync = (
         const createRequest = await addUser(newUser);
         if (createRequest.result === "failure") {
             const errors = createRequest as ApiResponse<ApiError>;
-            dispatch(addUserFailed(errors.response.message));
+            // dispatch(addUserFailed(errors.response.message));
+            dispatch(
+                setUserNotification({
+                    type: "Error",
+                    message: errors.response.message,
+                })
+            );
             return false;
         }
 
         dispatch(addUserSuccess());
         return true;
     } catch (err) {
-        dispatch(addUserFailed(err));
+        // dispatch(addUserFailed(err));
+        dispatch(setUserNotification({ type: "Error", message: err }));
         return false;
     }
 };
@@ -125,7 +126,13 @@ export const deleteUserAsync = (): AppThunkPromise<boolean> => async (
 ) => {
     const { isAuthenticated, token } = getState().user;
     if (!isAuthenticated || !token) {
-        dispatch(deleteUserFailed("You are not signed in"));
+        // dispatch(deleteUserFailed("You are not signed in"));
+        dispatch(
+            setUserNotification({
+                type: "Error",
+                message: "You are not signed in!",
+            })
+        );
         return false;
     }
 
@@ -133,7 +140,13 @@ export const deleteUserAsync = (): AppThunkPromise<boolean> => async (
         const deleteRequest = await deleteUser(token);
         if (deleteRequest.result === "failure") {
             const errors = deleteRequest as ApiResponse<ApiError>;
-            dispatch(deleteUserFailed(errors.response.message));
+            // dispatch(deleteUserFailed(errors.response.message));
+            dispatch(
+                setUserNotification({
+                    type: "Error",
+                    message: errors.response.message,
+                })
+            );
             return false;
         }
 
@@ -141,7 +154,8 @@ export const deleteUserAsync = (): AppThunkPromise<boolean> => async (
         dispatch(logoutUser());
         return true;
     } catch (err) {
-        dispatch(deleteUserFailed(err));
+        // dispatch(deleteUserFailed(err));
+        dispatch(setUserNotification({ type: "Error", message: err }));
         return false;
     }
 };
@@ -153,7 +167,13 @@ export const loginUserAsync = (
         const loginRequest = await loginUser(credentials);
         if (loginRequest.result === "failure") {
             const errors = loginRequest as ApiResponse<ApiError>;
-            dispatch(loginUserFailed(errors.response.message));
+            // dispatch(loginUserFailed(errors.response.message));
+            dispatch(
+                setUserNotification({
+                    type: "Error",
+                    message: errors.response.message,
+                })
+            );
             return false;
         }
 
@@ -161,7 +181,8 @@ export const loginUserAsync = (
         dispatch(loginUserSuccess(user));
         return true;
     } catch (err) {
-        dispatch(loginUserFailed(err));
+        // dispatch(loginUserFailed(err));
+        dispatch(setUserNotification({ type: "Error", message: err }));
         return false;
     }
 };
@@ -196,14 +217,21 @@ export const updateUserAsync = (update: UserPartial): AppThunk => async (
             const patchRequest = await patchUser(update, token);
             if (patchRequest.result === "failure") {
                 const errors = patchRequest as ApiResponse<ApiError>;
-                dispatch(patchUserFailed(errors.response.message));
+                // dispatch(patchUserFailed(errors.response.message));
+                dispatch(
+                    setUserNotification({
+                        type: "Error",
+                        message: errors.response.message,
+                    })
+                );
                 return;
             }
 
             const patchedUser = patchRequest.response as User;
             dispatch(patchUserSuccess(patchedUser));
         } catch (err) {
-            dispatch(patchUserFailed(err));
+            // dispatch(patchUserFailed(err));
+            dispatch(setUserNotification({ type: "Error", message: err }));
         }
     } else {
         dispatch(patchUserSuccess(update));
@@ -219,22 +247,27 @@ export const updatePasswordAsync = (
             const updateRequest = await updateUserPassword(update, token);
             if (updateRequest?.result === "failure") {
                 const errors = updateRequest as ApiResponse<ApiError>;
-                dispatch(updatePasswordFailed(errors.response.message));
+                // dispatch(updatePasswordFailed(errors.response.message));
+                dispatch(
+                    setUserNotification({
+                        type: "Error",
+                        message: errors.response.message,
+                    })
+                );
                 return false;
             }
             console.log("PW ASYNC - BEFORE DISPATCH");
             dispatch(updatePasswordSuccess());
             return true;
         } catch (err) {
-            dispatch(updatePasswordFailed(err));
+            // dispatch(updatePasswordFailed(err));
+            dispatch(setUserNotification({ type: "Error", message: err }));
             return false;
         }
     }
 
     return false;
 };
-
-export const { updateTheme, logoutUser } = userSlice.actions;
 
 export const themeSelector = (state: RootState) => state.user.theme;
 export const isAuthenticatedSelector = (state: RootState) =>
