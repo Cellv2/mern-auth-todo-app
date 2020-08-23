@@ -7,6 +7,7 @@ import { setUserNotification } from "./user-slice";
 
 export const initialState: Notification = {
     type: null,
+    heading: null,
     message: null,
 };
 
@@ -24,12 +25,15 @@ export const notificationSlice = createSlice({
         builder
             .addCase(setItemNotification, (state, action) => {
                 state.message = action.payload.message;
+                state.heading = action.payload.heading ?? action.payload.type;
                 state.type = action.payload.type;
             })
             .addCase(setUserNotification, (state, action) => {
-                const { message, type } = action.payload;
-                const validatedMessage = validateMessage(message);
-                state.message = validatedMessage;
+                const { message, heading, type } = action.payload;
+                // const validatedMessage = validateMessage(message);
+                // state.message = validatedMessage;
+                state.message = message;
+                state.heading = heading ?? type;
                 state.type = type;
             }),
 });
@@ -56,5 +60,7 @@ export const notificationMessageSelector = (state: RootState) =>
     state.notifications.message;
 export const notificationTypeSelector = (state: RootState) =>
     state.notifications.type;
+export const notificationHeadingSelector = (state: RootState) =>
+    state.notifications.heading;
 
 export default notificationSlice.reducer;

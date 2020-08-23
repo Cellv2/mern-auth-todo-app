@@ -73,6 +73,7 @@ export const userSlice = createSlice({
             // state.error = null;
         },
         setUserNotification: (state, action: PayloadAction<Notification>) => {
+            console.log(action.payload);
             state.notification = action.payload;
         },
     },
@@ -162,20 +163,27 @@ export const loginUserAsync = (
     credentials: UserLoginPayload
 ): AppThunkPromise<boolean> => async (dispatch) => {
     try {
+        // const loginRequest = await loginUser(credentials);
+        // if (loginRequest.result === "failure") {
+        //     const errors = loginRequest as ApiResponse<ApiError>;
+        //     // dispatch(loginUserFailed(errors.response.message));
+        //     dispatch(
+        //         setUserNotification({
+        //             type: "Error",
+        //             message: errors.response.message,
+        //         })
+        //     );
+        //     return false;
+        // }
         const loginRequest = await loginUser(credentials);
-        if (loginRequest.result === "failure") {
-            const errors = loginRequest as ApiResponse<ApiError>;
-            // dispatch(loginUserFailed(errors.response.message));
-            dispatch(
-                setUserNotification({
-                    type: "Error",
-                    message: errors.response.message,
-                })
-            );
+        const response = await loginRequest.json();
+        if (!loginRequest.ok) {
+            console.log("USER SLICE", response);
+            dispatch(setUserNotification(response));
             return false;
         }
 
-        const user = loginRequest.response as User;
+        const user = response as User;
         dispatch(loginUserSuccess(user));
         return true;
     } catch (err) {
