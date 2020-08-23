@@ -56,6 +56,11 @@ export const Notifications: {
         heading: "Password update failed",
         message: "Your password was not updated! Please try again",
     },
+    UserNotLoggedIn: {
+        type: "Error",
+        heading: "Not signed in",
+        message: "You are not signed in! Please sign in and try again",
+    },
     ItemAddToDbSuccess: {
         type: "Success",
         heading: "Item added",
@@ -100,5 +105,10 @@ export const Notifications: {
         type: "Error",
         heading: "Error 500",
         message: "Internal Server Error, please try again later",
+    },
+    GenericCatchAllError: {
+        type: "Error",
+        heading: "Error",
+        message: "Sorry, something went wrong. Please retry the action",
     },
 });

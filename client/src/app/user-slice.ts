@@ -19,6 +19,7 @@ import {
     UserPasswordUpdatePayload,
 } from "../types/api.types";
 import { Notification } from "../types/notification.types";
+import { Notifications } from '../constants/notifications'
 
 export interface UserState extends User {
     notification: Notification | null;
@@ -114,7 +115,7 @@ export const addUserAsync = (
         return true;
     } catch (err) {
         // dispatch(addUserFailed(err));
-        dispatch(setUserNotification({ type: "Error", message: err }));
+        dispatch(setUserNotification(Notifications.GenericCatchAllError));
         return false;
     }
 };
@@ -127,10 +128,7 @@ export const deleteUserAsync = (): AppThunkPromise<boolean> => async (
     if (!isAuthenticated || !token) {
         // dispatch(deleteUserFailed("You are not signed in"));
         dispatch(
-            setUserNotification({
-                type: "Error",
-                message: "You are not signed in!",
-            })
+            setUserNotification(Notifications.UserNotLoggedIn)
         );
         return false;
     }
@@ -154,7 +152,7 @@ export const deleteUserAsync = (): AppThunkPromise<boolean> => async (
         return true;
     } catch (err) {
         // dispatch(deleteUserFailed(err));
-        dispatch(setUserNotification({ type: "Error", message: err }));
+        dispatch(setUserNotification(Notifications.GenericCatchAllError));
         return false;
     }
 };
@@ -188,7 +186,7 @@ export const loginUserAsync = (
         return true;
     } catch (err) {
         // dispatch(loginUserFailed(err));
-        dispatch(setUserNotification({ type: "Error", message: err }));
+        dispatch(setUserNotification(Notifications.GenericCatchAllError));
         return false;
     }
 };
@@ -237,7 +235,7 @@ export const updateUserAsync = (update: UserPartial): AppThunk => async (
             dispatch(patchUserSuccess(patchedUser));
         } catch (err) {
             // dispatch(patchUserFailed(err));
-            dispatch(setUserNotification({ type: "Error", message: err }));
+            dispatch(setUserNotification(Notifications.GenericCatchAllError));
         }
     } else {
         dispatch(patchUserSuccess(update));
@@ -267,7 +265,7 @@ export const updatePasswordAsync = (
             return true;
         } catch (err) {
             // dispatch(updatePasswordFailed(err));
-            dispatch(setUserNotification({ type: "Error", message: err }));
+            dispatch(setUserNotification(Notifications.GenericCatchAllError));
             return false;
         }
     }

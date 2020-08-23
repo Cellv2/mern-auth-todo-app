@@ -17,6 +17,7 @@ export type NotificationActions =
     | "UserDeleteFailed"
     | "UserPasswordUpdateSuccess"
     | "UserPasswordUpdateFailed"
+    | "UserNotLoggedIn"
     | "ItemAddToDbSuccess"
     | "ItemAddToDbFailed"
     | "ItemDeleteFromDbSuccess"
@@ -25,4 +26,5 @@ export type NotificationActions =
     | "ItemUpdateInDbFailed"
     | "ItemFetchFromDbSuccess"
     | "ItemFetchFromDbFailed"
-    | "Server500";
+    | "Server500"
+    | "GenericCatchAllError";
