@@ -2,6 +2,8 @@ import express, { Router, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
+import { Notifications } from "../../../../client/src/constants/notifications";
+
 import UserCollection from "../../../models/User/user-collection.model";
 import validateLogin from "../../../utils/validations/validate-login";
 import { secretOrKey } from "../../../utils/secrets";
@@ -12,8 +14,19 @@ const loginUser = (req: Request, res: Response): void => {
     const { errors, isValid } = validateLogin(req.body);
 
     if (!isValid) {
-        res.status(400).json(errors);
+        // this should never happen, but just to be on the safe side we can return an error 500
+        if (Object.keys(errors).length === 0) {
+            let response = Notifications.Server500;
+            res.status(500).json(response);
+            return;
+        }
 
+        // we have to have an error at this point as it's a requirement for isValid to be false
+        const firstError = Object.values(errors)[0];
+        let response = Notifications.UserLoginFailed;
+        response.message = firstError!;
+
+        res.status(400).json(response);
         return;
     }
 
