@@ -135,11 +135,12 @@ export const deleteUserAsync = (): AppThunkPromise<boolean> => async (
         const deleteRequest = await deleteUser(token);
 
         if (!deleteRequest.ok) {
-            const response = await deleteRequest.json()
+            const response = (await deleteRequest.json()) as Notification;
             dispatch(setUserNotification(response));
             return false;
         }
 
+        dispatch(setUserNotification(Notifications.UserDeleteSuccess));
         dispatch(deleteUserSuccess());
         dispatch(logoutUser());
         return true;
