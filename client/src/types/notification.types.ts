@@ -13,6 +13,8 @@ export type NotificationActions =
     | "UserAddFailed"
     | "UserLoginSuccess"
     | "UserLoginFailed"
+    | "UserLoginFailedEmailNotFound"
+    | "UserLoginFailedPasswordIncorrect"
     | "UserDeleteSuccess"
     | "UserDeleteFailed"
     | "UserPasswordUpdateSuccess"

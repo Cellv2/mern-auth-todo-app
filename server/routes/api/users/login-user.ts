@@ -37,22 +37,24 @@ const loginUser = (req: Request, res: Response): void => {
     UserCollection.findOne(query, (err, user) => {
         if (err) {
             console.error(err);
-            res.sendStatus(500);
+            let response = Notifications.Server500;
+            response.message = err;
+            res.status(500).json(response);
 
             return;
         }
 
         if (!user) {
-            res.status(404).json({ emailNotFound: "The email was not found" });
+            res.status(404).json(Notifications.UserLoginFailedEmailNotFound);
 
             return;
         }
 
         bcrypt.compare(password, user.password).then((isMatch) => {
             if (!isMatch) {
-                res.status(401).json({
-                    passwordError: "The password was incorrect",
-                });
+                res.status(401).json(
+                    Notifications.UserLoginFailedPasswordIncorrect
+                );
 
                 return;
             } else {
@@ -66,14 +68,9 @@ const loginUser = (req: Request, res: Response): void => {
                     { expiresIn: 300 },
                     (err, token) => {
                         if (err) {
-                            console.error(
-                                "JWT could not sign the token - ",
-                                err
-                            );
-
-                            res.status(500).json({
-                                tokenSignError: "The token could not be signed",
-                            });
+                            let response = Notifications.Server500;
+                            response.message = err.message;
+                            res.status(500).json(response);
 
                             return;
                         }

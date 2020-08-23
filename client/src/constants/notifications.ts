@@ -36,6 +36,18 @@ export const Notifications: {
         heading: "Login failed",
         message: "Login failed! Please enter details and try again",
     },
+    UserLoginFailedEmailNotFound: {
+        type: "Error",
+        heading: "Login failed",
+        message:
+            "Sorry, we couldn't find that email! Did you mean to register?",
+    },
+    UserLoginFailedPasswordIncorrect: {
+        type: "Error",
+        heading: "Login failed",
+        message:
+            "Oops! Looks like you put your password in wrong, please try again",
+    },
     UserDeleteSuccess: {
         type: "Success",
         heading: "User deleted",
