@@ -61,6 +61,11 @@ export const Notifications: {
         heading: "Not signed in",
         message: "You are not signed in! Please sign in and try again",
     },
+    UserNotAuthorized: {
+        type: "Error",
+        heading: "Not authorized",
+        message: "You are not authorized. Please sign in and try again",
+    },
     ItemAddToDbSuccess: {
         type: "Success",
         heading: "Item added",

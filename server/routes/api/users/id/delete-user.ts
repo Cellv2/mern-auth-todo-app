@@ -4,13 +4,13 @@ import jwt from "jsonwebtoken";
 import UserCollection from "../../../../models/User/user-collection.model";
 import { secretOrKey } from "../../../../utils/secrets";
 import { UserToken } from "../../../../../client/src/types/user.types";
+import { Notifications } from "../../../../../client/src/constants/notifications";
 
 const router: Router = express.Router();
 
 const deleteUser = (req: Request, res: Response): void => {
     if (!req.headers.authorization) {
-        res.sendStatus(401);
-
+        res.status(401).json(Notifications.UserNotLoggedIn);
         return;
     }
 
@@ -18,28 +18,24 @@ const deleteUser = (req: Request, res: Response): void => {
 
     jwt.verify(token, secretOrKey, (err, authorizedData) => {
         if (err) {
-            res.sendStatus(500);
-
+            res.status(500).json(Notifications.Server500);
             return;
         }
 
         if (!authorizedData) {
-            res.sendStatus(401);
-
+            res.status(403).json(Notifications.UserNotAuthorized);
             return;
         } else {
             const userId = (authorizedData as UserToken).id;
 
             UserCollection.findByIdAndDelete(userId, (err, deleted) => {
                 if (err) {
-                    console.error(err);
-                    res.sendStatus(500);
-
+                    res.status(500).json(Notifications.Server500);
                     return;
                 }
 
-                res.statusCode = 200;
-                res.json(deleted);
+                res.status(200).json(deleted);
+                return;
             });
         }
     });

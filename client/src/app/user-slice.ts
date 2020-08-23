@@ -19,7 +19,7 @@ import {
     UserPasswordUpdatePayload,
 } from "../types/api.types";
 import { Notification } from "../types/notification.types";
-import { Notifications } from '../constants/notifications'
+import { Notifications } from "../constants/notifications";
 
 export interface UserState extends User {
     notification: Notification | null;
@@ -127,23 +127,16 @@ export const deleteUserAsync = (): AppThunkPromise<boolean> => async (
     const { isAuthenticated, token } = getState().user;
     if (!isAuthenticated || !token) {
         // dispatch(deleteUserFailed("You are not signed in"));
-        dispatch(
-            setUserNotification(Notifications.UserNotLoggedIn)
-        );
+        dispatch(setUserNotification(Notifications.UserNotLoggedIn));
         return false;
     }
 
     try {
         const deleteRequest = await deleteUser(token);
-        if (deleteRequest.result === "failure") {
-            const errors = deleteRequest as ApiResponse<ApiError>;
-            // dispatch(deleteUserFailed(errors.response.message));
-            dispatch(
-                setUserNotification({
-                    type: "Error",
-                    message: errors.response.message,
-                })
-            );
+
+        if (!deleteRequest.ok) {
+            const response = await deleteRequest.json()
+            dispatch(setUserNotification(response));
             return false;
         }
 
