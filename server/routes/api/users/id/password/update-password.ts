@@ -1,6 +1,7 @@
 import express, { Router, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
+import { Notifications } from "../../../../../../client/src/constants/notifications";
 import UserCollection from "../../../../../models/User/user-collection.model";
 import { secretOrKey } from "../../../../../utils/secrets";
 
@@ -8,7 +9,7 @@ const router: Router = express.Router();
 
 const updatePassword = (req: Request, res: Response): void => {
     if (!req.headers.authorization) {
-        res.sendStatus(401);
+        res.status(401).json(Notifications.UserNotAuthorized);
         return;
     }
 
@@ -16,8 +17,7 @@ const updatePassword = (req: Request, res: Response): void => {
 
     jwt.verify(token, secretOrKey, (err, authorizedData) => {
         if (err) {
-            console.error(err);
-            res.sendStatus(500);
+            res.status(500).json(Notifications.UserPasswordUpdateFailed);
             return;
         }
 
@@ -31,13 +31,13 @@ const updatePassword = (req: Request, res: Response): void => {
 
         UserCollection.findById(userId, (err, user) => {
             if (err) {
-                console.error(err);
-                res.sendStatus(500);
+                res.status(500).json(Notifications.UserPasswordUpdateFailed);
                 return;
             }
 
             if (!user) {
-                res.sendStatus(404);
+                // this shouldn't really be possible? No explicit error provided
+                res.status(404).json(Notifications.UserPasswordUpdateFailed);
                 return;
             }
 
@@ -47,11 +47,9 @@ const updatePassword = (req: Request, res: Response): void => {
             const pwTwo = req.body.passwordTwo;
 
             if (pwOne !== pwTwo) {
-                console.error("Passwords do not match");
-                res.statusCode = 422;
-                res.json("Passwords do not match");
-
-                // res.sendStatus(422);
+                res.status(422).json(
+                    Notifications.UserPasswordUpdateFailedPasswordsDoNotMatch
+                );
                 return;
             }
 
@@ -59,8 +57,9 @@ const updatePassword = (req: Request, res: Response): void => {
             user.password = pwOne;
             user.save((err) => {
                 if (err) {
-                    console.error(err);
-                    res.sendStatus(500);
+                    res.status(500).json(
+                        Notifications.UserPasswordUpdateFailed
+                    );
                     return;
                 }
 

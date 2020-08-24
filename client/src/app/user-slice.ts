@@ -248,31 +248,25 @@ export const updatePasswordAsync = (
     update: UserPasswordUpdatePayload
 ): AppThunkPromise<boolean> => async (dispatch, getState) => {
     const { isAuthenticated, token } = getState().user;
-    if (isAuthenticated && token) {
-        try {
-            const updateRequest = await updateUserPassword(update, token);
-            if (updateRequest?.result === "failure") {
-                const errors = updateRequest as ApiResponse<ApiError>;
-                // dispatch(updatePasswordFailed(errors.response.message));
-                dispatch(
-                    setUserNotification({
-                        type: "Error",
-                        message: errors.response.message,
-                    })
-                );
-                return false;
-            }
-            console.log("PW ASYNC - BEFORE DISPATCH");
-            dispatch(updatePasswordSuccess());
-            return true;
-        } catch (err) {
-            // dispatch(updatePasswordFailed(err));
-            dispatch(setUserNotification(Notifications.GenericCatchAllError));
-            return false;
-        }
+    if (!isAuthenticated || !token) {
+        dispatch(setUserNotification(Notifications.UserNotLoggedIn));
+        return false;
     }
 
-    return false;
+    try {
+        const updateRequest = await updateUserPassword(update, token);
+        if (!updateRequest.ok) {
+            const response = (await updateRequest.json()) as Notification;
+            dispatch(setUserNotification(response));
+            return false;
+        }
+
+        dispatch(setUserNotification(Notifications.UserPasswordUpdateSuccess));
+        return true;
+    } catch (err) {
+        dispatch(setUserNotification(Notifications.GenericCatchAllError));
+        return false;
+    }
 };
 
 export const themeSelector = (state: RootState) => state.user.theme;

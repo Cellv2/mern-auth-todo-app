@@ -74,6 +74,11 @@ export const Notifications: {
         heading: "Password update failed",
         message: "Your password was not updated! Please try again",
     },
+    UserPasswordUpdateFailedPasswordsDoNotMatch: {
+        type: "Error",
+        heading: "Password update failed",
+        message: "The entered passwords do not match! Please try again",
+    },
     UserNotLoggedIn: {
         type: "Error",
         heading: "Not signed in",

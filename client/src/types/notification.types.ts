@@ -20,6 +20,7 @@ export type NotificationActions =
     | "UserDeleteFailed"
     | "UserPasswordUpdateSuccess"
     | "UserPasswordUpdateFailed"
+    | "UserPasswordUpdateFailedPasswordsDoNotMatch"
     | "UserNotLoggedIn"
     | "UserNotAuthorized"
     | "ItemAddToDbSuccess"

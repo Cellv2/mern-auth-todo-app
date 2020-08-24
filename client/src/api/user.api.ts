@@ -47,7 +47,6 @@ export const loginUser = async (login: UserLoginPayload) => {
     //     response: await request.json(),
     // };
 
-
     // return response;
     return request;
 };
@@ -111,17 +110,5 @@ export const updateUserPassword = async (
         body: JSON.stringify(payload),
     });
 
-    console.log("API - DATA RETURNED");
-
-    if (!request.ok) {
-        return handleResponseErrors(request);
-    }
-
-    // API response is a 204, so nothing is actually returned if successful
-    const response: ApiResponse<any> = {
-        result: "success",
-        response: "204 - No API response",
-    };
-
-    return response;
+    return request;
 };
