@@ -22,11 +22,11 @@ const loginUser = (req: Request, res: Response): void => {
         }
 
         // we have to have an error at this point as it's a requirement for isValid to be false
+        // these will be login errors, so should be an authorisation issue (hence 401)
         const firstError = Object.values(errors)[0];
         let response = Notifications.UserLoginFailed;
         response.message = firstError!;
-
-        res.status(400).json(response);
+        res.status(401).json(response);
         return;
     }
 
