@@ -99,18 +99,26 @@ export const addUserAsync = (
 ): AppThunkPromise<boolean> => async (dispatch, getState) => {
     try {
         const createRequest = await addUser(newUser);
-        if (createRequest.result === "failure") {
-            const errors = createRequest as ApiResponse<ApiError>;
-            // dispatch(addUserFailed(errors.response.message));
-            dispatch(
-                setUserNotification({
-                    type: "Error",
-                    message: errors.response.message,
-                })
-            );
+
+        if (!createRequest.ok) {
+            const response = (await createRequest.json()) as Notification;
+            dispatch(setUserNotification(response));
             return false;
         }
 
+        // if (createRequest.result === "failure") {
+        //     const errors = createRequest as ApiResponse<ApiError>;
+        //     // dispatch(addUserFailed(errors.response.message));
+        //     dispatch(
+        //         setUserNotification({
+        //             type: "Error",
+        //             message: errors.response.message,
+        //         })
+        //     );
+        //     return false;
+        // }
+
+        dispatch(setUserNotification(Notifications.UserAddSuccess));
         dispatch(addUserSuccess());
         return true;
     } catch (err) {

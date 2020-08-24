@@ -11,6 +11,7 @@ export type NotificationActions =
     | "UserUpdateFailed"
     | "UserAddSuccess"
     | "UserAddFailed"
+    | "UserAddFailedEmailInUse"
     | "UserLoginSuccess"
     | "UserLoginFailed"
     | "UserLoginFailedEmailNotFound"

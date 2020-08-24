@@ -1,5 +1,6 @@
 import express, { Router, Request, Response } from "express";
 
+import { Notifications } from "../../../../client/src/constants/notifications";
 import UserCollection from "../../../models/User/user-collection.model";
 import validateRegistration from "../../../utils/validations/validate-registration";
 
@@ -9,8 +10,19 @@ const addUser = (req: Request, res: Response): void => {
     const { errors, isValid } = validateRegistration(req.body);
 
     if (!isValid) {
-        res.status(400).json(errors);
+        // this should never happen, but just to be on the safe side we can return an error 500
+        if (Object.keys(errors).length === 0) {
+            let response = Notifications.Server500;
+            res.status(500).json(response);
+            return;
+        }
 
+        // we have to have an error at this point as it's a requirement for isValid to be false
+        const firstError = Object.values(errors)[0];
+        let response = Notifications.UserAddFailed;
+        response.message = firstError!;
+
+        res.status(422).json(response);
         return;
     }
 
@@ -19,15 +31,12 @@ const addUser = (req: Request, res: Response): void => {
     const query = { email: email };
     UserCollection.findOne(query, (err, user) => {
         if (err) {
-            console.error(err);
-            res.sendStatus(500);
-
+            res.status(500).json(Notifications.Server500);
             return;
         }
 
         if (user) {
-            res.status(400).json({ email: "Email is already in use" });
-
+            res.status(409).json(Notifications.UserAddFailedEmailInUse);
             return;
         }
 
@@ -39,10 +48,12 @@ const addUser = (req: Request, res: Response): void => {
 
         newUser.save((err) => {
             if (err) {
-                console.log(err);
+                res.status(500).json(Notifications.Server500);
+                return;
             }
 
             res.status(201).json(newUser);
+            return;
         });
 
         return;

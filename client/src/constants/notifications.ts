@@ -26,6 +26,12 @@ export const Notifications: {
         heading: "User failed to create",
         message: "User creation failed! Please enter details and try again",
     },
+    UserAddFailedEmailInUse: {
+        type: "Error",
+        heading: "Login failed",
+        message:
+            "That email looks to be in use! Did you mean to log in?",
+    },
     UserLoginSuccess: {
         type: "Success",
         heading: "Success",
