@@ -29,8 +29,7 @@ export const Notifications: {
     UserAddFailedEmailInUse: {
         type: "Error",
         heading: "Login failed",
-        message:
-            "That email looks to be in use! Did you mean to log in?",
+        message: "That email looks to be in use! Did you mean to log in?",
     },
     UserLoginSuccess: {
         type: "Success",
@@ -88,6 +87,12 @@ export const Notifications: {
         type: "Error",
         heading: "Not authorized",
         message: "You are not authorized. Please sign in and try again",
+    },
+    UserForbidden: {
+        type: "Error",
+        heading: "Forbidden",
+        message:
+            "You are forbidden to access this resource. Please sign in and try again",
     },
     ItemAddToDbSuccess: {
         type: "Success",

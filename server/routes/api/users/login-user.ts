@@ -16,8 +16,7 @@ const loginUser = (req: Request, res: Response): void => {
     if (!isValid) {
         // this should never happen, but just to be on the safe side we can return an error 500
         if (Object.keys(errors).length === 0) {
-            let response = Notifications.Server500;
-            res.status(500).json(response);
+            res.status(500).json(Notifications.UserLoginFailed);
             return;
         }
 
@@ -36,17 +35,12 @@ const loginUser = (req: Request, res: Response): void => {
 
     UserCollection.findOne(query, (err, user) => {
         if (err) {
-            console.error(err);
-            let response = Notifications.Server500;
-            response.message = err;
-            res.status(500).json(response);
-
+            res.status(500).json(Notifications.UserLoginFailed);
             return;
         }
 
         if (!user) {
             res.status(404).json(Notifications.UserLoginFailedEmailNotFound);
-
             return;
         }
 
@@ -68,10 +62,7 @@ const loginUser = (req: Request, res: Response): void => {
                     { expiresIn: 300 },
                     (err, token) => {
                         if (err) {
-                            let response = Notifications.Server500;
-                            response.message = err.message;
-                            res.status(500).json(response);
-
+                            res.status(500).json(Notifications.UserLoginFailed);
                             return;
                         }
 

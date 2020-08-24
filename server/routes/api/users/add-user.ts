@@ -12,8 +12,7 @@ const addUser = (req: Request, res: Response): void => {
     if (!isValid) {
         // this should never happen, but just to be on the safe side we can return an error 500
         if (Object.keys(errors).length === 0) {
-            let response = Notifications.Server500;
-            res.status(500).json(response);
+            res.status(500).json(Notifications.UserAddFailed);
             return;
         }
 
@@ -31,7 +30,7 @@ const addUser = (req: Request, res: Response): void => {
     const query = { email: email };
     UserCollection.findOne(query, (err, user) => {
         if (err) {
-            res.status(500).json(Notifications.Server500);
+            res.status(500).json(Notifications.UserAddFailed);
             return;
         }
 
@@ -48,7 +47,7 @@ const addUser = (req: Request, res: Response): void => {
 
         newUser.save((err) => {
             if (err) {
-                res.status(500).json(Notifications.Server500);
+                res.status(500).json(Notifications.UserAddFailed);
                 return;
             }
 

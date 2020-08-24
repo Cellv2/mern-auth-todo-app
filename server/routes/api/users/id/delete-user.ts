@@ -18,7 +18,7 @@ const deleteUser = (req: Request, res: Response): void => {
 
     jwt.verify(token, secretOrKey, (err, authorizedData) => {
         if (err) {
-            res.status(500).json(Notifications.Server500);
+            res.status(500).json(Notifications.UserDeleteFailed);
             return;
         }
 
@@ -30,7 +30,7 @@ const deleteUser = (req: Request, res: Response): void => {
 
             UserCollection.findByIdAndDelete(userId, (err, deleted) => {
                 if (err) {
-                    res.status(500).json(Notifications.Server500);
+                    res.status(500).json(Notifications.UserDeleteFailed);
                     return;
                 }
 

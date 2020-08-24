@@ -23,7 +23,7 @@ const updatePassword = (req: Request, res: Response): void => {
         }
 
         if (!authorizedData) {
-            res.sendStatus(403);
+            res.status(403).json(Notifications.UserForbidden);
             return;
         }
 
