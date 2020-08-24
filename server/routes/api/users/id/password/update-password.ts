@@ -2,6 +2,7 @@ import express, { Router, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 import { Notifications } from "../../../../../../client/src/constants/notifications";
+import { UserToken } from "../../../../../../client/src/types/user.types";
 import UserCollection from "../../../../../models/User/user-collection.model";
 import { secretOrKey } from "../../../../../utils/secrets";
 
@@ -26,8 +27,7 @@ const updatePassword = (req: Request, res: Response): void => {
             return;
         }
 
-        //@ts-expect-error
-        const userId = authorizedData.id;
+        const userId = (authorizedData as UserToken).id;
 
         UserCollection.findById(userId, (err, user) => {
             if (err) {
