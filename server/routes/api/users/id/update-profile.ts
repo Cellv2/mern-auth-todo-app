@@ -1,5 +1,6 @@
 import express, { Router, Request, Response } from "express";
 
+import { Notifications } from "../../../../../client/src/constants/notifications";
 import UserCollection from "../../../../models/User/user-collection.model";
 import { UserToken } from "../../../../../client/src/types/user.types";
 
@@ -16,45 +17,33 @@ const updateProfile = (req: Request, res: Response) => {
 
     UserCollection.findById(id, (err, user) => {
         if (err) {
-            console.error(err);
-            res.sendStatus(500);
-
+            res.status(500).json(Notifications.Server500);
             return;
         }
 
-        // TODO: Fix status and returned error
         if (!user) {
-            console.error(err);
-            res.statusCode = 500;
-            res.json({
-                error: "There was an issue when retrieving the user",
-            });
-
-            return;
-        } else {
-            const userObj = user.toObject();
-            const patchedUser = { ...userObj, ...patch };
-
-            user.updateOne(patchedUser, { upsert: false }, (err) => {
-                if (err) {
-                    console.error(err);
-                    res.sendStatus(400);
-
-                    return;
-                }
-
-                // We do not want to expose id or password to the client
-                let patchedUserResponse = patchedUser;
-                delete patchedUserResponse._id;
-                delete patchedUserResponse.password;
-
-                // This isn't ideal, but updateOne on mongoose.Doc does not supply the updated doc
-                res.json(patchedUserResponse);
-                return;
-            });
-
+            res.status(500).json(Notifications.UserNotFound);
             return;
         }
+
+        const userObj = user.toObject();
+        const patchedUser = { ...userObj, ...patch };
+
+        user.updateOne(patchedUser, { upsert: false }, (err) => {
+            if (err) {
+                res.status(500).json(Notifications.Server500);
+                return;
+            }
+
+            // We do not want to expose id or password to the client
+            let patchedUserResponse = patchedUser;
+            delete patchedUserResponse._id;
+            delete patchedUserResponse.password;
+
+            // This isn't ideal, but updateOne on mongoose.Doc does not supply the updated doc
+            res.status(200).json(patchedUserResponse);
+            return;
+        });
     });
 };
 
