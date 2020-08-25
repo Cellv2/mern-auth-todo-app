@@ -31,6 +31,11 @@ export const Notifications: {
         heading: "Login failed",
         message: "That email looks to be in use! Did you mean to log in?",
     },
+    UserGetProfileFailed: {
+        type: "Error",
+        heading: "Profile fetch failed",
+        message: "The profile failed to load! Please try again",
+    },
     UserLoginSuccess: {
         type: "Success",
         heading: "Success",
@@ -87,6 +92,11 @@ export const Notifications: {
         type: "Error",
         heading: "Not authorized",
         message: "You are not authorized. Please sign in and try again",
+    },
+    UserNotFound: {
+        type: "Error",
+        heading: "User not found",
+        message: "The user was not found. Please refresh and try again",
     },
     UserForbidden: {
         type: "Error",
