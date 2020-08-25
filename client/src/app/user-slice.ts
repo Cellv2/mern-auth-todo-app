@@ -218,23 +218,32 @@ export const updateUserAsync = (update: UserPartial): AppThunk => async (
     getState
 ) => {
     const { isAuthenticated, token } = getState().user;
+
+    // we do not return early via !isAuthed || !token as we also need to update this if we are not signed in at all (for themes)
     if (isAuthenticated && token) {
         try {
             const patchRequest = await patchUser(update, token);
-            if (patchRequest.result === "failure") {
-                const errors = patchRequest as ApiResponse<ApiError>;
-                // dispatch(patchUserFailed(errors.response.message));
-                dispatch(
-                    setUserNotification({
-                        type: "Error",
-                        message: errors.response.message,
-                    })
-                );
-                return;
+
+            if (!patchRequest.ok) {
+                const response = (await patchRequest.json()) as Notification;
+                dispatch(setUserNotification(response));
             }
 
-            const patchedUser = patchRequest.response as User;
+            // if (patchRequest.result === "failure") {
+            //     const errors = patchRequest as ApiResponse<ApiError>;
+            //     // dispatch(patchUserFailed(errors.response.message));
+            //     dispatch(
+            //         setUserNotification({
+            //             type: "Error",
+            //             message: errors.response.message,
+            //         })
+            //     );
+            //     return;
+            // }
+
+            const patchedUser = (await patchRequest.json()) as User;
             dispatch(patchUserSuccess(patchedUser));
+            dispatch(setUserNotification(Notifications.UserUpdateSuccess));
         } catch (err) {
             // dispatch(patchUserFailed(err));
             dispatch(setUserNotification(Notifications.GenericCatchAllError));

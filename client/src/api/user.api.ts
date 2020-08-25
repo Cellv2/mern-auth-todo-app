@@ -63,16 +63,17 @@ export const patchUser = async (update: UserPartial, token: string) => {
         body: JSON.stringify(payload),
     });
 
-    if (!request.ok) {
-        return handleResponseErrors(request);
-    }
+    // if (!request.ok) {
+    //     return handleResponseErrors(request);
+    // }
 
-    const response: ApiResponse<User> = {
-        result: "success",
-        response: await request.json(),
-    };
+    // const response: ApiResponse<User> = {
+    //     result: "success",
+    //     response: await request.json(),
+    // };
 
-    return response;
+    // return response;
+    return request;
 };
 
 export const deleteUser = async (token: string) => {
