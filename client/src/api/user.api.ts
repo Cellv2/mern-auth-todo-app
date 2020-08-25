@@ -1,12 +1,9 @@
-import { UserPartial, User } from "../types/user.types";
+import { UserPartial } from "../types/user.types";
 import {
-    ApiError,
-    ApiResponse,
     UserPasswordUpdatePayload,
     UserCreationPayload,
     UserLoginPayload,
 } from "../types/api.types";
-import { handleResponseErrors } from "../utils/api.utils";
 
 export const addUser = async (newUser: UserCreationPayload) => {
     const payload = newUser;
@@ -16,15 +13,6 @@ export const addUser = async (newUser: UserCreationPayload) => {
         headers: { "Content-Type": "application/json;charset=utf-8" },
         body: JSON.stringify(payload),
     });
-
-    // if (!request.ok) {
-    //     return handleResponseErrors(request);
-    // }
-
-    // const response: ApiResponse<User> = {
-    //     result: "success",
-    //     response: await request.json(),
-    // };
 
     return request;
 };
@@ -38,16 +26,6 @@ export const loginUser = async (login: UserLoginPayload) => {
         body: JSON.stringify(payload),
     });
 
-    // if (!request.ok) {
-    //     return handleResponseErrors(request);
-    // }
-
-    // const response: ApiResponse<User> = {
-    //     result: "success",
-    //     response: await request.json(),
-    // };
-
-    // return response;
     return request;
 };
 
@@ -63,16 +41,6 @@ export const patchUser = async (update: UserPartial, token: string) => {
         body: JSON.stringify(payload),
     });
 
-    // if (!request.ok) {
-    //     return handleResponseErrors(request);
-    // }
-
-    // const response: ApiResponse<User> = {
-    //     result: "success",
-    //     response: await request.json(),
-    // };
-
-    // return response;
     return request;
 };
 
@@ -83,15 +51,6 @@ export const deleteUser = async (token: string) => {
             Authorization: token,
         },
     });
-
-    // if (!request.ok) {
-    //     return handleResponseErrors(request);
-    // }
-
-    // const deletedUser: ApiResponse<User> = {
-    //     result: "success",
-    //     response: await request.json(),
-    // };
 
     return request;
 };

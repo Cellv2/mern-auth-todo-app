@@ -12,8 +12,6 @@ import {
 } from "../api/user.api";
 
 import {
-    ApiError,
-    ApiResponse,
     UserCreationPayload,
     UserLoginPayload,
     UserPasswordUpdatePayload,
@@ -40,14 +38,6 @@ export const userSlice = createSlice({
         updateTheme: (state, action: PayloadAction<AvailableThemes>) => {
             state.theme = action.payload;
         },
-        addUserSuccess: (state) => {
-            // state.error = null;
-        },
-
-        deleteUserSuccess: (state) => {
-            // state.error = null;
-        },
-
         logoutUser: (state) => {
             state.isAuthenticated = false;
             state.token = null;
@@ -58,7 +48,6 @@ export const userSlice = createSlice({
             state.theme = action.payload.theme;
             state.token = action.payload.token;
             state.username = action.payload.username;
-            // state.error = null;
         },
         patchUserSuccess: (state, action: PayloadAction<UserPartial>) => {
             for (const property in action.payload) {
@@ -66,12 +55,6 @@ export const userSlice = createSlice({
                 //@ts-expect-error
                 state[property] = action.payload[property as keyof User];
             }
-
-            // state.error = null;
-        },
-        updatePasswordSuccess: (state) => {
-            console.log("SLICE - STATE SETING");
-            // state.error = null;
         },
         setUserNotification: (state, action: PayloadAction<Notification>) => {
             console.log(action.payload);
@@ -86,43 +69,22 @@ export const {
     setUserNotification,
 } = userSlice.actions;
 
-const {
-    addUserSuccess,
-    deleteUserSuccess,
-    loginUserSuccess,
-    patchUserSuccess,
-    updatePasswordSuccess,
-} = userSlice.actions;
+const { loginUserSuccess, patchUserSuccess } = userSlice.actions;
 
 export const addUserAsync = (
     newUser: UserCreationPayload
 ): AppThunkPromise<boolean> => async (dispatch, getState) => {
     try {
         const createRequest = await addUser(newUser);
-
         if (!createRequest.ok) {
             const response = (await createRequest.json()) as Notification;
             dispatch(setUserNotification(response));
             return false;
         }
 
-        // if (createRequest.result === "failure") {
-        //     const errors = createRequest as ApiResponse<ApiError>;
-        //     // dispatch(addUserFailed(errors.response.message));
-        //     dispatch(
-        //         setUserNotification({
-        //             type: "Error",
-        //             message: errors.response.message,
-        //         })
-        //     );
-        //     return false;
-        // }
-
         dispatch(setUserNotification(Notifications.UserAddSuccess));
-        dispatch(addUserSuccess());
         return true;
     } catch (err) {
-        // dispatch(addUserFailed(err));
         dispatch(setUserNotification(Notifications.GenericCatchAllError));
         return false;
     }
@@ -134,14 +96,12 @@ export const deleteUserAsync = (): AppThunkPromise<boolean> => async (
 ) => {
     const { isAuthenticated, token } = getState().user;
     if (!isAuthenticated || !token) {
-        // dispatch(deleteUserFailed("You are not signed in"));
         dispatch(setUserNotification(Notifications.UserNotLoggedIn));
         return false;
     }
 
     try {
         const deleteRequest = await deleteUser(token);
-
         if (!deleteRequest.ok) {
             const response = (await deleteRequest.json()) as Notification;
             dispatch(setUserNotification(response));
@@ -149,11 +109,9 @@ export const deleteUserAsync = (): AppThunkPromise<boolean> => async (
         }
 
         dispatch(setUserNotification(Notifications.UserDeleteSuccess));
-        dispatch(deleteUserSuccess());
         dispatch(logoutUser());
         return true;
     } catch (err) {
-        // dispatch(deleteUserFailed(err));
         dispatch(setUserNotification(Notifications.GenericCatchAllError));
         return false;
     }
@@ -163,54 +121,19 @@ export const loginUserAsync = (
     credentials: UserLoginPayload
 ): AppThunkPromise<boolean> => async (dispatch) => {
     try {
-        // const loginRequest = await loginUser(credentials);
-        // if (loginRequest.result === "failure") {
-        //     const errors = loginRequest as ApiResponse<ApiError>;
-        //     // dispatch(loginUserFailed(errors.response.message));
-        //     dispatch(
-        //         setUserNotification({
-        //             type: "Error",
-        //             message: errors.response.message,
-        //         })
-        //     );
-        //     return false;
-        // }
         const loginRequest = await loginUser(credentials);
         const response = await loginRequest.json();
         if (!loginRequest.ok) {
-            console.log("USER SLICE", response);
             dispatch(setUserNotification(response));
             return false;
         }
 
-        const user = response as User;
-        dispatch(loginUserSuccess(user));
+        dispatch(loginUserSuccess(response));
         return true;
     } catch (err) {
-        // dispatch(loginUserFailed(err));
         dispatch(setUserNotification(Notifications.GenericCatchAllError));
         return false;
     }
-};
-
-export const genericTest = (name: string): AppThunkPromise<boolean> => async (
-    dispatch,
-    getState
-) => {
-    console.log("SLICE - BEFORE DISPATCH");
-    // https://jsonplaceholder.typicode.com/users/1
-    console.log("The name passed in through params is: " + name);
-    const user = await fetch("https://jsonplaceholder.typicode.com/usersf/1");
-    const userInfo: User = await user.json();
-    const username = userInfo.username;
-    console.log("The API username is: " + username);
-
-    console.log("SLICE - AFTER DISPATCH");
-
-    if (!user.ok) {
-        return false;
-    }
-    return true;
 };
 
 export const updateUserAsync = (update: UserPartial): AppThunk => async (
@@ -223,29 +146,15 @@ export const updateUserAsync = (update: UserPartial): AppThunk => async (
     if (isAuthenticated && token) {
         try {
             const patchRequest = await patchUser(update, token);
-
             if (!patchRequest.ok) {
                 const response = (await patchRequest.json()) as Notification;
                 dispatch(setUserNotification(response));
             }
 
-            // if (patchRequest.result === "failure") {
-            //     const errors = patchRequest as ApiResponse<ApiError>;
-            //     // dispatch(patchUserFailed(errors.response.message));
-            //     dispatch(
-            //         setUserNotification({
-            //             type: "Error",
-            //             message: errors.response.message,
-            //         })
-            //     );
-            //     return;
-            // }
-
             const patchedUser = (await patchRequest.json()) as User;
             dispatch(patchUserSuccess(patchedUser));
             dispatch(setUserNotification(Notifications.UserUpdateSuccess));
         } catch (err) {
-            // dispatch(patchUserFailed(err));
             dispatch(setUserNotification(Notifications.GenericCatchAllError));
         }
     } else {
