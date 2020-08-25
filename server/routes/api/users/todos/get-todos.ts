@@ -1,5 +1,6 @@
 import express, { Router, Request, Response } from "express";
 
+import { Notifications } from "../../../../../client/src/constants/notifications";
 import TodoCollection from "../../../../models/Todo/todo-collection.model";
 import { UserToken } from "../../../../../client/src/types/user.types";
 
@@ -11,10 +12,12 @@ const getUserTodos = (req: Request, res: Response) => {
 
     TodoCollection.find(query, (err, todos) => {
         if (err) {
-            console.error(err);
+            res.status(500).json(Notifications.ItemFetchFromDbFailed);
+            return;
         }
 
-        res.json(todos);
+        res.status(200).json(todos);
+        return;
     });
 };
 

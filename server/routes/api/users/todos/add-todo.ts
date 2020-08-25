@@ -1,5 +1,6 @@
 import express, { Router, Request, Response } from "express";
 
+import { Notifications } from "../../../../../client/src/constants/notifications";
 import TodoCollection from "../../../../models/Todo/todo-collection.model";
 import { Item } from "../../../../../client/src/types/to-do.types";
 import { UserToken } from "../../../../../client/src/types/user.types";
@@ -22,12 +23,11 @@ const createToDos = (req: Request, res: Response) => {
 
     TodoCollection.insertMany(mappedItems, (err, items) => {
         if (err) {
-            console.error(err);
-            res.sendStatus(500);
+            res.status(500).json(Notifications.ItemAddToDbFailed);
             return;
         }
 
-        res.json(items);
+        res.status(200).json(items);
         return;
     });
 };

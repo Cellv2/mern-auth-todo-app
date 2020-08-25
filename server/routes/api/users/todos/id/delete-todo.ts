@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 
+import { Notifications } from "../../../../../../client/src/constants/notifications";
 import TodoCollection from "../../../../../models/Todo/todo-collection.model";
 import { UserToken } from "../../../../../../client/src/types/user.types";
 
@@ -10,24 +11,21 @@ const deleteTodo = (req: Request, res: Response): void => {
 
     // ensure that the user actually matches the token
     if (id !== req.body.userid) {
-        res.sendStatus(403);
-
+        res.status(403).json(Notifications.UserNotAuthorized);
         return;
-    } else {
-        const todoId = req.params.id;
-
-        TodoCollection.findByIdAndDelete(todoId, (err, deleted) => {
-            if (err) {
-                console.error(err);
-                res.sendStatus(500);
-
-                return;
-            } else {
-                res.statusCode = 200;
-                res.json(deleted);
-            }
-        });
     }
+
+    const todoId = req.params.id;
+
+    TodoCollection.findByIdAndDelete(todoId, (err, deleted) => {
+        if (err) {
+            res.status(500).json(Notifications.ItemDeleteFromDbFailed);
+            return;
+        }
+
+        res.status(200).json(deleted);
+        return;
+    });
 };
 
 router.delete("/users/todos/:id", (req: Request, res: Response) => {
