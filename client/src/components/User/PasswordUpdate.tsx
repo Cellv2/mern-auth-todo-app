@@ -9,7 +9,7 @@ import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
-import { updatePasswordAsync, genericTest } from "../../app/user-slice";
+import { setUserNotification, updatePasswordAsync } from "../../app/user-slice";
 import { AlertSettings } from "../../types/alerts.types";
 import {
     signInError,
@@ -20,6 +20,7 @@ import {
     serverAuthError,
     serverUnknownError,
 } from "../../constants/alert-settings";
+import { Notifications } from "../../constants/notifications";
 import { useAppDispatch } from "../../app/store";
 
 type Props = {
@@ -45,69 +46,30 @@ const PasswordUpdate = (props: Props) => {
 
         // this should never happen, but just in case
         if (!props.token) {
-            setAlerts(signInError);
+            appDispatch(setUserNotification(Notifications.UserNotLoggedIn));
             return;
         }
 
         if (passwordOne === "" || passwordTwo === "") {
-            setAlerts(pwIsEmpty);
+            appDispatch(
+                setUserNotification(
+                    Notifications.UserPasswordUpdateFailedPasswordsDoNotMatch
+                )
+            );
             return;
         }
 
         if (passwordOne !== passwordTwo) {
-            setAlerts(pwsNotMatching);
+            appDispatch(
+                setUserNotification(
+                    Notifications.UserPasswordUpdateFailedPasswordsDoNotMatch
+                )
+            );
             return;
         }
 
-        // try {
-        //     const token = props.token as string;
-        //     const passwordUpdate = {
-        //         passwordOne: passwordOne,
-        //         passwordTwo: passwordTwo,
-        //     };
-
-        //     const request = await fetch(`/api/user/password/updatePassword`, {
-        //         method: "PUT",
-        //         headers: {
-        //             Authorization: token,
-        //             "Content-Type": "application/json;charset=utf-8",
-        //         },
-        //         body: JSON.stringify(passwordUpdate),
-        //     });
-
-        //     const response = await request;
-        //     if (!response.ok) {
-        //         if (response.status === 500) {
-        //             setAlerts(server500);
-        //         }
-
-        //         if (response.status === 422) {
-        //             setAlerts(pwsNotMatching);
-        //         }
-
-        //         if (response.status === 401 || response.status === 403) {
-        //             setAlerts(serverAuthError);
-        //         }
-
-        //         return;
-        //     }
-
-        //     setAlerts(serverPasswordUpdated);
-        //     setPasswordOne("");
-        //     setPasswordTwo("");
-        // } catch (error) {
-        //     setAlerts(serverUnknownError);
-        //     return;
-        // }
-
         const updatePayload = { passwordOne, passwordTwo };
-        appDispatch(updatePasswordAsync(updatePayload)).then((bool) => {
-            if (bool) {
-                console.log("PASSWORD UPDATED");
-            } else {
-                console.error("PASSWORD UPDATE FAILED");
-            }
-        });
+        appDispatch(updatePasswordAsync(updatePayload));
     };
 
     return (
