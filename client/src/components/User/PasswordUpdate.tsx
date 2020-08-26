@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -10,16 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 import { setUserNotification, updatePasswordAsync } from "../../app/user-slice";
-import { AlertSettings } from "../../types/alerts.types";
-import {
-    signInError,
-    pwIsEmpty,
-    pwsNotMatching,
-    server500,
-    serverPasswordUpdated,
-    serverAuthError,
-    serverUnknownError,
-} from "../../constants/alert-settings";
 import { Notifications } from "../../constants/notifications";
 import { useAppDispatch } from "../../app/store";
 
@@ -33,10 +22,6 @@ const PasswordUpdate = (props: Props) => {
     const [showPwOne, setShowPwOne] = useState<boolean>(false);
     const [passwordTwo, setPasswordTwo] = useState<string>("");
     const [showPwTwo, setShowPwTwo] = useState<boolean>(false);
-    const [alerts, setAlerts] = useState<AlertSettings>({
-        heading: "Alert!",
-        messages: {},
-    });
 
     const requestPasswordUpdate = async (
         event: React.FormEvent<HTMLFormElement>
