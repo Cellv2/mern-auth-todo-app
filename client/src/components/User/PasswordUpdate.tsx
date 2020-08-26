@@ -9,8 +9,6 @@ import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
-import Alerts from "../Alerts/Alerts";
-
 import { updatePasswordAsync, genericTest } from "../../app/user-slice";
 import { AlertSettings } from "../../types/alerts.types";
 import {
@@ -115,20 +113,6 @@ const PasswordUpdate = (props: Props) => {
     return (
         <Form noValidate onSubmit={requestPasswordUpdate}>
             <Container fluid>
-                <Form.Group
-                    as={Row}
-                    controlId="formAlerts"
-                    className="justify-content-md-center"
-                >
-                    <Col>
-                        <Alerts
-                            alertHeading={alerts.heading}
-                            messages={alerts.messages}
-                            variant={alerts.variant ?? undefined}
-                            className="p-1 mb-sm-4 text-center"
-                        />
-                    </Col>
-                </Form.Group>
                 <Form.Group as={Row} className="justify-content-md-center">
                     <Form.Label column sm={3}>
                         New Password

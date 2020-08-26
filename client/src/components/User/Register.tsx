@@ -6,7 +6,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
-import Alerts from "../Alerts/Alerts";
 import { UserCreationPayload } from "../../types/api.types";
 import { RegistrationErrors } from "../../types/errors.types";
 import { useAppDispatch } from "../../app/store";
@@ -63,20 +62,6 @@ const Register = (props: Props) => {
             <h1 className="text-center mt-3 mb-sm-5">Register</h1>
             <Form noValidate onSubmit={handleOnSubmit}>
                 <Container fluid>
-                    <Form.Group
-                        as={Row}
-                        controlId="formAlerts"
-                        className="justify-content-md-center"
-                    >
-                        <Col sm={9}>
-                            <Alerts
-                                alertHeading="Ut-oh! Errors!"
-                                messages={errors}
-                                variant="danger"
-                                className="p-1 mb-sm-4 text-center"
-                            />
-                        </Col>
-                    </Form.Group>
                     <Form.Group
                         as={Row}
                         controlId="formUsername"

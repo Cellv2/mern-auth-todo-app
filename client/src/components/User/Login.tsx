@@ -7,8 +7,6 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
-import Alerts from "../Alerts/Alerts";
-
 import { loginUserAsync, isAuthenticatedSelector } from "../../app/user-slice";
 import { useAppDispatch } from "../../app/store";
 
@@ -67,20 +65,6 @@ const Login = (props: Props) => {
             <h1 className="text-center mt-3 mb-sm-5">Sign in</h1>
             <Form noValidate onSubmit={handleOnSubmit}>
                 <Container fluid>
-                    <Form.Group
-                        as={Row}
-                        controlId="formAlerts"
-                        className="justify-content-md-center"
-                    >
-                        <Col sm={9}>
-                            <Alerts
-                                alertHeading="Ut-oh! Errors!"
-                                messages={errors}
-                                variant="danger"
-                                className="p-1 mb-sm-4 text-center"
-                            />
-                        </Col>
-                    </Form.Group>
                     <Form.Group
                         as={Row}
                         controlId="formEmail"
