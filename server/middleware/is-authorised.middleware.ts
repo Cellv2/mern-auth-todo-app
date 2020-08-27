@@ -15,7 +15,9 @@ export const isAuthorisedMiddleware = function (
     next: NextFunction
 ) {
     if (!req.headers.authorization) {
-        res.sendStatus(401);
+        res.header(
+            "WWW-Authenticate: Bearer realm='mern-auth-todo-app'"
+        ).sendStatus(401);
 
         return;
     }
@@ -30,7 +32,9 @@ export const isAuthorisedMiddleware = function (
         }
 
         if (!authorizedData) {
-            res.sendStatus(401);
+            res.header(
+                "WWW-Authenticate: Bearer realm='mern-auth-todo-app'"
+            ).sendStatus(401);
 
             return;
         } else {

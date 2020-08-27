@@ -25,7 +25,9 @@ const loginUser = (req: Request, res: Response): void => {
         const firstError = Object.values(errors)[0];
         let response = Notifications.UserLoginFailed;
         response.message = firstError!;
-        res.status(401).json(response);
+        res.header("WWW-Authenticate: Bearer realm='mern-auth-todo-app'")
+            .status(401)
+            .json(response);
         return;
     }
 
@@ -46,9 +48,9 @@ const loginUser = (req: Request, res: Response): void => {
 
         bcrypt.compare(password, user.password).then((isMatch) => {
             if (!isMatch) {
-                res.status(401).json(
-                    Notifications.UserLoginFailedPasswordIncorrect
-                );
+                res.header("WWW-Authenticate: Basic realm='mern-auth-todo-app'")
+                    .status(401)
+                    .json(Notifications.UserLoginFailedPasswordIncorrect);
 
                 return;
             } else {

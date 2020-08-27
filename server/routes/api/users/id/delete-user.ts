@@ -10,7 +10,9 @@ const router: Router = express.Router();
 
 const deleteUser = (req: Request, res: Response): void => {
     if (!req.headers.authorization) {
-        res.status(401).json(Notifications.UserNotLoggedIn);
+        res.header("WWW-Authenticate: Bearer realm='mern-auth-todo-app'")
+            .status(401)
+            .json(Notifications.UserNotLoggedIn);
         return;
     }
 

@@ -10,7 +10,9 @@ const router: Router = express.Router();
 
 const updatePassword = (req: Request, res: Response): void => {
     if (!req.headers.authorization) {
-        res.status(401).json(Notifications.UserNotAuthorized);
+        res.header("WWW-Authenticate: Bearer realm='mern-auth-todo-app'")
+            .status(401)
+            .json(Notifications.UserNotAuthorized);
         return;
     }
 
