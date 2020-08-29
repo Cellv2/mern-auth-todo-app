@@ -35,13 +35,11 @@ const App = () => {
                             <About />
                         </Route>
                         <Route path="/profile">
-                            <UserProfile />
-                            {/* The below will be used later on, remove this when the UserProfile page is done */}
-                            {/* {!this.state.isAuthenticated ? (
+                            {isAuthenticated ? (
+                                <UserProfile />
+                            ) : (
                                 <Redirect to="/login" />
-                                ) : (
-                                    <UserProfile />
-                                )} */}
+                            )}
                         </Route>
                         <Route path="/register">
                             <Register />
