@@ -8,7 +8,7 @@ import {
 export const addUser = async (newUser: UserCreationPayload) => {
     const payload = newUser;
 
-    const request = await fetch(`/api/users/addUser`, {
+    const request = await fetch(`/api/user/addUser`, {
         method: "POST",
         headers: { "Content-Type": "application/json;charset=utf-8" },
         body: JSON.stringify(payload),
@@ -20,7 +20,7 @@ export const addUser = async (newUser: UserCreationPayload) => {
 export const loginUser = async (login: UserLoginPayload) => {
     const payload = login;
 
-    const request = await fetch(`/api/users/login`, {
+    const request = await fetch(`/api/user/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json;charset=utf-8" },
         body: JSON.stringify(payload),

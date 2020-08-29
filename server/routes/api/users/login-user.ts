@@ -84,7 +84,7 @@ const loginUser = (req: Request, res: Response): void => {
     return;
 };
 
-router.post("/users/login", (req: Request, res: Response) => {
+router.post("/user/login", (req: Request, res: Response) => {
     loginUser(req, res);
 });
 

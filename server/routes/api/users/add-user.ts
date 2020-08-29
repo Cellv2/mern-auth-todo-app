@@ -61,7 +61,7 @@ const addUser = (req: Request, res: Response): void => {
     return;
 };
 
-router.post("/users/addUser", (req: Request, res: Response) => {
+router.post("/user/addUser", (req: Request, res: Response) => {
     addUser(req, res);
 });
 
