@@ -28,7 +28,7 @@ const deleteTodo = (req: Request, res: Response): void => {
     });
 };
 
-router.delete("/users/todos/:id", (req: Request, res: Response) => {
+router.delete("/user/todos/:id", (req: Request, res: Response) => {
     deleteTodo(req, res);
 });
 

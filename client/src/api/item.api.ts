@@ -44,7 +44,7 @@ export const addItemsToDatabase = async (
 };
 
 export const deleteItemFromDatabase = async (item: Item, token: string) => {
-    const deleteRequest = await fetch(`/api/users/todos/${item._id}`, {
+    const deleteRequest = await fetch(`/api/user/todos/${item._id}`, {
         method: "DELETE",
         headers: {
             Authorization: token,
