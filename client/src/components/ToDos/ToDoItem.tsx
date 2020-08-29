@@ -28,7 +28,8 @@ const ToDoItem = (props: Props) => {
 
     const { item, index } = props;
     const inputRef = useRef<HTMLTextAreaElement>(null);
-    const [isEditing, setIsEditing] = useState<boolean>(false);
+    // const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [isEditing, setIsEditing] = useState<boolean>(props.item.isBeingEdited);
     const [inputValue, setInputValue] = useState<string>(props.item.text);
     const [isComplete, setIsComplete] = useState<boolean>(
         props.item.isComplete
@@ -38,6 +39,7 @@ const ToDoItem = (props: Props) => {
     useEffect(() => {
         setInputValue(props.item.text);
         setIsComplete(props.item.isComplete);
+        setIsEditing(props.item.isBeingEdited)
     }, [props.item]);
 
     // we have to ensure the update is done after the state is updated (hook update is async)
@@ -65,11 +67,13 @@ const ToDoItem = (props: Props) => {
         event: React.MouseEvent<HTMLButtonElement>
     ): void => {
         if (!isEditing) {
+            const updated: Item = { ...props.item, isBeingEdited: true };
+            dispatch(updateItemAsync(updated));
             setInputSnapshop(inputValue);
         }
 
         if (isEditing) {
-            const updated: Item = { ...props.item, text: inputValue };
+            const updated: Item = { ...props.item, text: inputValue, isBeingEdited: false };
             dispatch(updateItemAsync(updated));
         }
 
@@ -80,14 +84,16 @@ const ToDoItem = (props: Props) => {
         event: React.KeyboardEvent<HTMLTextAreaElement>
     ): void => {
         if (isEditing && event.key === "Enter" && inputValue !== "") {
-            const updated: Item = { ...props.item, text: inputValue };
+            const updated: Item = { ...props.item, text: inputValue, isBeingEdited: false };
             dispatch(updateItemAsync(updated));
-            setIsEditing(false);
+            // setIsEditing(false);
         }
 
         if (isEditing && event.key === "Escape") {
-            setInputValue(inputSnapshot);
-            setIsEditing(false);
+            const updated: Item = { ...props.item, text: inputSnapshot, isBeingEdited: false };
+            dispatch(updateItemAsync(updated));
+            // setInputValue(inputSnapshot);
+            // setIsEditing(false);
         }
     };
 

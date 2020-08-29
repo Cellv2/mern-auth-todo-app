@@ -26,6 +26,7 @@ const ToDoCreate = (props: Props) => {
                 isComplete: false,
                 text: inputValue,
                 timestamp: Date.now(),
+                isBeingEdited: false,
             };
 
             dispatch(addItemsAsync(newItem));
@@ -40,6 +41,7 @@ const ToDoCreate = (props: Props) => {
                 isComplete: false,
                 text: inputValue,
                 timestamp: Date.now(),
+                isBeingEdited: false,
             };
 
             dispatch(addItemsAsync(newItem));
