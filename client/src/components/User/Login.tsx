@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -7,23 +6,18 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
-import { loginUserAsync, isAuthenticatedSelector } from "../../app/user-slice";
+import { loginUserAsync } from "../../app/user-slice";
 import { useAppDispatch } from "../../app/store";
 
 import styles from "./Login.module.scss";
 
 interface Props extends RouteComponentProps {}
 
-type Errors = {
-    [key: string]: string;
-};
-
 const Login = (props: Props) => {
     const appDispatch = useAppDispatch();
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [errors, setErrors] = useState<Errors>({});
 
     const redirectToHome = () => {
         const { history } = props;
@@ -56,8 +50,6 @@ const Login = (props: Props) => {
         } else if (key === "password") {
             setPassword(value);
         }
-
-        return;
     };
 
     return (
