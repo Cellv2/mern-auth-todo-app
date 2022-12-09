@@ -16,7 +16,7 @@
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
     "jwt-decode": "^2.2.0",
-    "node-sass": "^7.0.0",
+    "node-sass": "^7.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "5.0.1",
